@@ -1,0 +1,166 @@
+---
+import "@/styles/global.css";
+import { Button } from "@/components/ui/button";
+import { site, nav, docsHref } from "@/lib/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: "website" | "profile" | "article";
+}
+
+const {
+  title,
+  description = site.description,
+  image = "/og.svg",
+  type = "website",
+} = Astro.props;
+
+const pageTitle = title ? `${title} — ${site.fullName}` : `${site.fullName} — ${site.role}`;
+const path = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === "/" ? path === "/" : path.startsWith(href);
+
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const ogImage = new URL(image, site.url).href;
+const sameAs = Object.values(site.socials).filter((v) => v.startsWith("http"));
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: site.fullName,
+    url: site.url,
+    description: site.description,
+    inLanguage: "id-ID",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: site.fullName,
+    jobTitle: site.role,
+    url: site.url,
+    email: site.email,
+    sameAs,
+  },
+];
+---
+
+<!doctype html>
+<html lang="id" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content={type} />
+    <meta property="og:locale" content="id_ID" />
+    <meta property="og:site_name" content={site.fullName} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <!-- Anti-FOUC: terapkan tema sebelum paint -->
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem("theme");
+          if (t === "dark" || (!t && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+            document.documentElement.classList.add("dark");
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="flex min-h-screen flex-col bg-background text-foreground antialiased">
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground">Lewati ke konten</a>
+
+    <!-- NAV -->
+    <header class="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur">
+      <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <a href="/" class="text-lg font-semibold tracking-tight">{site.name}<span class="text-primary">.</span></a>
+
+        <!-- desktop nav -->
+        <nav class="hidden items-center gap-5 text-sm text-muted-foreground lg:flex">
+          {nav.map((item) => (
+            <a
+              href={item.href}
+              class:list={["transition-colors hover:text-foreground", isActive(item.href) && "font-medium text-foreground"]}
+            >
+              {item.label}
+            </a>
+          ))}
+          <Button asChild variant="outline" size="sm">
+            <a href={docsHref}>Docs</a>
+          </Button>
+          <button
+            id="theme-toggle"
+            type="button"
+            aria-label="Ubah tema"
+            class="inline-flex size-9 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden dark:block"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="block dark:hidden"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+          </button>
+        </nav>
+
+        <!-- mobile nav -->
+        <details class="lg:hidden">
+          <summary class="cursor-pointer list-none rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground">Menu</summary>
+          <div class="absolute right-4 mt-2 w-52 rounded-lg border border-border bg-card p-2 shadow-lg">
+            {nav.map((item) => (
+              <a
+                href={item.href}
+                class:list={["block rounded-md px-3 py-2 text-sm transition-colors hover:bg-muted", isActive(item.href) && "font-medium text-foreground"]}
+              >
+                {item.label}
+              </a>
+            ))}
+            <a href={docsHref} class="block rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted">Docs</a>
+          </div>
+        </details>
+      </div>
+    </header>
+
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+
+    <footer class="border-t border-border/60">
+      <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 py-8 text-sm text-muted-foreground sm:flex-row">
+        <p>© {new Date().getFullYear()} {site.fullName}</p>
+        <div class="flex gap-4">
+          <a href={docsHref} class="hover:text-foreground">Docs</a>
+          <a href={site.socials.github} class="hover:text-foreground">GitHub</a>
+          <a href={site.socials.linkedin} class="hover:text-foreground">LinkedIn</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Toggle logic -->
+    <script is:inline>
+      (function () {
+        var btn = document.getElementById("theme-toggle");
+        if (!btn) return;
+        btn.addEventListener("click", function () {
+          var root = document.documentElement;
+          var dark = root.classList.toggle("dark");
+          try { localStorage.setItem("theme", dark ? "dark" : "light"); } catch (e) {}
+        });
+      })();
+    </script>
+  </body>
+</html>

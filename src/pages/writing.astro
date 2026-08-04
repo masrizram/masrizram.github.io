@@ -1,0 +1,37 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Button } from "@/components/ui/button";
+import { site } from "@/lib/site";
+
+const posts = [
+  { date: "2026-07-09", title: "Membangun Sistem Pakar dengan Forward Chaining", tag: "Sistem Pakar" },
+  { date: "2026-06-20", title: "Panduan Lengkap Persiapan RHCSA/EX200", tag: "Sertifikasi" },
+  { date: "2026-05-15", title: "Astro + Starlight untuk Dokumentasi Skripsi", tag: "Astro" },
+  { date: "2026-04-02", title: "Tailwind CSS v4: Token & Theming untuk Pemula", tag: "Tailwind" },
+  { date: "2026-03-10", title: "Menghubungkan PHP 8.2 dengan MySQL di XAMPP", tag: "PHP" },
+  { date: "2026-02-18", title: "shadcn/ui di Astro: Komponen Tanpa Membongkar Desain", tag: "UI/UX" },
+];
+---
+
+<BaseLayout title="Writing — Nilma, M.Kom." description="Tulisan, panduan, dan catatan teknis oleh " + site.fullName + ".">
+  <div class="mx-auto max-w-3xl px-6 py-20">
+    <h1 class="text-4xl font-bold tracking-tight">Writing</h1>
+    <p class="mt-3 text-muted-foreground">Panduan, catatan kuliah, dan tulisan teknis yang saya tulis.</p>
+
+    <ul class="mt-10 divide-y divide-border">
+      {posts.map((p) => (
+        <li class="flex flex-wrap items-baseline justify-between gap-2 py-4">
+          <div>
+            <p class="font-medium text-foreground">{p.title}</p>
+            <span class="text-xs text-muted-foreground">{p.tag}</span>
+          </div>
+          <time class="text-sm text-muted-foreground">{p.date}</time>
+        </li>
+      ))}
+    </ul>
+
+    <div class="mt-10">
+      <Button asChild variant="secondary"><a href="/guides/contoh/">Buka dokumentasi lengkap →</a></Button>
+    </div>
+  </div>
+</BaseLayout>
