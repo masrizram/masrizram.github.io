@@ -102,6 +102,46 @@
   .sidebar details:not([open]) > :not(summary) {
     display: block !important;
   }
+  /* Hilangkan panah ▲▼ native Windows di scrollbar sidebar docs (karena isi
+     sidebar panjang & scrollable). Ganti dengan scrollbar tipis modern tanpa
+     tombol panah — konsisten & minimalis seperti home. Diterapkan juga ke
+     seluruh halaman agar seragam. */
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
+  .sidebar-pane,
+  .sidebar,
+  .main-pane,
+  html {
+    scrollbar-width: thin;
+  }
+  .sidebar-pane::-webkit-scrollbar,
+  .sidebar::-webkit-scrollbar,
+  .main-pane::-webkit-scrollbar,
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .sidebar-pane::-webkit-scrollbar-button,
+  .sidebar::-webkit-scrollbar-button,
+  .main-pane::-webkit-scrollbar-button,
+  ::-webkit-scrollbar-button {
+    display: none !important;
+  }
+  .sidebar-pane::-webkit-scrollbar-thumb,
+  .sidebar::-webkit-scrollbar-thumb,
+  .main-pane::-webkit-scrollbar-thumb,
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 4px;
+  }
+  .sidebar-pane::-webkit-scrollbar-track,
+  .sidebar::-webkit-scrollbar-track,
+  .main-pane::-webkit-scrollbar-track,
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
   :root {
     --sl-content-width: 50rem !important;
     --sl-sidebar-width: 16rem !important;
