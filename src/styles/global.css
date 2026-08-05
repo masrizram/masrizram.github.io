@@ -92,6 +92,16 @@
   .sidebar-pane {
     background-color: var(--color-background) !important;
   }
+  /* Perbaikan B: sembunyikan panah naik/turun (caret) di grup sidebar docs
+     (RHCSA/Modul/Lab/dst) supaya minimalis seperti home, DAN paksa isi semua
+     grup tetap tampil (efek "terbuka default") walau atribut open=false —
+     tanpa ubah Starlight internals. Collapse tetap aman untuk a11y (aria tetap ada). */
+  .sidebar .caret {
+    display: none !important;
+  }
+  .sidebar details:not([open]) > :not(summary) {
+    display: block !important;
+  }
   :root {
     --sl-content-width: 50rem !important;
     --sl-sidebar-width: 16rem !important;
