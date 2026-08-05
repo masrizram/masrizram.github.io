@@ -95,6 +95,22 @@
     margin-inline: auto !important;
     padding-inline: 1.5rem !important;
   }
+  /* Samakan garis atas 3 kolom (sidebar "RHCSA" · TOC "On this page" · H1 judul):
+     Starlight memberi tiap kolom top-padding beda (.sl-container 69 / .right-sidebar
+     64 / .content-panel 24) sehingga judul tidak sejajar. Zero-kan agar ketiganya
+     mulai tepat di bawah header (segaris, agak ke atas dari posisi TOC lama ~120). */
+  .main-pane .sl-container { padding-top: 0 !important; }
+  .right-sidebar { padding-top: 0 !important; }
+  /* Hero + body content-panel punya padding-top 1.5rem (24px) → H1 turun.
+     Zero-kan agar H1 sejajar dengan TOC & label sidebar di bawah header. */
+  .main-pane .content-panel { padding-top: 0 !important; }
+  /* Label section sidebar ("RHCSA") juga turun karena .sidebar-content pt 16px. */
+  .sidebar-content { padding-top: 0 !important; }
+  /* .main-frame punya padding-top = nav-height + mobile-toc (≈64-112px) yang
+     mendorong baris TOC/main ke bawah. Header kita sticky tinggi 69px & sudah
+     menempati 69px di flow, jadi cukup set padding-top:0 agar TOC & H1 sejajar
+     dengan label sidebar tepat di bawah header (garis atas sama, agak ke atas). */
+  .main-frame { padding-top: 0 !important; }
   /* Scroll-reveal: elemen muncul saat masuk viewport */
   .reveal {
     opacity: 0;
