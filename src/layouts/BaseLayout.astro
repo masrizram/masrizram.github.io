@@ -150,17 +150,9 @@ const jsonLd = [
       </div>
     </footer>
 
-    <!-- Toggle logic -->
-    <script is:inline>
-      (function () {
-        var btn = document.getElementById("theme-toggle");
-        if (!btn) return;
-        btn.addEventListener("click", function () {
-          var root = document.documentElement;
-          var dark = root.classList.toggle("dark");
-          try { localStorage.setItem("theme", dark ? "dark" : "light"); } catch (e) {}
-        });
-      })();
+    <!-- Toggle logic (shared dengan docs) -->
+    <script>
+      import '../scripts/theme';
     </script>
 
     <!-- Scroll-reveal -->

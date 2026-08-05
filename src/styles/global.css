@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* P2: scan juga markdown di content collection supaya utility (grid-cols-2,
+   aspect-[16/9], dll) yang dipakai di dalam .md docs ikut ter-generate. */
+@source "../content/**/*.{md,mdx}";
+
 @custom-variant dark (&:is(.dark *));
 
 :root {

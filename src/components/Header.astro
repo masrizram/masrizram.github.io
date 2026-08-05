@@ -21,7 +21,7 @@ const isDocsActive =
   Search sengaja di-hide agar identik dengan home.
 -->
 <header class="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur">
-  <div class="flex items-center justify-between py-4">
+      <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
     <a href="/" class="text-lg font-semibold tracking-tight">Nilma<span class="text-primary">.</span></a>
 
     <!-- desktop nav -->
@@ -68,19 +68,6 @@ const isDocsActive =
   </div>
 </header>
 
-<script is:inline>
-  (function () {
-    var btn = document.getElementById("theme-toggle");
-    if (!btn) return;
-    function apply(t) {
-      var root = document.documentElement;
-      if (t === "dark") { root.classList.add("dark"); root.dataset.theme = "dark"; }
-      else { root.classList.remove("dark"); root.dataset.theme = "light"; }
-    }
-    btn.addEventListener("click", function () {
-      var nowDark = document.documentElement.classList.toggle("dark");
-      apply(nowDark ? "dark" : "light");
-      try { localStorage.setItem("theme", nowDark ? "dark" : "light"); } catch (e) {}
-    });
-  })();
+<script>
+  import '../scripts/theme';
 </script>

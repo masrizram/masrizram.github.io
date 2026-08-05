@@ -52,8 +52,12 @@ const testimonials = [
       </div>
       <div class="mt-7 flex gap-4 text-muted-foreground">
         <a href={site.socials.github} aria-label="GitHub" class="hover:text-foreground"><Github className="size-5" /></a>
-        <a href={site.socials.linkedin} aria-label="LinkedIn" class="hover:text-foreground"><Linkedin className="size-5" /></a>
-        <a href={site.socials.twitter} aria-label="X" class="hover:text-foreground"><Twitter className="size-5" /></a>
+        {site.socials.linkedin !== '#' && (
+          <a href={site.socials.linkedin} aria-label="LinkedIn" class="hover:text-foreground" target="_blank" rel="noopener noreferrer"><Linkedin className="size-5" /></a>
+        )}
+        {site.socials.twitter !== '#' && (
+          <a href={site.socials.twitter} aria-label="X" class="hover:text-foreground" target="_blank" rel="noopener noreferrer"><Twitter className="size-5" /></a>
+        )}
         <a href={site.socials.email} aria-label="Email" class="hover:text-foreground"><Mail className="size-5" /></a>
       </div>
     </div>
