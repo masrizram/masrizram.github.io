@@ -1,9 +1,14 @@
 ---
-import { site, nav } from '@/lib/site';
+import { site, nav, docsHref } from '@/lib/site';
 
 const path = Astro.url.pathname;
 const isActive = (href: string) =>
   href === '/' ? path === '/' : path.startsWith(href);
+const isDocsActive =
+  path.startsWith('/rhcsa/') ||
+  path.startsWith('/pentester/') ||
+  path.startsWith('/koding/') ||
+  path.startsWith(docsHref);
 ---
 
 <!--
@@ -32,7 +37,7 @@ const isActive = (href: string) =>
           {item.label}
         </a>
       ))}
-      <a href="/guides/contoh/" class="transition-colors hover:text-foreground">Docs</a>
+      <a href={docsHref} class:list={["transition-colors hover:text-foreground", isDocsActive && "font-medium text-foreground"]}>Docs</a>
       <button
         id="theme-toggle"
         type="button"
@@ -57,7 +62,7 @@ const isActive = (href: string) =>
             ]}
           >{item.label}</a>
         ))}
-        <a href="/guides/contoh/" class="block rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted">Docs</a>
+        <a href={docsHref} class:list={["block rounded-md px-3 py-2 text-sm transition-colors hover:bg-muted", isDocsActive && "font-medium text-foreground"]}>Docs</a>
       </div>
     </details>
   </div>
