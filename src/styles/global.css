@@ -89,6 +89,13 @@
     margin-inline: auto !important;
     padding-inline: 1.5rem !important;
   }
+  /* Layar lebar: max-w-6xl sudah men-center box, padding dalam tidak perlu
+     → konten docs (sidebar/main) sejajar tepat dengan box header (kiri=46). */
+  @media (min-width: 72rem) {
+    .page {
+      padding-inline: 0 !important;
+    }
+  }
   /* Scroll-reveal: elemen muncul saat masuk viewport */
   .reveal {
     opacity: 0;
