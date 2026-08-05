@@ -81,6 +81,9 @@
   }
   /* Samakan background header docs dengan home (transparan + blur + garis bawah) */
   .docs-header-inner {
+    background: color-mix(in srgb, var(--color-background) 82%, transparent) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
     border-bottom: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent) !important;
   }
   /* Batasi layout docs agar sidebar KIRI sejajar dengan logo header (max-w-6xl px-6) */
