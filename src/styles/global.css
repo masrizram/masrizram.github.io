@@ -86,6 +86,12 @@
   #starlight__sidebar {
     left: auto !important;
   }
+  /* Sidebar docs: di dark mode Starlight pakai --sl-color-bg-sidebar (abu-abu /
+     --sl-color-gray-6) bukan hitam seperti page background. Samakan dengan
+     --color-background (sinkron dark/light: hitam di dark, putih di light). */
+  .sidebar-pane {
+    background-color: var(--color-background) !important;
+  }
   :root {
     --sl-content-width: 50rem !important;
     --sl-sidebar-width: 16rem !important;
