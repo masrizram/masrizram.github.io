@@ -79,11 +79,13 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
   }
-  /* Batasi layout docs agar box = home header (max-w-6xl centered → [46,1198]).
-     Sidebar & TOC Starlight pakai position:fixed (nempel ke tepi viewport),
-     makanya "terlalu ke kiri/kanan". Kita static-kan agar mengalir di dalam
-     .page, lalu .page padding 1.5rem → sidebar/main/TOC ter-inset seragam
-     ke [70,1174] sejajar logo & nav header home. */
+  /* Sidebar kiri Starlight = <nav class="sidebar"> di grid kolom 1, default
+     position:sticky; left:0 (mentok tepi viewport x=0). Karena .page punya
+     padding 1.5rem, kolom 1 seharusnya mulai di x=70 (sejajar logo header).
+     Set left:auto agar sticky mengikuti flow kolom 1 (bukan nempel x=0). */
+  #starlight__sidebar {
+    left: auto !important;
+  }
   :root {
     --sl-content-width: 50rem !important;
     --sl-sidebar-width: 16rem !important;
@@ -92,16 +94,6 @@
     max-width: 72rem !important;
     margin-inline: auto !important;
     padding-inline: 1.5rem !important;
-  }
-  #starlight__sidebar {
-    position: static !important;
-    inset: auto !important;
-    width: var(--sl-sidebar-width) !important;
-  }
-  .right-sidebar-container {
-    position: static !important;
-    inset: auto !important;
-    width: var(--sl-sidebar-width) !important;
   }
   /* Scroll-reveal: elemen muncul saat masuk viewport */
   .reveal {
