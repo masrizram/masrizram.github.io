@@ -81,6 +81,14 @@
   }
   /* Samakan background header docs dengan home (transparan + blur + garis bawah) */
   .docs-header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-inline: 1.5rem;
+    padding-block: 1rem;
+    max-width: 72rem;
+    margin-inline: auto;
     background: color-mix(in srgb, var(--color-background) 82%, transparent) !important;
     backdrop-filter: blur(12px) !important;
     -webkit-backdrop-filter: blur(12px) !important;
