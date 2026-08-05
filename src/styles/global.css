@@ -103,6 +103,16 @@
     .reveal { opacity: 1; transform: none; transition: none; }
   }
   /* ============================================================
+     NETRALISIR WRAPPER HEADER BAWAAN STARLIGHT (<header class="header">)
+     Starlight membungkus Header.astro kita dengan elemen ini yang
+     punya background abu-abu (--sl-color-bg-nav) + border + position:fixed.
+     display:contents → wrapper tidak menggambar box, jadi background
+     abu-abu & border & fixed HILANG, header kita jadi anak langsung .page.
+     ============================================================ */
+  header.header {
+    display: contents !important;
+  }
+  /* ============================================================
      SAMAKAN TYPOGRAPHY DOCS (Starlight) DENGAN HOME (prose)
      Selector .sl-container = wrapper konten utama Starlight.
      Pakai !important karena Starlight punya rule serupa.
