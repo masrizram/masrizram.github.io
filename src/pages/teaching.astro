@@ -1,19 +1,10 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { Button } from "@/components/ui/button";
 
-const courses = [
-  { code: "IF-101", name: "Pemrograman Web", sem: "Ganjil", desc: "PHP, MySQL, dan dasar arsitektur web dinamis." },
-  { code: "IF-202", name: "Sistem Pakar", sem: "Genap", desc: "Forward/Backward Chaining, representasi aturan, inference engine." },
-  { code: "TI-305", name: "Basis Data", sem: "Ganjil", desc: "Relational design, query MySQL, normalisasi." },
-  { code: "IF-410", name: "Persiapan Sertifikasi RHCSA", sem: "Genap", desc: "Praktik EX200: user, storage, networking, container." },
-];
-const workshops = [
-  "Tailwind CSS v4 untuk Pemula",
-  "Membangun Dokumentasi dengan Astro + Starlight",
-  "shadcn/ui di Ekosistem Astro",
-  "Git & GitHub untuk Mahasiswa",
-];
+const items = (await getCollection("teaching", ({ data }) => !data.draft))
+  .sort((a, b) => (a.data.type === b.data.type ? 0 : a.data.type === "Mata Kuliah" ? -1 : 1));
 ---
 
 <BaseLayout title="Teaching — Nilma, M.Kom." description="Mata kuliah, workshop, dan materi perkuliahan yang saya ajarkan.">
@@ -21,26 +12,29 @@ const workshops = [
     <h1 class="text-4xl font-bold tracking-tight">Teaching</h1>
     <p class="mt-3 max-w-2xl text-muted-foreground">Mata kuliah, workshop, dan materi yang saya ajarkan serta bimbing.</p>
 
-    <h2 class="mt-12 text-2xl font-bold tracking-tight">Mata Kuliah</h2>
-    <div class="mt-6 space-y-4">
-      {courses.map((c) => (
-        <div class="flex flex-col gap-2 rounded-xl border border-border bg-card p-5 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p class="font-mono text-xs text-primary">{c.code} · {c.sem}</p>
-            <h3 class="mt-1 font-semibold">{c.name}</h3>
-            <p class="text-sm text-muted-foreground">{c.desc}</p>
-          </div>
-          <Button asChild variant="outline" size="sm"><a href="/contact/">Tanya materi</a></Button>
-        </div>
-      ))}
+    <div class="mt-10 space-y-10">
+      {["Mata Kuliah", "Workshop"].map((tipe) => {
+        const group = items.filter((i) => i.data.type === tipe);
+        if (!group.length) return null;
+        return (
+          <section>
+            <h2 class="text-xl font-bold tracking-tight">{tipe}</h2>
+            <div class="mt-4 space-y-4">
+              {group.map((c) => (
+                <a href={`/teaching/${c.id}/`} class="flex flex-col gap-2 rounded-xl border border-border bg-card p-5 transition-colors hover:border-primary/50 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p class="font-mono text-xs text-primary">{c.data.code ?? "—"} · {c.data.semester ?? ""}</p>
+                    <h3 class="mt-1 font-semibold group-hover:text-primary">{c.data.title}</h3>
+                    <p class="text-sm text-muted-foreground">{c.data.description}</p>
+                  </div>
+                  <span class="text-sm text-primary hover:underline">Detail →</span>
+                </a>
+              ))}
+            </div>
+          </section>
+        );
+      })}
     </div>
-
-    <h2 class="mt-12 text-2xl font-bold tracking-tight">Workshop</h2>
-    <ul class="mt-4 grid gap-3 sm:grid-cols-2">
-      {workshops.map((w) => (
-        <li class="rounded-xl border border-border bg-card px-4 py-3 text-sm">{w}</li>
-      ))}
-    </ul>
 
     <div class="mt-10">
       <Button asChild variant="secondary"><a href="/resources/">Lihat resource & tautan →</a></Button>

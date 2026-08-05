@@ -3,8 +3,6 @@ title: Contoh Halaman
 description: Halaman contoh untuk memulai menulis dokumentasi.
 ---
 
-# Contoh Halaman
-
 Ini adalah halaman dokumentasi contoh. Tulis konten dengan Markdown biasa.
 
 ## Sub-bagian
