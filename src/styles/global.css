@@ -79,7 +79,11 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
   }
-  /* Batasi layout docs agar sidebar KIRI sejajar dengan logo header (max-w-6xl px-6) */
+  /* Batasi layout docs agar box = home header (max-w-6xl centered → [46,1198]).
+     Sidebar & TOC Starlight pakai position:fixed (nempel ke tepi viewport),
+     makanya "terlalu ke kiri/kanan". Kita static-kan agar mengalir di dalam
+     .page, lalu .page padding 1.5rem → sidebar/main/TOC ter-inset seragam
+     ke [70,1174] sejajar logo & nav header home. */
   :root {
     --sl-content-width: 50rem !important;
     --sl-sidebar-width: 16rem !important;
@@ -89,12 +93,15 @@
     margin-inline: auto !important;
     padding-inline: 1.5rem !important;
   }
-  /* Layar lebar: max-w-6xl sudah men-center box, padding dalam tidak perlu
-     → konten docs (sidebar/main) sejajar tepat dengan box header (kiri=46). */
-  @media (min-width: 72rem) {
-    .page {
-      padding-inline: 0 !important;
-    }
+  #starlight__sidebar {
+    position: static !important;
+    inset: auto !important;
+    width: var(--sl-sidebar-width) !important;
+  }
+  .right-sidebar-container {
+    position: static !important;
+    inset: auto !important;
+    width: var(--sl-sidebar-width) !important;
   }
   /* Scroll-reveal: elemen muncul saat masuk viewport */
   .reveal {
