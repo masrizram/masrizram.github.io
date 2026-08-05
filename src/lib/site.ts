@@ -15,7 +15,7 @@ export const site = {
   },
 };
 
-export const docsHref = "/guides/contoh/";
+export const docsHref = "/rhcsa/";
 
 export const nav = [
   { href: "/", label: "Home" },

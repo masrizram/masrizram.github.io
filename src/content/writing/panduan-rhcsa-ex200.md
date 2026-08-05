@@ -25,4 +25,4 @@ echo "siswa:rahasia" | sudo chpasswd
 
 > Tips: kerjakan soal **tanpa melihat catatan** di akhir minggu ke-3.
 
-Lihat juga materi di [dokumentasi](/guides/contoh/).
+Lihat juga materi di [dokumentasi](/rhcsa/).

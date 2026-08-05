@@ -2,44 +2,36 @@
 title: 📘 Panduan Lengkap RHCSA (RH124 / RH199) — RHEL 9 & 10
 ---
 
-🐧
-  <h1>Belajar RHCSA, Cara yang Benar</h1>
-  <p>Panduan langkah-demi-langkah menuju sertifikasi <strong>Red Hat Certified
-  System Administrator (EX200)</strong> berbasis kurikulum RH124 / RH199.
-  Materi, latihan, jebakan ujian, dan kuis — semua gratis.</p>
-
-    [🗺️ Mulai Belajar](/rhcsa/pusat-belajar/)
-    [Pengantar →](/rhcsa/modul/00-pengantar-dan-roadmap/)
-  
-  Cepat cari materi: tekan `Ctrl`+`K` (atau `⌘`+`K` di Mac)
-
-
-
-    📦
-    <h3>23 Modul Terstruktur</h3>
-    <p>Dari shell dasar hingga SELinux, Enterprise Reality, & Runbook Troubleshooting Produksi — disusun sesuai kurikulum resmi & diselaraskan objektif EX200 RHEL 10.</p>
-  
-
-    🛠️
-    <h3>Latihan Praktik</h3>
-    <p>LAB per modul + simulasi EX200 180 menit (setara durasi ujian nyata), bisa dijalankan tanpa disk tambahan.</p>
-  
-
-    🛡️
-    <h3>Jebakan & Koneksi EX200</h3>
-    <p>Tiap modul kunci diberi tahu apa yang sering membatalkan peserta ujian.</p>
-  
-
-    ⌨️
-    <h3>Cheat Sheet & Glosarium</h3>
-    <p>Ringkasan perintah + 35+ istilah RHCSA siap dibuka kapan saja.</p>
-  
-
-
-
 Selamat datang di panduan langkah-demi-langkah menuju sertifikasi
 **Red Hat Certified System Administrator (EX200)**, berbasis kurikulum
 **Red Hat System Administration I (RH124 / RH199)**.
+
+<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 not-content">
+  <div class="rounded-lg border border-border/60 p-4">
+    <div class="text-2xl">📦</div>
+    <h3>23 Modul Terstruktur</h3>
+    <p>Dari shell dasar hingga SELinux, Enterprise Reality, & Runbook Troubleshooting Produksi — disusun sesuai kurikulum resmi & diselaraskan objektif EX200 RHEL 10.</p>
+  </div>
+  <div class="rounded-lg border border-border/60 p-4">
+    <div class="text-2xl">🛠️</div>
+    <h3>Latihan Praktik</h3>
+    <p>LAB per modul + simulasi EX200 180 menit (setara durasi ujian nyata), bisa dijalankan tanpa disk tambahan.</p>
+  </div>
+  <div class="rounded-lg border border-border/60 p-4">
+    <div class="text-2xl">🛡️</div>
+    <h3>Jebakan & Koneksi EX200</h3>
+    <p>Tiap modul kunci diberi tahu apa yang sering membatalkan peserta ujian.</p>
+  </div>
+  <div class="rounded-lg border border-border/60 p-4">
+    <div class="text-2xl">⌨️</div>
+    <h3>Cheat Sheet & Glosarium</h3>
+    <p>Ringkasan perintah + 35+ istilah RHCSA siap dibuka kapan saja.</p>
+  </div>
+</div>
+
+Mulai belajar: **[🗺️ Pusat Belajar](/rhcsa/pusat-belajar/)** · **[Pengantar →](/rhcsa/modul/00-pengantar-dan-roadmap/)**
+
+Cepat cari materi: tekan `Ctrl`+`K` (atau `⌘`+`K` di Mac)
 
 > **Basis materi:** RHEL 9.3 (berlaku juga untuk RHEL 10.x). Semua perintah diuji
 > pada lingkungan RHEL / Rocky Linux / AlmaLinux / Fedora yang setara.
@@ -105,4 +97,4 @@ transkrip dari IP ekstraksi). Materi diperkuat dengan latihan, *Jebakan Umum*,
 kirimkan agar tiap modul bisa diperkaya dengan contoh video.
 
 **Playlist referensi:**
-https://www.youtube.com/watch?v=pnHqii1Oq8Y&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns
+[Playlist RH124 (Ozzoy Bits)](https://www.youtube.com/watch?v=pnHqii1Oq8Y&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)

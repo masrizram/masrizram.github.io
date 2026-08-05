@@ -4,7 +4,7 @@ description: "Dokumentasi teknis dengan Starlight + shadcn/ui untuk project perk
 category: "Web"
 date: 2026-05-15
 img: "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=1400&h=900&auto=format&fit=crop&q=80"
-link: "/guides/contoh/"
+link: "/rhcsa/"
 ---
 
 Template dokumentasi siap pakai untuk mahasiswa yang ingin merapikan laporan skripsi
