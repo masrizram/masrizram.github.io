@@ -1,0 +1,32 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const items = await getCollection("portfolio", ({ data }) => !data.draft);
+  return items.map((item) => ({
+    params: { slug: item.id },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props;
+const { Content } = await render(item);
+---
+
+<BaseLayout title={item.data.title} description={item.data.description}>
+  <article class="mx-auto max-w-3xl px-6 py-20">
+    <a href="/portfolio/" class="text-sm text-primary hover:underline">← Semua karya</a>
+    <h1 class="mt-4 text-4xl font-bold tracking-tight">{item.data.title}</h1>
+    <p class="mt-2 text-muted-foreground">{item.data.category} · {item.data.date.toLocaleDateString("id-ID")}</p>
+    {item.data.img && (
+      <img src={item.data.img} alt={item.data.title} loading="lazy" decoding="async" class="mt-6 aspect-[16/9] w-full rounded-xl border border-border object-cover" />
+    )}
+    <div class="mt-8 space-y-4 leading-relaxed text-muted-foreground">
+      <Content />
+    </div>
+    {item.data.link && (
+      <a href={item.data.link} class="mt-6 inline-block text-primary hover:underline">Lihat terkait →</a>
+    )}
+  </article>
+</BaseLayout>
