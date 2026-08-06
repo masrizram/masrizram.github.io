@@ -30,6 +30,14 @@ export const nav = [
 ];
 
 // Social yang punya URL valid (bukan '#') — untuk render kondisional di footer/nav.
+// Label ditampilkan rapi (kapitalisasi proper) di footer.
+const SOCIAL_LABELS: Record<string, string> = {
+  github: 'GitHub',
+  linkedin: 'LinkedIn',
+  twitter: 'X',
+  email: 'Email',
+};
+
 export const activeSocials = Object.entries(site.socials)
   .filter(([_, url]) => url && url !== '#' && !url.startsWith('mailto:'))
-  .map(([key, url]) => ({ key, url: url as string }));
+  .map(([key, url]) => ({ key, label: SOCIAL_LABELS[key] ?? key, url: url as string }));

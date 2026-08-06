@@ -1,8 +1,10 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { Button } from "@/components/ui/button";
+import { Image } from "astro:assets";
 import { Github, Linkedin, Twitter, Mail, ArrowRight } from "lucide-react";
 import { site } from "@/lib/site";
+import heroImg from "@/assets/hero.webp";
 
 const techs = ["PHP", "MySQL", "Astro", "Tailwind", "Sistem Pakar", "RHCSA/EX200", "Pedagogi"];
 const stats = [
@@ -63,7 +65,7 @@ const testimonials = [
     </div>
     <div class="relative">
       <div class="aspect-[4/5] overflow-hidden rounded-2xl border border-border bg-muted">
-        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&h=750&auto=format&fit=crop&q=80" alt={`${site.fullName} — ${site.role}`} loading="lazy" decoding="async" class="h-full w-full object-cover" />
+        <Image src={heroImg} alt={`${site.fullName} — ${site.role}`} loading="eager" decoding="async" fetchpriority="high" class="h-full w-full object-cover" />
       </div>
       <div class="absolute -bottom-5 left-5 rounded-xl border border-border bg-card px-5 py-3 shadow-sm">
         <p class="text-2xl font-bold">120+</p>
@@ -123,7 +125,7 @@ const testimonials = [
       {portfolio.map((item) => (
         <article class="group overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-primary/50">
           <div class="aspect-[16/10] overflow-hidden bg-muted">
-            <img src={item.img} alt={item.t} class="h-full w-full object-cover transition-transform group-hover:scale-105" />
+            <img src={item.img} alt={item.t} loading="lazy" decoding="async" class="h-full w-full object-cover transition-transform group-hover:scale-105" />
           </div>
           <div class="p-4">
             <h3 class="font-semibold">{item.t}</h3>
