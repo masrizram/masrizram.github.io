@@ -4,15 +4,22 @@
     "version": "0.0.1",
     "private": true,
     "scripts": {
-        "pretty": "prettier --write .",
-        "format": "prettier --write .",
-        "predev": "npm run pretty",
         "dev": "astro dev",
         "start": "astro dev",
         "build": "astro build",
         "preview": "astro preview",
         "astro": "astro",
-        "check": "astro check"
+        "predev": "npm run pretty",
+        "pretty": "prettier --write .",
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix",
+        "check": "astro check",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "coverage": "vitest run --coverage",
+        "verify": "npm run format:check && npm run lint && npm run check && npm run test && npm run build"
     },
     "dependencies": {
         "@astrojs/mdx": "^7.0.5",
@@ -36,8 +43,16 @@
     },
     "devDependencies": {
         "@astrojs/check": "^0.9.10",
+        "@eslint/js": "^9.39.5",
+        "astro-eslint-parser": "^3.0.0",
+        "eslint": "^9.39.5",
+        "eslint-plugin-astro": "^1.7.0",
+        "eslint-plugin-jsx-a11y": "^6.10.2",
+        "globals": "^17.9.0",
         "prettier": "^3.9.6",
         "prettier-plugin-astro": "^0.14.1",
-        "typescript": "^6.0.3"
+        "typescript": "^6.0.3",
+        "typescript-eslint": "^8.66.0",
+        "vitest": "^4.1.10"
     }
 }

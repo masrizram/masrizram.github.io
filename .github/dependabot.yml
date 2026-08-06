@@ -1,0 +1,37 @@
+version: 2
+updates:
+    # Dependensi npm — update mingguan, dikelompokkan agar PR tidak membanjir.
+    - package-ecosystem: npm
+      directory: '/'
+      schedule:
+          interval: weekly
+          day: monday
+      open-pull-requests-limit: 5
+      groups:
+          astro:
+              patterns:
+                  - 'astro'
+                  - '@astrojs/*'
+          react:
+              patterns:
+                  - 'react'
+                  - 'react-dom'
+                  - '@types/react*'
+          tooling:
+              patterns:
+                  - 'eslint*'
+                  - '@eslint/*'
+                  - 'typescript-eslint'
+                  - 'prettier*'
+                  - 'vitest'
+                  - 'typescript'
+      commit-message:
+          prefix: 'chore(deps)'
+
+    # Action GitHub juga perlu di-pin & di-update (rantai suplai CI).
+    - package-ecosystem: github-actions
+      directory: '/'
+      schedule:
+          interval: weekly
+      commit-message:
+          prefix: 'chore(ci)'

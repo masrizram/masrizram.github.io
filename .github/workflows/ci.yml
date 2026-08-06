@@ -6,8 +6,12 @@ on:
     pull_request:
         branches: [master]
 
+permissions:
+    contents: read
+
 jobs:
-    build:
+    quality:
+        name: Quality gates
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
@@ -21,11 +25,35 @@ jobs:
             - name: Install dependencies
               run: npm ci
 
-            - name: Type & lint check (astro check)
+            # Gate 1 — formatting konsisten (Prettier).
+            - name: Format check
+              run: npm run format:check
+
+            # Gate 2 — lint & aksesibilitas JSX (ESLint + jsx-a11y).
+            - name: Lint
+              run: npm run lint
+
+            # Gate 3 — tipe & diagnostik Astro.
+            - name: Type check
               run: npm run check
 
+            # Gate 4 — unit test.
+            - name: Unit tests
+              run: npm run test
+
+            # Gate 5 — kerentanan dependensi. Gagal bila ada high/critical.
+            - name: Security audit
+              run: npm audit --audit-level=high
+
+            # Gate 6 — build produksi harus sukses.
             - name: Build
               run: npm run build
               env:
-                  # URL produksi untuk canonical/OG/sitemap. Ganti di Settings > Secrets.
                   SITE_URL: ${{ secrets.SITE_URL || 'https://masrizram.github.io/notes' }}
+
+            - name: Upload build artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: dist
+                  path: dist
+                  retention-days: 7

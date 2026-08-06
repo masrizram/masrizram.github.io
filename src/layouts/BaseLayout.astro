@@ -1,6 +1,5 @@
 ---
 import '@/styles/global.css';
-import { Button } from '@/components/ui/button';
 import { site, nav, activeSocials } from '@/lib/site';
 import { withBase } from '@/lib/utils';
 
@@ -76,11 +75,13 @@ const jsonLd = [
         <script is:inline>
             (function () {
                 try {
-                    var t = localStorage.getItem('theme');
+                    const t = localStorage.getItem('theme');
                     if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                         document.documentElement.classList.add('dark');
                     }
-                } catch (e) {}
+                } catch (e) {
+                    /* localStorage tidak tersedia */
+                }
             })();
         </script>
     </head>
@@ -203,7 +204,7 @@ const jsonLd = [
         <!-- Scroll-reveal -->
         <script is:inline>
             (function () {
-                var els = document.querySelectorAll('.reveal');
+                const els = document.querySelectorAll('.reveal');
                 if (!els.length) return;
                 if (!('IntersectionObserver' in window)) {
                     els.forEach(function (el) {
@@ -211,7 +212,7 @@ const jsonLd = [
                     });
                     return;
                 }
-                var io = new IntersectionObserver(
+                const io = new IntersectionObserver(
                     function (entries) {
                         entries.forEach(function (e) {
                             if (e.isIntersecting) {

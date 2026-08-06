@@ -8,12 +8,12 @@ export const site = {
     url: SITE_URL,
     description:
         'Nilma, M.Kom. — Dosen, pembimbing skripsi/TA, dan mentor sertifikasi teknologi. Portofolio, panduan, dan dokumentasi.',
-    email: 'nilma@example.com',
+    email: 'rizkiiramdaniii@gmail.com',
     socials: {
         github: 'https://github.com/masrizram',
         linkedin: '#',
         twitter: '#',
-        email: 'mailto:nilma@example.com',
+        email: 'mailto:rizkiiramdaniii@gmail.com',
     },
 };
 
