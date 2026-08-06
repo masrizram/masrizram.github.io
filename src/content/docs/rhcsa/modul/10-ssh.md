@@ -2,7 +2,6 @@
 title: Modul 10 — Configure and Secure SSH
 ---
 
-
 > 📺 Referensi video: [jGzIZZrdEpE](https://www.youtube.com/watch?v=jGzIZZrdEpE&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)
 
 ## 1. SSH (Secure Shell)
@@ -76,18 +75,20 @@ Host server1
     Port 2222
     IdentityFile ~/.ssh/id_ed25519
 ```
+
 Lalu cukup: `ssh server1`.
 
 ## 7. Jebakan Umum (EX200)
 
 :::danger[Jebakan]
+
 - Edit `sshd_config` lalu `systemctl restart sshd` **tanpa** `sshd -t` dulu →
   typo membuat SSH mati, kamu terkunci keluar (tidak bisa remote lagi).
 - Mematikan `PasswordAuthentication` sebelum kunci publik ter-copy → lockout.
 - Lupa buka port 22 di `firewalld` setelah install ulang → tidak bisa login.
 - Menjalankan `PermitRootLogin no` tapi butuh root remote → sediakan user
   biasa dengan `sudo` instead.
-:::
+  :::
 
 ## 8. Koneksi ke EX200
 
@@ -100,10 +101,11 @@ batasi user." Kunci: edit `/etc/ssh/sshd_config` → `sshd -t` (UJI!) →
 ## Kunci Jawaban (klik untuk lihat)
 
 :::note[Kunci Jawaban Latihan]
+
 1. `ssh-copy-id` menaruh pubkey ke authorized_keys.
 2. `PermitRootLogin no` cegah root login langsung.
 3. `scp -P 2222` untuk port non-default.
-:::
+   :::
 
 ## Kuis Cepat
 
@@ -112,6 +114,7 @@ batasi user." Kunci: edit `/etc/ssh/sshd_config` → `sshd -t` (UJI!) →
 3. Directive untuk melarang login root via SSH? (`PermitRootLogin no`)
 
 ## Latihan
+
 1. Buat kunci `ssh-keygen` dan salin ke server lab (atau VM lokal).
 2. Set `PasswordAuthentication no` + `PermitRootLogin no`, uji dengan `sshd -t`.
 3. Buat alias `Host lab` di `~/.ssh/config` dan login dengan `ssh lab`.

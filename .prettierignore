@@ -1,0 +1,14 @@
+# Build output & dependencies
+dist/
+node_modules/
+.astro/
+
+# Binary / generated assets (jangan di-format)
+public/
+src/assets/
+
+# Lockfile (jangan di-format)
+package-lock.json
+
+# Vendor / generated
+pagefind/

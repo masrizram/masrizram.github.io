@@ -2,25 +2,25 @@
 title: Modul 06 — Manage Local Users and Groups
 ---
 
-
 > 📺 Referensi video: [yg1IdxH38OA](https://www.youtube.com/watch?v=yg1IdxH38OA&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)
 
 ## 1. Konsep User & Group
 
 - Setiap user punya **UID** (User ID) unik.
 - Setiap group punya **GID** (Group ID).
-- User punya *primary group* dan bisa masuk ke banyak *supplementary group*.
+- User punya _primary group_ dan bisa masuk ke banyak _supplementary group_.
 
 ## 2. Berkas Penting
 
-| Berkas | Isi |
-|--------|-----|
-| `/etc/passwd` | akun user (UID, GID, home, shell) |
-| `/etc/shadow` | kata sandi (hash, kedaluwarsa) — hanya root |
-| `/etc/group` | definisi group |
-| `/etc/gshadow` | sandi group |
+| Berkas         | Isi                                         |
+| -------------- | ------------------------------------------- |
+| `/etc/passwd`  | akun user (UID, GID, home, shell)           |
+| `/etc/shadow`  | kata sandi (hash, kedaluwarsa) — hanya root |
+| `/etc/group`   | definisi group                              |
+| `/etc/gshadow` | sandi group                                 |
 
 Format `/etc/passwd`:
+
 ```
 nama:password(x)GIDhome:shell
 ```
@@ -72,11 +72,13 @@ sudo -i                  # shell root interaktif
 ```
 
 Konfigurasi di `/etc/sudoers` — **selalu** pakai `visudo` (aman dari corrupt):
+
 ```bash
 visudo
 ```
 
 ## Latihan
+
 1. Buat user `siswa` dengan home & shell bash, lalu set sandi.
 2. Tambahkan `siswa` ke group `wheel` agar bisa `sudo`.
 3. Verifikasi: `id siswa` dan `sudo -l -U siswa`.
@@ -84,22 +86,24 @@ visudo
 ## Kunci Jawaban (klik untuk lihat)
 
 :::note[Kunci Jawaban Latihan]
+
 1. `useradd` + `/etc/passwd` baris baru.
 2. `/etc/passwd` sumber user (shadow untuk hash).
 3. `usermod -aG` (a=append) atau `gpasswd -a`.
-:::
+   :::
 
 ## Kuis
 
 1. Perintah membuat user baru?
-   - a. useradd  b. adduser  c. mkuser  d. newuser
+    - a. useradd b. adduser c. mkuser d. newuser
 2. File daftar user?
-   - a. /etc/passwd  b. /etc/shadow  c. /etc/group  d. /etc/users
+    - a. /etc/passwd b. /etc/shadow c. /etc/group d. /etc/users
 3. Menambah user ke grup tambahan?
-   - a. usermod -aG grp user  b. gpasswd -a  c. useradd -G  d. keduanya a & b
+    - a. usermod -aG grp user b. gpasswd -a c. useradd -G d. keduanya a & b
 
 :::note[Kunci Jawaban Kuis]
+
 1. **a**
 2. **a**
 3. **d**
-:::
+   :::

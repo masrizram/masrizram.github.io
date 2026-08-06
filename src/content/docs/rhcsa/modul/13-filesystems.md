@@ -2,12 +2,12 @@
 title: Modul 13 — Access Linux File Systems
 ---
 
-
 > 📺 Referensi video: [tuN89JVWjCs](https://www.youtube.com/watch?v=tuN89JVWjCs&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)
 
 ## 1. Konsep Storage
 
 Hirarki penyimpanan RHEL:
+
 ```
 Disk fisik (sda)
   └─ Partisi (sda1, sda2)
@@ -29,7 +29,7 @@ du -sh /var/log       # ukuran direktori
 
 ## 3. Membuat Partisi (MBR / GPT)
 
-Objektif EX200: *"create and configure file systems"* sering berarti **mulai dari
+Objektif EX200: _"create and configure file systems"_ sering berarti **mulai dari
 disk kosong** — kamu harus membagi (partisi) disk dulu sebelum `mkfs`.
 RHEL 9/10 default pakai tabel **GPT** (bukan MBR) agar bisa disk > 2 TB dan
 lebih dari 4 partisi.
@@ -144,6 +144,7 @@ otomatis saat idle. Sangat dipakai untuk NFS di client (tidak perlu entri
 fstab statis, tidak hang saat server NFS mati saat boot).
 
 **Langkah di client:**
+
 ```bash
 # 1. Pasang & aktifkan
 sudo dnf install -y autofs
@@ -161,6 +162,7 @@ sudo systemctl restart autofs
 ```
 
 **Cara membuktikan (verifikasi):**
+
 ```bash
 cd /mnt/nfs/share          # akses -> autofs otomatis mount!
 mount | grep auto.nfs      # terlihat entry automount
@@ -174,7 +176,7 @@ mount | grep auto.nfs      # terlihat entry automount
 
 Stratis menyederhanakan storage tingkat lanjut (snapshot, thin-provision,
 pool) di atas LVM/XFS dengan satu perintah. Objektif EX200 RHEL 9/10:
-*"Configure and manage storage using the Stratis"* (sic) — jadi **wajib diuji**.
+_"Configure and manage storage using the Stratis"_ (sic) — jadi **wajib diuji**.
 
 **Konsep:** `blockdev` (disk) → `pool` (kumpulan storage) → `filesystem`
 (XFS di atas pool, thin-provision).
@@ -202,6 +204,7 @@ sudo mount -a
 ```
 
 **Snapshot & recovered (sering muncul di soal):**
+
 ```bash
 # Snapshot filesystem (readonly awal, bisa di-clone jadi RW)
 sudo stratis filesystem snapshot mypool data1 snap1
@@ -219,7 +222,7 @@ sudo stratis pool destroy mypool
 
 VDO (Virtual Data Optimizer) memberikan deduplikasi + kompresi di atas block
 device, sehingga ruang fisik lebih efisien untuk data berulang (backup,
-image). Objektif EX200: *"Configure and manage storage using VDO"*.
+image). Objektif EX200: _"Configure and manage storage using VDO"_.
 
 ```bash
 # 1. Pasang & aktifkan
@@ -248,7 +251,7 @@ vdostats --human-readable
 
 ## 13. Disk Quota — Batasi Pemakaian User/Group (Wajib EX200)
 
-Objektif EX200: *"Implement disk quotas"*. Batasi berapa banyak ruang/	jumlah
+Objektif EX200: _"Implement disk quotas"_. Batasi berapa banyak ruang/ jumlah
 file yang boleh dipakai tiap user atau group pada suatu filesystem.
 
 ```bash
@@ -269,6 +272,7 @@ sudo xfs_quota -x -c 'report -h -u' /home
 ```
 
 Untuk **ext4** (berbeda alat):
+
 ```bash
 sudo quotacheck -cugm /home     # bangun aquota.user/aquota.group
 sudo quotaon -v /home
@@ -283,6 +287,7 @@ repquota -a                     # laporan
 ## 14. Jebakan Umum (EX200)
 
 :::danger[Jebakan]
+
 - Salah UUID di `/etc/fstab` → VM **no-boot** (grub rescue). Selalu `mount -a`
   sebelum reboot!
 - Menggunakan nama device `/dev/sdb1` di fstab (bisa berubah antar boot) →
@@ -292,7 +297,7 @@ repquota -a                     # laporan
 - ext4 butuh `resize2fs`; XFS butuh `xfs_growfs` (berbeda perintah!).
 - NFS di fstab tanpa opsi `_netdev` → boot hang (tunggu timeout mount).
 - autofs: lupa `systemctl enable --now autofs` → mount on-demand tak jalan.
-:::
+  :::
 
 ## 15. Koneksi ke EX200
 
@@ -313,12 +318,13 @@ Atau: "Batasi user `user1` maks 120M & 1200 file di `/home`" →
 ## Kunci Jawaban (klik untuk lihat)
 
 :::note[Kunci Jawaban Latihan]
+
 1. `lvcreate` butuh VG ada.
 2. `mkfs.xfs` memformat; XFS tidak bisa shrink.
 3. `mount -a` uji semua entri fstab.
 4. VFAT: `mkfs.vfat -F 32 /dev/sdX`; mount type `vfat`.
 5. autofs: isi `/etc/auto.master.d/*.autofs` + map file, lalu `enable --now autofs`.
-:::
+   :::
 
 ## Kuis Cepat
 
@@ -330,6 +336,7 @@ Atau: "Batasi user `user1` maks 120M & 1200 file di `/home`" →
    block boot bila server mati)
 
 ## Latihan
+
 1. Buat partisi + filesystem XFS di disk lab, lalu mount ke `/mnt/uji`.
 2. Tambahkan entri ke `/etc/fstab` dan validasi dengan `mount -a`.
 3. (Jika ada ruang) buat LV dengan LVM dan perbesar 1 GB.

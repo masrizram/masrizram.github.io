@@ -2,7 +2,6 @@
 title: Modul 16 — SELinux (Keamanan Wajib EX200)
 ---
 
-
 > SELinux adalah penyebab **paling sering** peserta EX200 gagal. Jangan
 > mematikan — konfigurasikan dengan benar.
 
@@ -10,7 +9,7 @@ title: Modul 16 — SELinux (Keamanan Wajib EX200)
 
 ## 1. Konsep Dasar
 
-SELinux = *Mandatory Access Control* (MAC) di atas DAC (permission biasa).
+SELinux = _Mandatory Access Control_ (MAC) di atas DAC (permission biasa).
 Setiap proses & berkas punya **label/context** (usertype:level).
 
 ```bash
@@ -22,11 +21,11 @@ ps -Z                  # lihat context proses
 
 ## 2. Tiga Mode
 
-| Mode | Arti |
-|------|------|
-| `Enforcing` | aturan ditegakkan (default & wajib di ujian) |
+| Mode         | Arti                                                  |
+| ------------ | ----------------------------------------------------- |
+| `Enforcing`  | aturan ditegakkan (default & wajib di ujian)          |
 | `Permissive` | hanya mencatat pelanggaran, tidak blokir (buat debug) |
-| `Disabled` | mati total (**jangan** di ujian) |
+| `Disabled`   | mati total (**jangan** di ujian)                      |
 
 ```bash
 sudo setenforce 0       # sementara → Permissive
@@ -43,6 +42,7 @@ sudo setsebool -P httpd_can_network_connect on   # -P = permanen
 ```
 
 Boolean umum EX200:
+
 - `httpd_can_network_connect` — izinkan httpd konek keluar
 - `httpd_enable_homedirs` — izinkan serve dari home
 - `ftp_home_dir` — akses home via ftp
@@ -81,19 +81,21 @@ sudo semanage port -a -t http_port_t -p tcp 8080   # izinkan httpd di 8080
 ## 7. Jebakan Umum (EX200)
 
 :::danger[Jebakan]
+
 - **Mematikan SELinux** (`disabled`) karena "biar jalan" → otomatis gagal ujian.
   Gunakan `setsebool` / `restorecon` / `semanage`.
 - Lupa `restorecon` setelah memindahkan berkas web → 403 Forbidden padahal
   permission 755 sudah benar.
 - `setsebool` tanpa `-P` → hilang setelah reboot, ujian verifikasi pasca-reboot.
 - Salah menambah `fcontext` (regex salah) → `restorecon` tidak mempan.
-:::
+  :::
 
 ## 8. Koneksi ke EX200
 
 :::tip[EX200]
 Soal klasik: "Jalankan web di port 8080 dengan DocumentRoot `/web`; pastikan
 berfungsi walau SELinux Enforcing." Kunci:
+
 ```bash
 sudo semanage fcontext -a -t httpd_sys_content_t "/web(/.*)?"
 sudo restorecon -Rv /web
@@ -101,15 +103,17 @@ sudo semanage port -a -t http_port_t -p tcp 8080
 sudo setsebool -P httpd_can_network_connect on   # bila perlu
 sudo firewall-cmd --add-port=8080/tcp --permanent
 ```
+
 :::
 
 ## Kunci Jawaban (klik untuk lihat)
 
 :::note[Kunci Jawaban Latihan]
+
 1. `getenforce` → Enforcing/Permissive/Disabled.
 2. `setsebool -P` permanen.
 3. `restorecon -R` terapkan label fcontext.
-:::
+   :::
 
 ## Kuis Cepat
 
@@ -118,6 +122,7 @@ sudo firewall-cmd --add-port=8080/tcp --permanent
 3. Setelah pindah berkas ke `/web`, perintah apa agar context benar? (`restorecon -Rv /web`)
 
 ## Latihan
+
 1. `getenforce` → pastikan `Enforcing`. Jika `Permissive`, `setenforce 1`.
 2. Buat `/web/index.html`, set context `httpd_sys_content_t`, `restorecon -Rv /web`.
 3. Izinkan httpd di port 8080 via `semanage port`, verifikasi dengan `semanage port -l | grep 8080`.

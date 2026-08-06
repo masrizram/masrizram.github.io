@@ -1,184 +1,283 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import { Button } from "@/components/ui/button";
-import { Image } from "astro:assets";
-import { Github, Linkedin, Twitter, Mail, ArrowRight } from "lucide-react";
-import { site } from "@/lib/site";
-import heroImg from "@/assets/hero.webp";
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { Button } from '@/components/ui/button';
+import { Image } from 'astro:assets';
+import { Github, Linkedin, Twitter, Mail, ArrowRight } from 'lucide-react';
+import { site } from '@/lib/site';
+import heroImg from '@/assets/hero.webp';
 
-const techs = ["PHP", "MySQL", "Astro", "Tailwind", "Sistem Pakar", "RHCSA/EX200", "Pedagogi"];
+const techs = ['PHP', 'MySQL', 'Astro', 'Tailwind', 'Sistem Pakar', 'RHCSA/EX200', 'Pedagogi'];
 const stats = [
-  { n: "8+", l: "Tahun mengajar" },
-  { n: "120+", l: "Mahasiswa" },
-  { n: "40+", l: "Proyek" },
+    { n: '8+', l: 'Tahun mengajar' },
+    { n: '120+', l: 'Mahasiswa' },
+    { n: '40+', l: 'Proyek' },
 ];
 const featured = [
-  { date: "2026-07", title: "Membangun Sistem Pakar dengan Forward Chaining", tag: "Sistem Pakar" },
-  { date: "2026-06", title: "Panduan Lengkap Persiapan RHCSA/EX200", tag: "Sertifikasi" },
-  { date: "2026-05", title: "Astro + Starlight untuk Dokumentasi Skripsi", tag: "Astro" },
+    { date: '2026-07', title: 'Membangun Sistem Pakar dengan Forward Chaining', tag: 'Sistem Pakar' },
+    { date: '2026-06', title: 'Panduan Lengkap Persiapan RHCSA/EX200', tag: 'Sertifikasi' },
+    { date: '2026-05', title: 'Astro + Starlight untuk Dokumentasi Skripsi', tag: 'Astro' },
 ];
 const portfolio = [
-  { t: "Sistem Pakar KPRJ", d: "Diagnosis dental berbasis rule (Forward Chaining).", img: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1400&h=900&auto=format&fit=crop&q=80" },
-  { t: "Panduan RHCSA/EX200", d: "Materi persiapan sertifikasi Red Hat.", img: "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=1400&h=900&auto=format&fit=crop&q=80" },
-  { t: "Situs Dokumentasi Astro", d: "Dokumentasi teknis dengan Starlight.", img: "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=1400&h=900&auto=format&fit=crop&q=80" },
+    {
+        t: 'Sistem Pakar KPRJ',
+        d: 'Diagnosis dental berbasis rule (Forward Chaining).',
+        img: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1400&h=900&auto=format&fit=crop&q=80',
+    },
+    {
+        t: 'Panduan RHCSA/EX200',
+        d: 'Materi persiapan sertifikasi Red Hat.',
+        img: 'https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=1400&h=900&auto=format&fit=crop&q=80',
+    },
+    {
+        t: 'Situs Dokumentasi Astro',
+        d: 'Dokumentasi teknis dengan Starlight.',
+        img: 'https://images.unsplash.com/photo-1559028012-481c04fa702d?w=1400&h=900&auto=format&fit=crop&q=80',
+    },
 ];
 const services = [
-  { n: "01", t: "Bimbingan Skripsi/TA", d: "Pendampingan topik, coding, dan laporan sistem pakar & web.", tags: ["PHP", "MySQL", "Sistem Pakar"] },
-  { n: "02", t: "Mentoring Sertifikasi", d: "Persiapan RHCSA/EX200 dan sertifikasi teknologi lainnya.", tags: ["Linux", "RHCSA", "EX200"] },
-  { n: "03", t: "Pengembangan Web", d: "Membangun situs & dokumentasi dengan Astro + Tailwind.", tags: ["Astro", "Tailwind", "Docs"] },
+    {
+        n: '01',
+        t: 'Bimbingan Skripsi/TA',
+        d: 'Pendampingan topik, coding, dan laporan sistem pakar & web.',
+        tags: ['PHP', 'MySQL', 'Sistem Pakar'],
+    },
+    {
+        n: '02',
+        t: 'Mentoring Sertifikasi',
+        d: 'Persiapan RHCSA/EX200 dan sertifikasi teknologi lainnya.',
+        tags: ['Linux', 'RHCSA', 'EX200'],
+    },
+    {
+        n: '03',
+        t: 'Pengembangan Web',
+        d: 'Membangun situs & dokumentasi dengan Astro + Tailwind.',
+        tags: ['Astro', 'Tailwind', 'Docs'],
+    },
 ];
 const testimonials = [
-  { q: "Bapak/Ibu pembimbing yang sabar, sistem pakar skripsi saya lulus tanpa revisi mayor.", a: "Mahasiswa S1 Informatika" },
-  { q: "Materi RHCSA-nya to the point, saya lulus EX200 di attempt pertama.", a: "Alumni Bootcamp" },
-  { q: "Dokumentasi Astro yang dibuat rapi dan gampang dipahami tim.", a: "Rekan Dosen" },
+    {
+        q: 'Bapak/Ibu pembimbing yang sabar, sistem pakar skripsi saya lulus tanpa revisi mayor.',
+        a: 'Mahasiswa S1 Informatika',
+    },
+    { q: 'Materi RHCSA-nya to the point, saya lulus EX200 di attempt pertama.', a: 'Alumni Bootcamp' },
+    { q: 'Dokumentasi Astro yang dibuat rapi dan gampang dipahami tim.', a: 'Rekan Dosen' },
 ];
 ---
 
 <BaseLayout title={site.fullName} description={site.description}>
-  <!-- HERO -->
-  <section class="reveal mx-auto grid max-w-6xl items-center gap-10 px-6 py-20 md:grid-cols-2">
-    <div>
-      <p class="mb-3 inline-flex items-center gap-2 rounded-full border border-border bg-muted px-3 py-1 text-xs text-muted-foreground">
-        <span class="h-2 w-2 rounded-full bg-emerald-500"></span> Tersedia untuk bimbingan & kolaborasi
-      </p>
-      <h1 class="text-4xl font-bold leading-tight tracking-tight md:text-5xl">
-        Halo, saya {site.name}. <br /> Saya mengajar & membimbing <span class="text-primary">teknologi</span>.
-      </h1>
-      <p class="mt-5 max-w-md text-muted-foreground">
-        {site.role} dengan fokus pada pengembangan web (PHP, MySQL, Astro)
-        serta pendampingan skripsi/TA dan persiapan sertifikasi seperti RHCSA/EX200.
-      </p>
-      <div class="mt-7 flex flex-wrap gap-3">
-        <Button asChild size="lg"><a href="/portfolio/">Lihat Portofolio</a></Button>
-        <Button asChild size="lg" variant="outline"><a href="/contact/">Hubungi Saya</a></Button>
-      </div>
-      <div class="mt-7 flex gap-4 text-muted-foreground">
-        <a href={site.socials.github} aria-label="GitHub" class="hover:text-foreground"><Github className="size-5" /></a>
-        {site.socials.linkedin !== '#' && (
-          <a href={site.socials.linkedin} aria-label="LinkedIn" class="hover:text-foreground" target="_blank" rel="noopener noreferrer"><Linkedin className="size-5" /></a>
-        )}
-        {site.socials.twitter !== '#' && (
-          <a href={site.socials.twitter} aria-label="X" class="hover:text-foreground" target="_blank" rel="noopener noreferrer"><Twitter className="size-5" /></a>
-        )}
-        <a href={site.socials.email} aria-label="Email" class="hover:text-foreground"><Mail className="size-5" /></a>
-      </div>
-    </div>
-    <div class="relative">
-      <div class="aspect-[4/5] overflow-hidden rounded-2xl border border-border bg-muted">
-        <Image src={heroImg} alt={`${site.fullName} — ${site.role}`} loading="eager" decoding="async" fetchpriority="high" class="h-full w-full object-cover" />
-      </div>
-      <div class="absolute -bottom-5 left-5 rounded-xl border border-border bg-card px-5 py-3 shadow-sm">
-        <p class="text-2xl font-bold">120+</p>
-        <p class="text-xs text-muted-foreground">Mahasiswa dibimbing</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT (ringkas) -->
-  <section class="reveal mx-auto max-w-6xl px-6 py-12">
-    <div class="rounded-2xl border border-border bg-card p-8">
-      <h2 class="text-2xl font-bold tracking-tight">Tentang Saya</h2>
-      <p class="mt-4 max-w-2xl text-muted-foreground">
-        Saya {site.fullName} — dosen yang membantu mahasiswa dan tim membangun produk digital
-        fungsional. Saya percaya dokumentasi yang baik sama pentingnya dengan kode.
-      </p>
-      <div class="mt-6 flex flex-wrap gap-2">
-        {techs.map((tech) => (
-          <span class="rounded-full border border-border bg-muted px-3 py-1 text-sm text-muted-foreground">{tech}</span>
-        ))}
-      </div>
-      <div class="mt-8 grid grid-cols-3 gap-4 max-w-md">
-        {stats.map((s) => (
-          <div><p class="text-3xl font-bold">{s.n}</p><p class="text-xs text-muted-foreground">{s.l}</p></div>
-        ))}
-      </div>
-      <div class="mt-6">
-        <Button asChild variant="link"><a href="/about/">Cerita lengkap saya →</a></Button>
-      </div>
-    </div>
-  </section>
-
-  <!-- FEATURED WRITING -->
-  <section class="reveal mx-auto max-w-6xl px-6 py-12">
-    <div class="flex items-end justify-between">
-      <h2 class="text-2xl font-bold tracking-tight">Tulisan Terbaru</h2>
-      <a href="/writing/" class="text-sm text-primary hover:underline">Lihat semua →</a>
-    </div>
-    <div class="mt-6 grid gap-5 md:grid-cols-3">
-      {featured.map((p) => (
-        <a href="/writing/" class="group rounded-xl border border-border bg-card p-5 transition-colors hover:border-primary/50">
-          <span class="text-xs text-muted-foreground">{p.tag}</span>
-          <h3 class="mt-2 font-semibold group-hover:text-primary">{p.title}</h3>
-          <p class="mt-1 text-sm text-muted-foreground">{p.date}</p>
-        </a>
-      ))}
-    </div>
-  </section>
-
-  <!-- PORTFOLIO -->
-  <section class="reveal mx-auto max-w-6xl px-6 py-12">
-    <div class="flex items-end justify-between">
-      <h2 class="text-2xl font-bold tracking-tight">Portofolio & Karya</h2>
-      <a href="/portfolio/" class="text-sm text-primary hover:underline">Lihat semua →</a>
-    </div>
-    <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {portfolio.map((item) => (
-        <article class="group overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-primary/50">
-          <div class="aspect-[16/10] overflow-hidden bg-muted">
-            <img src={item.img} alt={item.t} loading="lazy" decoding="async" class="h-full w-full object-cover transition-transform group-hover:scale-105" />
-          </div>
-          <div class="p-4">
-            <h3 class="font-semibold">{item.t}</h3>
-            <p class="text-sm text-muted-foreground">{item.d}</p>
-          </div>
-        </article>
-      ))}
-    </div>
-  </section>
-
-  <!-- SERVICES -->
-  <section class="reveal mx-auto max-w-6xl px-6 py-12">
-    <h2 class="text-2xl font-bold tracking-tight">Layanan</h2>
-    <div class="mt-6 grid gap-5 md:grid-cols-3">
-      {services.map((s) => (
-        <div class="rounded-xl border border-border bg-card p-6">
-          <p class="text-sm text-primary">{s.n}</p>
-          <h3 class="mt-2 font-semibold">{s.t}</h3>
-          <p class="mt-2 text-sm text-muted-foreground">{s.d}</p>
-          <div class="mt-4 flex flex-wrap gap-2">
-            {s.tags.map((tag) => <span class="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">{tag}</span>)}
-          </div>
-        </div>
-      ))}
-    </div>
-  </section>
-
-  <!-- TESTIMONIALS -->
-  <section class="reveal mx-auto max-w-6xl px-6 py-12">
-    <h2 class="text-2xl font-bold tracking-tight">Apa Kata Mereka</h2>
-    <div class="mt-6 grid gap-5 md:grid-cols-3">
-      {testimonials.map((t) => (
-        <blockquote class="rounded-xl border border-border bg-card p-6">
-          <p class="text-sm text-foreground">"{t.q}"</p>
-          <footer class="mt-4 text-xs text-muted-foreground">— {t.a}</footer>
-        </blockquote>
-      ))}
-    </div>
-  </section>
-
-  <!-- NEWSLETTER + CTA -->
-  <section class="reveal mx-auto max-w-6xl px-6 py-12">
-    <div class="rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/5 to-transparent p-8">
-      <div class="grid gap-6 md:grid-cols-2 md:items-center">
+    <!-- HERO -->
+    <section class="reveal mx-auto grid max-w-6xl items-center gap-10 px-6 py-20 md:grid-cols-2">
         <div>
-          <h2 class="text-2xl font-bold tracking-tight">Mulai kolaborasi</h2>
-          <p class="mt-2 text-muted-foreground">Butuh bimbingan skripsi, mentoring sertifikasi, atau ingin diajak workshop?</p>
+            <p
+                class="mb-3 inline-flex items-center gap-2 rounded-full border border-border bg-muted px-3 py-1 text-xs text-muted-foreground"
+            >
+                <span class="h-2 w-2 rounded-full bg-emerald-500"></span> Tersedia untuk bimbingan & kolaborasi
+            </p>
+            <h1 class="text-4xl font-bold leading-tight tracking-tight md:text-5xl">
+                Halo, saya {site.name}. <br /> Saya mengajar & membimbing <span class="text-primary">teknologi</span>.
+            </h1>
+            <p class="mt-5 max-w-md text-muted-foreground">
+                {site.role} dengan fokus pada pengembangan web (PHP, MySQL, Astro) serta pendampingan skripsi/TA dan persiapan
+                sertifikasi seperti RHCSA/EX200.
+            </p>
+            <div class="mt-7 flex flex-wrap gap-3">
+                <Button asChild size="lg"><a href="/portfolio/">Lihat Portofolio</a></Button>
+                <Button asChild size="lg" variant="outline"><a href="/contact/">Hubungi Saya</a></Button>
+            </div>
+            <div class="mt-7 flex gap-4 text-muted-foreground">
+                <a href={site.socials.github} aria-label="GitHub" class="hover:text-foreground"
+                    ><Github className="size-5" /></a
+                >
+                {
+                    site.socials.linkedin !== '#' && (
+                        <a
+                            href={site.socials.linkedin}
+                            aria-label="LinkedIn"
+                            class="hover:text-foreground"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <Linkedin className="size-5" />
+                        </a>
+                    )
+                }
+                {
+                    site.socials.twitter !== '#' && (
+                        <a
+                            href={site.socials.twitter}
+                            aria-label="X"
+                            class="hover:text-foreground"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <Twitter className="size-5" />
+                        </a>
+                    )
+                }
+                <a href={site.socials.email} aria-label="Email" class="hover:text-foreground"
+                    ><Mail className="size-5" /></a
+                >
+            </div>
         </div>
-        <div class="flex flex-wrap gap-3 md:justify-end">
-          <Button asChild size="lg"><a href="/contact/">Hubungi Saya <ArrowRight className="ml-1 size-4" /></a></Button>
-          <Button asChild size="lg" variant="outline"><a href="/teaching/">Lihat Materi Ajarku</a></Button>
+        <div class="relative">
+            <div class="aspect-[4/5] overflow-hidden rounded-2xl border border-border bg-muted">
+                <Image
+                    src={heroImg}
+                    alt={`${site.fullName} — ${site.role}`}
+                    loading="eager"
+                    decoding="async"
+                    fetchpriority="high"
+                    class="h-full w-full object-cover"
+                />
+            </div>
+            <div class="absolute -bottom-5 left-5 rounded-xl border border-border bg-card px-5 py-3 shadow-sm">
+                <p class="text-2xl font-bold">120+</p>
+                <p class="text-xs text-muted-foreground">Mahasiswa dibimbing</p>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
+
+    <!-- ABOUT (ringkas) -->
+    <section class="reveal mx-auto max-w-6xl px-6 py-12">
+        <div class="rounded-2xl border border-border bg-card p-8">
+            <h2 class="text-2xl font-bold tracking-tight">Tentang Saya</h2>
+            <p class="mt-4 max-w-2xl text-muted-foreground">
+                Saya {site.fullName} — dosen yang membantu mahasiswa dan tim membangun produk digital fungsional. Saya percaya
+                dokumentasi yang baik sama pentingnya dengan kode.
+            </p>
+            <div class="mt-6 flex flex-wrap gap-2">
+                {
+                    techs.map((tech) => (
+                        <span class="rounded-full border border-border bg-muted px-3 py-1 text-sm text-muted-foreground">
+                            {tech}
+                        </span>
+                    ))
+                }
+            </div>
+            <div class="mt-8 grid grid-cols-3 gap-4 max-w-md">
+                {
+                    stats.map((s) => (
+                        <div>
+                            <>
+                                <p class="text-3xl font-bold">{s.n}</p>
+                                <p class="text-xs text-muted-foreground">{s.l}</p>
+                            </>
+                        </div>
+                    ))
+                }
+            </div>
+            <div class="mt-6">
+                <Button asChild variant="link"><a href="/about/">Cerita lengkap saya →</a></Button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURED WRITING -->
+    <section class="reveal mx-auto max-w-6xl px-6 py-12">
+        <div class="flex items-end justify-between">
+            <h2 class="text-2xl font-bold tracking-tight">Tulisan Terbaru</h2>
+            <a href="/writing/" class="text-sm text-primary hover:underline">Lihat semua →</a>
+        </div>
+        <div class="mt-6 grid gap-5 md:grid-cols-3">
+            {
+                featured.map((p) => (
+                    <a
+                        href="/writing/"
+                        class="group rounded-xl border border-border bg-card p-5 transition-colors hover:border-primary/50"
+                    >
+                        <span class="text-xs text-muted-foreground">{p.tag}</span>
+                        <h3 class="mt-2 font-semibold group-hover:text-primary">{p.title}</h3>
+                        <p class="mt-1 text-sm text-muted-foreground">{p.date}</p>
+                    </a>
+                ))
+            }
+        </div>
+    </section>
+
+    <!-- PORTFOLIO -->
+    <section class="reveal mx-auto max-w-6xl px-6 py-12">
+        <div class="flex items-end justify-between">
+            <h2 class="text-2xl font-bold tracking-tight">Portofolio & Karya</h2>
+            <a href="/portfolio/" class="text-sm text-primary hover:underline">Lihat semua →</a>
+        </div>
+        <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {
+                portfolio.map((item) => (
+                    <article class="group overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-primary/50">
+                        <div class="aspect-[16/10] overflow-hidden bg-muted">
+                            <img
+                                src={item.img}
+                                alt={item.t}
+                                loading="lazy"
+                                decoding="async"
+                                class="h-full w-full object-cover transition-transform group-hover:scale-105"
+                            />
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold">{item.t}</h3>
+                            <p class="text-sm text-muted-foreground">{item.d}</p>
+                        </div>
+                    </article>
+                ))
+            }
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="reveal mx-auto max-w-6xl px-6 py-12">
+        <h2 class="text-2xl font-bold tracking-tight">Layanan</h2>
+        <div class="mt-6 grid gap-5 md:grid-cols-3">
+            {
+                services.map((s) => (
+                    <div class="rounded-xl border border-border bg-card p-6">
+                        <p class="text-sm text-primary">{s.n}</p>
+                        <h3 class="mt-2 font-semibold">{s.t}</h3>
+                        <p class="mt-2 text-sm text-muted-foreground">{s.d}</p>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            {s.tags.map((tag) => (
+                                <span class="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="reveal mx-auto max-w-6xl px-6 py-12">
+        <h2 class="text-2xl font-bold tracking-tight">Apa Kata Mereka</h2>
+        <div class="mt-6 grid gap-5 md:grid-cols-3">
+            {
+                testimonials.map((t) => (
+                    <blockquote class="rounded-xl border border-border bg-card p-6">
+                        <p class="text-sm text-foreground">"{t.q}"</p>
+                        <footer class="mt-4 text-xs text-muted-foreground">— {t.a}</footer>
+                    </blockquote>
+                ))
+            }
+        </div>
+    </section>
+
+    <!-- NEWSLETTER + CTA -->
+    <section class="reveal mx-auto max-w-6xl px-6 py-12">
+        <div class="rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/5 to-transparent p-8">
+            <div class="grid gap-6 md:grid-cols-2 md:items-center">
+                <div>
+                    <h2 class="text-2xl font-bold tracking-tight">Mulai kolaborasi</h2>
+                    <p class="mt-2 text-muted-foreground">
+                        Butuh bimbingan skripsi, mentoring sertifikasi, atau ingin diajak workshop?
+                    </p>
+                </div>
+                <div class="flex flex-wrap gap-3 md:justify-end">
+                    <Button asChild size="lg"
+                        ><a href="/contact/">Hubungi Saya <ArrowRight className="ml-1 size-4" /></a></Button
+                    >
+                    <Button asChild size="lg" variant="outline"><a href="/teaching/">Lihat Materi Ajarku</a></Button>
+                </div>
+            </div>
+        </div>
+    </section>
 </BaseLayout>

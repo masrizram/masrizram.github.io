@@ -1,45 +1,71 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import { Button } from "@/components/ui/button";
-import { site } from "@/lib/site";
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { Button } from '@/components/ui/button';
+import { site } from '@/lib/site';
 
 const faq = [
-  { q: "Apakah bisa bimbingan skripsi online?", a: "Ya, saya melayani bimbingan remote untuk topik sistem pakar dan web." },
-  { q: "Apakah ada materi persiapan RHCSA berbayar?", a: "Materi dasar gratis di Docs; sesi mentoring bisa diatur secara personal." },
-  { q: "Bisa bantu review kode PHP/MySQL?", a: "Tentu, khususnya untuk project mahasiswa dan skripsi." },
+    {
+        q: 'Apakah bisa bimbingan skripsi online?',
+        a: 'Ya, saya melayani bimbingan remote untuk topik sistem pakar dan web.',
+    },
+    {
+        q: 'Apakah ada materi persiapan RHCSA berbayar?',
+        a: 'Materi dasar gratis di Docs; sesi mentoring bisa diatur secara personal.',
+    },
+    { q: 'Bisa bantu review kode PHP/MySQL?', a: 'Tentu, khususnya untuk project mahasiswa dan skripsi.' },
 ];
 
 // Form functional tanpa backend: kirim lewat mailto (works di static host).
-const mailto = `mailto:${site.email}?subject=${encodeURIComponent("Halo " + site.name + " — pesan dari situs")}`;
+const mailto = `mailto:${site.email}?subject=${encodeURIComponent('Halo ' + site.name + ' — pesan dari situs')}`;
 ---
 
 <BaseLayout title="Contact — Nilma, M.Kom." description="Hubungi Nilma untuk bimbingan, mentoring, atau kolaborasi.">
-  <div class="mx-auto max-w-6xl px-6 py-20">
-    <h1 class="text-4xl font-bold tracking-tight">Contact</h1>
-    <p class="mt-3 text-muted-foreground">Punya topik skripsi, butuh mentor sertifikasi, atau ingin kolaborasi? Kirim pesan.</p>
+    <div class="mx-auto max-w-6xl px-6 py-20">
+        <h1 class="text-4xl font-bold tracking-tight">Contact</h1>
+        <p class="mt-3 text-muted-foreground">
+            Punya topik skripsi, butuh mentor sertifikasi, atau ingin kolaborasi? Kirim pesan.
+        </p>
 
-    <form class="mt-8 grid gap-4 sm:grid-cols-2" action={mailto} method="get">
-      <input name="nama" required class="rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring" placeholder="Nama" />
-      <input name="email" required type="email" class="rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring" placeholder="Email" />
-      <textarea name="pesan" required rows="5" class="rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring sm:col-span-2" placeholder="Pesan"></textarea>
-      <div class="sm:col-span-2">
-        <Button type="submit">Kirim Pesan</Button>
-      </div>
-    </form>
+        <form class="mt-8 grid gap-4 sm:grid-cols-2" action={mailto} method="get">
+            <input
+                name="nama"
+                required
+                class="rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
+                placeholder="Nama"
+            />
+            <input
+                name="email"
+                required
+                type="email"
+                class="rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
+                placeholder="Email"
+            />
+            <textarea
+                name="pesan"
+                required
+                rows="5"
+                class="rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring sm:col-span-2"
+                placeholder="Pesan"></textarea>
+            <div class="sm:col-span-2">
+                <Button type="submit">Kirim Pesan</Button>
+            </div>
+        </form>
 
-    <div class="mt-10 flex flex-wrap gap-6 text-sm text-muted-foreground">
-      <span>📧 {site.email}</span>
-      <span>📍 Indonesia (remote)</span>
-    </div>
-
-    <h2 class="mt-12 text-2xl font-bold tracking-tight">FAQ</h2>
-    <div class="mt-4 space-y-4">
-      {faq.map((f) => (
-        <div class="rounded-xl border border-border bg-card p-4">
-          <p class="font-medium text-foreground">{f.q}</p>
-          <p class="mt-1 text-sm text-muted-foreground">{f.a}</p>
+        <div class="mt-10 flex flex-wrap gap-6 text-sm text-muted-foreground">
+            <span>📧 {site.email}</span>
+            <span>📍 Indonesia (remote)</span>
         </div>
-      ))}
+
+        <h2 class="mt-12 text-2xl font-bold tracking-tight">FAQ</h2>
+        <div class="mt-4 space-y-4">
+            {
+                faq.map((f) => (
+                    <div class="rounded-xl border border-border bg-card p-4">
+                        <p class="font-medium text-foreground">{f.q}</p>
+                        <p class="mt-1 text-sm text-muted-foreground">{f.a}</p>
+                    </div>
+                ))
+            }
+        </div>
     </div>
-  </div>
 </BaseLayout>

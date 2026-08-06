@@ -2,27 +2,26 @@
 title: Modul 21 — System Engineer di Enterprise / Perbankan (Bridge RHCSA → Lapangan)
 ---
 
-
 > Modul ini **bukan** bagian objektif EX200 RHCSA — ia menjembatani apa yang
 > sudah Anda kuasai di Modul 0–20 ke **realitas kerja System Engineer di
 > lingkungan enterprise skala besar** (mis. perbankan/keuangan seperti Panin).
 > Di sini server tidak dikelola satu-satu lewat CLI langsung, melainkan lewat
-> *tooling*, *proses*, dan *kepatuhan (compliance)*.
+> _tooling_, _proses_, dan _kepatuhan (compliance)_.
 
 > 📺 Referensi tetap Modul 0–20 (RH124/RH199). Modul ini menambahkan konteks
 > enterprise yang tidak diujikan di EX200 tapi **wajib di dunia nyata**.
 
 ## 0. Mindset Perbedaan: RHCSA vs Enterprise
 
-| Aspek | RHCSA (ujian) | Enterprise nyata |
-|-------|--------------|------------------|
-| Sasaran | 1 VM, tugas selesai | Ratusan server, *availability* 99.99% |
-| Perubahan | bebas `vim`/`systemctl` | via **Change Request (CR)** + maintenance window |
-| User | lokal (`useradd`) | **terpusat** (IDM/AD via SSSD) |
-| Patching | `dnf update` langsung | **Satellite/Ansible**, terencana, bisa rollback |
-| Log | `journalctl` lokal | **forward ke SIEM** (Splunk/ELK) untuk audit |
-| Keamanan | SELinux enforcing | + **CIS/PCI-DSS hardening** + scanning berkala |
-| Verifikasi | "perintah jalan" | "terbukti lewat monitoring & ticket tertutup" |
+| Aspek      | RHCSA (ujian)           | Enterprise nyata                                 |
+| ---------- | ----------------------- | ------------------------------------------------ |
+| Sasaran    | 1 VM, tugas selesai     | Ratusan server, _availability_ 99.99%            |
+| Perubahan  | bebas `vim`/`systemctl` | via **Change Request (CR)** + maintenance window |
+| User       | lokal (`useradd`)       | **terpusat** (IDM/AD via SSSD)                   |
+| Patching   | `dnf update` langsung   | **Satellite/Ansible**, terencana, bisa rollback  |
+| Log        | `journalctl` lokal      | **forward ke SIEM** (Splunk/ELK) untuk audit     |
+| Keamanan   | SELinux enforcing       | + **CIS/PCI-DSS hardening** + scanning berkala   |
+| Verifikasi | "perintah jalan"        | "terbukti lewat monitoring & ticket tertutup"    |
 
 > Prinsip emas enterprise: **setiap change punya rollback plan SEBELUM
 > dijalankan**, bukan afterthought.
@@ -31,7 +30,7 @@ title: Modul 21 — System Engineer di Enterprise / Perbankan (Bridge RHCSA → 
 
 Di bank, user **tidak dibuat lokal** (`useradd`) — ia otentikasi ke
 **Red Hat Identity Management (IdM)** atau **Active Directory (AD)** lewat
-**SSSD**. Ini menjaga *least privilege* & audit trail terpusat.
+**SSSD**. Ini menjaga _least privilege_ & audit trail terpusat.
 
 ```bash
 # Cek apakah host sudah join ke realm (IdM/AD)
@@ -48,6 +47,7 @@ sudo visudo   # %domain\ admins@panin.local  ALL=(ALL) ALL
 ```
 
 **Cara Buktikan:**
+
 ```bash
 realm list | grep -i configured
 id someaduser@domain && echo "SSSD OK"
@@ -55,7 +55,7 @@ sudo sssctl domain-status domain.name
 ```
 
 > ⚠️ Jangan `useradd` untuk user bisnis di production. Pakai direktori
-> terpusat. User lokal hanya untuk *break-glass* (akun darurat terkunci).
+> terpusat. User lokal hanya untuk _break-glass_ (akun darurat terkunci).
 
 ## 2. Centralized Logging → SIEM (rsyslog / auditd)
 
@@ -77,6 +77,7 @@ sudo aureport --failed                    # ringkasan kegagalan
 ```
 
 **Cara Buktikan:**
+
 ```bash
 logger "TEST-SIEM from $(hostname)"      # kirim log test
 sudo tcpdump -n host log.panin.local     # (di server) pastikan trafik masuk
@@ -87,8 +88,9 @@ ausearch -m USER_LOGIN | tail
 
 `dnf update` langsung di production = **risiko tinggi**. Enterprise pakai
 **Red Hat Satellite** (atau Foreman/Katello) + **Ansible** untuk:
-- menyebar patch ke ratusan host dalam *maintenance window*,
-- menyimpan *snapshot/content view* agar bisa rollback.
+
+- menyebar patch ke ratusan host dalam _maintenance window_,
+- menyimpan _snapshot/content view_ agar bisa rollback.
 
 ```bash
 # Daftar host ke Satellite (dikelola admin Satellite)
@@ -102,6 +104,7 @@ sudo dnf history undo <ID>           # kembalikan
 ```
 
 **Cara Buktikan:**
+
 ```bash
 subscription-manager status | grep -i "Overall Status: Current"
 dnf history list | head -3           # ada rencana undo
@@ -111,7 +114,7 @@ dnf history list | head -3           # ada rencana undo
 
 ## 4. Hardening & Compliance (CIS / PCI-DSS / OpenSCAP)
 
-SELinux + firewalld itu *baseline*. Institusi finansial wajib **CIS Benchmark**
+SELinux + firewalld itu _baseline_. Institusi finansial wajib **CIS Benchmark**
 & **PCI-DSS** (untuk sistem yang sentuh data kartu). Alat resmi RHEL:
 **OpenSCAP**.
 
@@ -128,6 +131,7 @@ sudo oscap xccdf eval --profile cis --remediate \
 ```
 
 **Cara Buktikan:**
+
 ```bash
 ls -lh /tmp/scan.html                # ada laporan
 grep -i "score" /tmp/scan.xml        # lihat nilai kepatuhan
@@ -150,6 +154,7 @@ sudo pcs constraint colocation add webapp with virtual-ip
 ```
 
 **Cara Buktikan:**
+
 ```bash
 pcs status | grep -i "Online:"
 pcs resource show webapp            # running di node mana
@@ -185,6 +190,7 @@ ansible-playbook -i inventory.ini harden.yml
 ```
 
 **Cara Buktikan:**
+
 ```bash
 ansible web -i inventory.ini -m ping
 ansible web -i inventory.ini -m command -a 'systemctl is-active httpd'
@@ -205,6 +211,7 @@ sudo systemctl enable --now zabbix-agent2
 ```
 
 **Cara Buktikan:**
+
 ```bash
 systemctl is-active zabbix-agent2
 curl -s localhost:9100/metrics | grep node_cpu   # Prometheus
@@ -227,6 +234,7 @@ sudo lvconvert --merge /dev/vg0/root-snap     # kembalikan LVM
 ```
 
 **Cara Buktikan:**
+
 ```bash
 lvs | grep snap                  # snapshot ada
 ls -lh /backup/etc-*.tgz         # backup ada
@@ -235,13 +243,14 @@ ls -lh /backup/etc-*.tgz         # backup ada
 ## 9. Change Management & SOP (ITIL)
 
 Di perbankan, **tidak ada perintah production tanpa CR (Change Request)**:
+
 1. Buat CR + dokumentasi (what / why / rollback).
 2. Dapat **approval** dari change board.
 3. Eksekusi di **maintenance window** (jam sepi traffic).
 4. Verifikasi via monitoring + tutup ticket.
 
-> Mentalitas: *"Saya bisa menjalankan perintah, tapi apakah saya berhak
-> menjalankannya sekarang, dan apa rencana pulihnya?"* — ini pemisah
+> Mentalitas: _"Saya bisa menjalankan perintah, tapi apakah saya berhak
+> menjalankannya sekarang, dan apa rencana pulihnya?"_ — ini pemisah
 > junior vs engineer di enterprise.
 
 ## 10. Koneksi ke Karier (RHCSA → RHCE → Enterprise)
@@ -253,24 +262,25 @@ flowchart LR
     C --> D[System Engineer<br/>Perbankan/Finansial]
 ```
 
-| Sertifikasi / Skill | Fokus | Kapan relevan |
-|---------------------|-------|---------------|
-| **RHCSA (EX200)** | administrasi single node RHEL | *fondasi wajib* ✅ sudah di repo |
-| **RHCE (EX294)** | otomasi Ansible | naik level ke ratusan node |
-| **OpenShift (EX280)** | container platform (beda dari Podman dasar) | bila bank pakai PaaS |
-| **Satellite / IDM** | lifecycle & identitas terpusat | operasional harian |
-| **ITIL / SOP** | change & incident mgmt | budaya kerja |
+| Sertifikasi / Skill   | Fokus                                       | Kapan relevan                    |
+| --------------------- | ------------------------------------------- | -------------------------------- |
+| **RHCSA (EX200)**     | administrasi single node RHEL               | _fondasi wajib_ ✅ sudah di repo |
+| **RHCE (EX294)**      | otomasi Ansible                             | naik level ke ratusan node       |
+| **OpenShift (EX280)** | container platform (beda dari Podman dasar) | bila bank pakai PaaS             |
+| **Satellite / IDM**   | lifecycle & identitas terpusat              | operasional harian               |
+| **ITIL / SOP**        | change & incident mgmt                      | budaya kerja                     |
 
 ## 11. Jebakan Umum di Enterprise
 
 :::danger[Jebakan]
+
 - `dnf update` langsung di production → bisa merusak dependensi lintas layanan.
-- `useradd` untuk user bisnis → melanggar audit & *least privilege*.
+- `useradd` untuk user bisnis → melanggar audit & _least privilege_.
 - Lupa forward log ke SIEM → insiden tak terdeteksi, gagal compliance.
 - Ganti config tanpa backup & rollback → recovery lambat saat gagal.
-- SSH langsung ke production tanpa *bastion/jump-host* → dilanggar kebijakan.
+- SSH langsung ke production tanpa _bastion/jump-host_ → dilanggar kebijakan.
 - Nonaktifkan SELinux "biar jalan" → temuan audit fatal.
-:::
+  :::
 
 ## 12. Self-Check: Siap Hari Pertama?
 
@@ -282,11 +292,12 @@ flowchart LR
 - [ ] Punya kebiasaan: **backup + snapshot SEBELUM change**.
 - [ ] Paham alur Change Request & maintenance window.
 
-> Fondasi RHCSA di repo ini (Modul 0–20) sudah memberi Anda *skill CLI & CLI
-> troubleshooting* yang solid. Modul 21 ini melengkapinya dengan **konteks
+> Fondasi RHCSA di repo ini (Modul 0–20) sudah memberi Anda _skill CLI & CLI
+> troubleshooting_ yang solid. Modul 21 ini melengkapinya dengan **konteks
 > organisasi** — kombinasi keduanya yang membuat Anda siap di enterprise.
 
 ## Latihan
+
 1. Di lab: pasang `sssd` + `realm` (bisa simulasi dengan IdM/FreeIPA lokal).
 2. Forward `rsyslog` ke VM log lain, verifikasi dengan `tcpdump`/`logger`.
 3. Jalankan `oscap` scan profil CIS, lihat laporan HTML.

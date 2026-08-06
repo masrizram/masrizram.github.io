@@ -3,39 +3,37 @@ import { nav } from '@/lib/site';
 ---
 
 <div class="mobile-site-nav">
-  <p class="mobile-site-nav__label">Situs Utama</p>
-  <div class="mobile-site-nav__links">
-    <a href="/">Home</a>
-    {nav.filter((n) => n.href !== '/').map((item) => (
-      <a href={item.href}>{item.label}</a>
-    ))}
-  </div>
+    <p class="mobile-site-nav__label">Situs Utama</p>
+    <div class="mobile-site-nav__links">
+        <a href="/">Home</a>
+        {nav.filter((n) => n.href !== '/').map((item) => <a href={item.href}>{item.label}</a>)}
+    </div>
 </div>
 
 <style>
-  .mobile-site-nav {
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--color-border);
-  }
-  .mobile-site-nav__label {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-muted-foreground);
-    margin-bottom: 0.5rem;
-  }
-  .mobile-site-nav__links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-  }
-  .mobile-site-nav__links a {
-    color: var(--color-foreground);
-    text-decoration: none;
-    font-size: 0.9rem;
-  }
-  .mobile-site-nav__links a:hover {
-    color: var(--color-primary);
-  }
+    .mobile-site-nav {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--color-border);
+    }
+    .mobile-site-nav__label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--color-muted-foreground);
+        margin-bottom: 0.5rem;
+    }
+    .mobile-site-nav__links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+    .mobile-site-nav__links a {
+        color: var(--color-foreground);
+        text-decoration: none;
+        font-size: 0.9rem;
+    }
+    .mobile-site-nav__links a:hover {
+        color: var(--color-primary);
+    }
 </style>

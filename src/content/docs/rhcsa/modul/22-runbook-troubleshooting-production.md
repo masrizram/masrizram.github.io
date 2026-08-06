@@ -2,7 +2,6 @@
 title: Modul 22 — Runbook Troubleshooting Produksi (Day-1 Firefighting)
 ---
 
-
 > Ini **runbook insiden** untuk hari pertama di lingkungan enterprise/perbankan.
 > Modul 1–20 memberi Anda sintaks; Modul 21 memberi konteks organisasi; Modul
 > ini mengisi gap paling kritis: **"saat sistem mati / anomali di production,
@@ -27,6 +26,7 @@ salah penulisan opsi di `/etc/fstab`, UUID tidak ada, atau disk/LVM tambahan
 hilang.
 
 **Diagnosis:**
+
 ```
 # Di emergency shell, cek pesan:
 mount: unknown filesystem type / cannot find UUID=xxxx
@@ -35,6 +35,7 @@ cat /etc/fstab
 ```
 
 **Recovery (lewat Console / iLO / iDRAC / virsh console):**
+
 ```bash
 # 1. Remount root agar bisa diedit
 mount -o remount,rw /
@@ -51,12 +52,14 @@ reboot
 ```
 
 **Cara Buktikan:**
+
 ```bash
 mount -a && echo "FSTAB OK"      # tidak error = aman reboot
 systemctl is-system-running      # "running" setelah reboot
 ```
 
 :::danger[Jebakan]
+
 - Edit fstab di emergency tapi lupa `mount -o remount,rw /` → perubahan
   tidak tersimpan.
 - Pakai nama device `/dev/sdb1` di fstab → setelah reboot berubah jadi
@@ -64,7 +67,7 @@ systemctl is-system-running      # "running" setelah reboot
 - NFS di fstab tanpa `_netdev` → boot hang menunggu timeout NFS mati.
 - Hapus baris `swap` salah → sistem tetap boot (swap opsional), tapi amati
   OOM bila RAM kecil.
-:::
+  :::
 
 ---
 
@@ -75,6 +78,7 @@ akses ke port/file. `journalctl` menunjukkan `Permission denied` padahal
 permission DAC (rwx) sudah benar.
 
 **Diagnosis:**
+
 ```bash
 # 1. Konfirmasi SELinux aktif & mode
 getenforce            # Enforcing
@@ -88,6 +92,7 @@ sudo semanage port -l | grep http
 ```
 
 **Recovery (TANPA mematikan SELinux global!):**
+
 ```bash
 # A. Salah context file (mis. web root dipindah dari /home):
 sudo semanage fcontext -a -t httpd_sys_content_t "/web(/.*)?"
@@ -103,6 +108,7 @@ sudo setenforce 1
 ```
 
 **Cara Buktikan:**
+
 ```bash
 getenforce                                  # Enforcing (tetap!)
 sudo ausearch -m AVC -ts recent | wc -l     # 0 (atau tidak bertambah)
@@ -111,13 +117,14 @@ curl -s localhost:8443 | head -1            # layanan merespons
 ```
 
 :::danger[Jebakan]
+
 - `setenforce 0` lalu lupa balik ke `1` → temuan audit fatal (bank wajib
   Enforcing).
 - `chcon` (bukan `semanage fcontext`) → context hilang setelah
   `restorecon`/relabel. Pakai `semanage fcontext` + `restorecon`.
 - `audit2allow` sembarangan + `semodule -i` → membuka terlalu lebar.
   Gunakan hanya untuk modul kebijakan minimal & terjustifikasi.
-:::
+  :::
 
 ---
 
@@ -128,6 +135,7 @@ left), journal meledak. Penyebab: log tidak dirotasi, core dump, atau file
 raksasa.
 
 **Diagnosis:**
+
 ```bash
 df -h                      # cari filesystem 100% Use
 du -xh /var/log 2>/dev/null | sort -rh | head     # apa yang gede di /var/log
@@ -136,6 +144,7 @@ find / -xdev -size +500M -type f 2>/dev/null       # file raksasa
 ```
 
 **Recovery (bebaskan ruang dulu, baru perbaiki akar):**
+
 ```bash
 # 1. Rotasi & bersihkan journal (aman, systemd kelola)
 sudo journalctl --vacuum-size=200M
@@ -151,6 +160,7 @@ sudo xfs_growfs /var          # XFS
 ```
 
 **Cara Buktikan:**
+
 ```bash
 df -h /var                  # Use turun dari 100%
 systemctl is-active <svc>   # service stabil
@@ -158,12 +168,13 @@ journalctl --disk-usage     # dalam batas wajar
 ```
 
 :::danger[Jebakan]
+
 - `rm` file log yang masih dibuka proses → ruang TIDAK kembali (inode
   dipegang process). Gunakan `truncate -s 0`.
 - Lupa `xfs_growfs`/`resize2fs` setelah `lvextend` → FS tetap penuh.
 - Setelah bebas, **cari akar**: pasang logrotate, batasi core dump, atau
   perbesar LV permanen — jangan cuma `vacuum` tiap hari.
-:::
+  :::
 
 ---
 
@@ -173,6 +184,7 @@ journalctl --disk-usage     # dalam batas wajar
 "Connection refused"/timeout, padahal service `active`.
 
 **Diagnosis:**
+
 ```bash
 ip addr show                       # interface up? IP ada?
 ip route show                      # default gateway ada?
@@ -183,6 +195,7 @@ resolvectl status                 # DNS resolver benar?
 ```
 
 **Recovery:**
+
 ```bash
 # A. Interface/IP hilang setelah reboot:
 sudo nmcli connection up "ens192"
@@ -197,6 +210,7 @@ sudo firewall-cmd --reload
 ```
 
 **Cara Buktikan:**
+
 ```bash
 ping -c2 192.168.1.1                  # gateway reachable
 ss -tulppn | grep -E ':80|:8080'      # LISTEN di 0.0.0.0
@@ -205,12 +219,13 @@ curl -s http://localhost:8080 | head -1
 ```
 
 :::danger[Jebakan]
+
 - `systemctl stop firewalld` untuk "cek" → di bank = buka lubang keamanan
   & melanggar compliance. Tambahkan port/service, bukan matikan.
 - Edit `/etc/sysconfig/network-scripts/ifcfg-*` manual → diabaikan
   NetworkManager (RHEL 9+). Pakai `nmcli`/`nmtui`.
 - Lupa `--permanent` + `--reload` → aturan hilang setelah reboot.
-:::
+  :::
 
 ---
 
@@ -221,6 +236,7 @@ ter-mount, `vgs`/`lvs` kosong atau `unknown device`. Penyebab: LUN terputus,
 multipath bergeser, atau metadata corrupt.
 
 **Diagnosis:**
+
 ```bash
 lsblk                          # PV (disk) terlihat kernel?
 pvs                           # PV ada? "unknown device"?
@@ -232,6 +248,7 @@ dmesg | tail                  # error iSCSI/SAN?
 ```
 
 **Recovery:**
+
 ```bash
 # A. Disk SAN terputus sementara -> pastikan LUN kembali, lalu:
 sudo pvscan --cache
@@ -245,6 +262,7 @@ sudo vgreduce --removemissing <vg>
 ```
 
 **Cara Buktikan:**
+
 ```bash
 vgs <vg>                       # #PV/#LV sesuai, tidak "missing"
 lvs <vg>                      # LV active
@@ -252,13 +270,14 @@ mount | grep <lv>              # ter-mount & bisa baca/tulis
 ```
 
 :::danger[Jebakan]
+
 - `vgreduce --removemissing` **tanpa backup** → data di PV hilang terhapus
   dari metadata. Pastikan `vgcfgrestore` sudah dicoba.
 - Jangan `mkfs` di device yang dicurigai "hilang" — bisa jadi hanya
   multipath bergeser (device lain). Cek `multipath -ll` & `lsblk` dulu.
 - Di bank, storage sering lewat **multipath** + **iSCSI/Fibre** — koordinasi
   dengan tim storage sebelum "memperbaiki" PV.
-:::
+  :::
 
 ---
 
@@ -269,6 +288,7 @@ kernel panic karena parameter boot salah (mis. `quiet` terhapus & ada param
 rusak).
 
 **Recovery (rd.break — lihat Modul 09 §6):**
+
 ```bash
 # Di GRUB tekan e, tambahkan di akhir baris linux:
 rd.break enforcing=0
@@ -294,6 +314,7 @@ restart tiada henti. Penyebab: config salah, port bentrok, dependency belum
 siap, atau OOM.
 
 **Diagnosis & Recovery:**
+
 ```bash
 journalctl -u <app> -n 50 --no-pager     # error spesifik
 journalctl -u <app> -b | grep -i "error\|fail"
@@ -310,15 +331,15 @@ systemctl cat <app>                     # cek ExecStart & dependency
 
 ## Matriks Cepat Insiden (Cheat Sheet Meja)
 
-| Gejala | Cek pertama | Perintah kunci |
-|--------|-------------|----------------|
-| No-boot / emergency | fstab | `mount -o remount,rw /` → `vim /etc/fstab` → `mount -a` |
-| Service deny akses | SELinux | `ausearch -m AVC`, `semanage fcontext`, `restorecon` |
-| Server lambat/crash | disk penuh | `df -h`, `journalctl --vacuum-size=`, `lvextend`+`xfs_growfs` |
-| Port unreachable | network/fw | `ip addr`, `ss -tulpn`, `firewall-cmd --add-port --permanent` |
-| LV hilang | LVM/PV | `pvs`, `vgchange -ay`, `vgcfgrestore` |
-| Root lock | boot | `rd.break enforcing=0` → `passwd root` → `touch /.autorelabel` |
-| Service loop | systemd | `journalctl -u <svc>`, `ss -tulpn`, `systemctl reset-failed` |
+| Gejala              | Cek pertama | Perintah kunci                                                 |
+| ------------------- | ----------- | -------------------------------------------------------------- |
+| No-boot / emergency | fstab       | `mount -o remount,rw /` → `vim /etc/fstab` → `mount -a`        |
+| Service deny akses  | SELinux     | `ausearch -m AVC`, `semanage fcontext`, `restorecon`           |
+| Server lambat/crash | disk penuh  | `df -h`, `journalctl --vacuum-size=`, `lvextend`+`xfs_growfs`  |
+| Port unreachable    | network/fw  | `ip addr`, `ss -tulpn`, `firewall-cmd --add-port --permanent`  |
+| LV hilang           | LVM/PV      | `pvs`, `vgchange -ay`, `vgcfgrestore`                          |
+| Root lock           | boot        | `rd.break enforcing=0` → `passwd root` → `touch /.autorelabel` |
+| Service loop        | systemd     | `journalctl -u <svc>`, `ss -tulpn`, `systemctl reset-failed`   |
 
 ## Self-Check: Siap Firefighting?
 
@@ -330,11 +351,12 @@ systemctl cat <app>                     # cek ExecStart & dependency
 - [ ] Tidak `stop firewalld` — tambah rule, bukan matikan.
 - [ ] Tahu `rd.break` + `touch /.autorelabel`.
 
-> Runbook ini melengkapi Modul 21: Modul 21 = *konteks & cegah*, Modul 22 =
-> *tangani saat terjadi*. Kombinasi keduanya = amunisi hari pertama di
+> Runbook ini melengkapi Modul 21: Modul 21 = _konteks & cegah_, Modul 22 =
+> _tangani saat terjadi_. Kombinasi keduanya = amunisi hari pertama di
 > enterprise/perbankan.
 
 ## Latihan (di lab VM, BUKAN production)
+
 1. Sengaja salah tulis 1 baris fstab (UUID salah), reboot → recovery via console.
 2. Pindahkan web root ke `/web`, jalankan httpd → sengaja biarkan context salah
    → perbaiki via `semanage fcontext` + `restorecon` (tanpa `setenforce 0` permanen).

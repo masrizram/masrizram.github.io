@@ -3,17 +3,19 @@ import { site, activeSocials } from '@/lib/site';
 ---
 
 <footer class="border-t border-border/60">
-  <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 py-8 text-sm text-muted-foreground sm:flex-row">
-    <p>© {new Date().getFullYear()} {site.fullName}. Dibangun dengan Astro & Starlight.</p>
-    <div class="flex gap-4">
-      <a href="/rhcsa/" class="hover:text-foreground">Docs</a>
-      {
-        activeSocials.map((s) => (
-          <a href={s.url} class="hover:text-foreground" target="_blank" rel="noopener noreferrer">
-            {s.key === 'github' ? 'GitHub' : s.key.charAt(0).toUpperCase() + s.key.slice(1)}
-          </a>
-        ))
-      }
+    <div
+        class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 py-8 text-sm text-muted-foreground sm:flex-row"
+    >
+        <p>© {new Date().getFullYear()} {site.fullName}. Dibangun dengan Astro & Starlight.</p>
+        <div class="flex gap-4">
+            <a href="/rhcsa/" class="hover:text-foreground">Docs</a>
+            {
+                activeSocials.map((s) => (
+                    <a href={s.url} class="hover:text-foreground" target="_blank" rel="noopener noreferrer">
+                        {s.key === 'github' ? 'GitHub' : s.key.charAt(0).toUpperCase() + s.key.slice(1)}
+                    </a>
+                ))
+            }
+        </div>
     </div>
-  </div>
 </footer>

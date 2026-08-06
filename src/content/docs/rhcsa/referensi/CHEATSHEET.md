@@ -2,10 +2,10 @@
 title: ⌨️ Cheat Sheet Perintah RHEL (RH124)
 ---
 
-
 Ringkasan cepat perintah paling sering dipakai. Urut per topik.
 
 ## 📂 Berkas & Direktori
+
 ```bash
 pwd, ls -la, cd, mkdir -p, rmdir
 touch, cp -r, mv, rm -rf, ln -s        # symlink
@@ -13,6 +13,7 @@ find / -name "x*" , locate x           # cari
 ```
 
 ## 🔍 Teks & Filter
+
 ```bash
 cat, less, head -n, tail -f, nl
 grep -i "x" file, grep -v, grep -r
@@ -22,12 +23,14 @@ echo "x" > f, echo "x" >> f, cat < f
 ```
 
 ## 📝 Vim (minimal)
+
 ```
 i=insert, Esc=normal, :w simpan, :q keluar, :wq / ZZ simpan+keluar
 :q! keluar tanpa simpan, dd hapus baris, yy salin, p tempel, /kata cari
 ```
 
 ## 👤 User & Group
+
 ```bash
 useradd -m nama, passwd nama, usermod -aG wheel nama
 userdel -r nama
@@ -37,6 +40,7 @@ sudo -l, visudo
 ```
 
 ## 🔐 Izin & ACL
+
 ```bash
 chmod 755/644, chmod u+x, chmod go-w
 chown u:g, chgrp, chown -R
@@ -46,6 +50,7 @@ setfacl -m urwx, getfacl, setfacl -x u:u
 ```
 
 ## ⚙️ Proses
+
 ```bash
 ps aux, top, pgrep, pkill, kill -9, killall
 jobs, fg %1, bg %1, Ctrl+Z
@@ -53,6 +58,7 @@ nice -n, renice, uptime, free -h, vmstat
 ```
 
 ## 🛎️ systemd
+
 ```bash
 systemctl start|stop|restart|reload|status|enable|disable|is-enabled
 systemctl list-units --type=service, systemctl --failed
@@ -61,6 +67,7 @@ journalctl, journalctl -u svc, -f, -p err, -b, --since
 ```
 
 ## 🌐 SSH
+
 ```bash
 ssh user@host, ssh -p 2222, ssh host cmd
 scp f user@h:/tmp/, rsync -avz
@@ -70,6 +77,7 @@ sshd -t (uji config!), ~/ssh/config (Host alias)
 ```
 
 ## 🔌 Jaringan
+
 ```bash
 ip addr, ip -br addr, ip route, hostname, hostnamectl
 nmcli device status, nmcli connection show
@@ -80,6 +88,7 @@ firewall-cmd --add-service=http --permanent, --reload, --list-all
 ```
 
 ## 📦 DNF / RPM
+
 ```bash
 dnf search, dnf info, dnf provides /path, dnf install -y
 dnf group install "Development Tools"
@@ -89,6 +98,7 @@ rpm -qa | grep, rpm -ql, rpm -qf /file
 ```
 
 ## 💾 Storage / FS
+
 ```bash
 lsblk, fdisk -l, blkid, df -h, du -sh
 mkfs.xfs, mkfs.ext4, mount, umount, mount -a
@@ -98,6 +108,7 @@ swapon --show, mkswap
 ```
 
 ## 🔒 SELinux (penting di EX200!)
+
 ```bash
 getenforce, setenforce 0|1
 getsebool -a | grep httpd, setsebool -P httpd_can_network_connect on
@@ -108,6 +119,7 @@ ls -Z, ps -Z
 ```
 
 ## 🐳 Podman (RHEL 9+, muncul di EX200)
+
 ```bash
 podman pull registry.redhat.io/..., podman images
 podman run -d -p 8080:80 --name web nginx
@@ -121,6 +133,7 @@ loginctl enable-linger $USER        # agar jalan walau user logout (rootless)
 ```
 
 ## 🕒 Penjadwalan
+
 ```bash
 crontab -e, crontab -l, (format: m h dom mon dow cmd)
 at now + 1 hour  (ketik perintah, Ctrl+D)

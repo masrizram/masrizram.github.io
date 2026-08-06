@@ -2,8 +2,7 @@
 title: Modul 20 — Shell Scripting Dasar (Wajib EX200)
 ---
 
-
-> Objektif EX200: *"Create and use simple shell scripts"*. Ujian sering meminta
+> Objektif EX200: _"Create and use simple shell scripts"_. Ujian sering meminta
 > "buat skrip yang …" (mis. `penjaga.sh` di Modul 09). Modul ini mengajarkan
 > dari nol: shebang, variabel, argumen, percabangan, perulangan, dan uji.
 
@@ -32,14 +31,14 @@ echo "Jumlah arg: $#"         # $# = jumlah argumen
 echo "Semua arg: $@"          # $@ = semua argumen
 ```
 
-| Variabel | Arti |
-|----------|------|
-| `$0` | Nama skrip |
-| `$1`…`$9` | Argumen ke-1…9 |
-| `$#` | Jumlah argumen |
-| `$@` | Semua argumen (dikenakan quote) |
-| `$?` | Exit code perintah terakhir (0=sukses) |
-| `$$` | PID skrip |
+| Variabel  | Arti                                   |
+| --------- | -------------------------------------- |
+| `$0`      | Nama skrip                             |
+| `$1`…`$9` | Argumen ke-1…9                         |
+| `$#`      | Jumlah argumen                         |
+| `$@`      | Semua argumen (dikenakan quote)        |
+| `$?`      | Exit code perintah terakhir (0=sukses) |
+| `$$`      | PID skrip                              |
 
 ## 3. Percabangan (if / test)
 
@@ -55,14 +54,14 @@ fi
 
 Uji umum dengan `[ ]` (alias `test`):
 
-| Uji | Arti |
-|-----|------|
-| `-f file` | file ada & biasa |
-| `-d dir` | direktori ada |
-| `-r/-w/-x` | readable/writable/executable |
-| `-z "$v"` | string kosong |
-| `$a -eq $b` | sama (angka) |
-| `$a = "$b"` | sama (string) |
+| Uji         | Arti                         |
+| ----------- | ---------------------------- |
+| `-f file`   | file ada & biasa             |
+| `-d dir`    | direktori ada                |
+| `-r/-w/-x`  | readable/writable/executable |
+| `-z "$v"`   | string kosong                |
+| `$a -eq $b` | sama (angka)                 |
+| `$a = "$b"` | sama (string)                |
 
 ## 4. Perulangan
 
@@ -127,6 +126,7 @@ chmod +x /usr/local/bin/penjaga.sh
 - `exit` tanpa nilai → pakai exit code terakhir perintah (`$?`) untuk lulus ujian otomatis.
 
 ## Latihan
+
 1. Buat `halo.sh` yang mencetak "Halo <nama>" dengan nama dari `$1`.
 2. Buat `cek.sh` yang: jika argumen `1` → cetak "ganjil", `2` → "genap", lainnya → "invalid".
 3. Buat `backup.sh` yang menerima argumen path dan membuat `path.tar.gz`.
@@ -135,9 +135,10 @@ chmod +x /usr/local/bin/penjaga.sh
 ## Kunci Jawaban (klik untuk lihat)
 
 :::note[Kunci Jawaban Latihan]
+
 - **halo.sh**: `#!/bin/bash` + `echo "Halo $1"`. Jalankan `./halo.sh Nilma`.
 - **cek.sh**: `if [ "$1" = "1" ]; then echo ganjil; elif [ "$1" = "2" ]; then echo genap; else echo invalid; fi`.
 - **backup.sh**: `tar -czf "$1.tar.gz" "$1"` dengan cek `if [ -e "$1" ]`.
 - **penjaga.sh**: salin skrip di atas, `chmod +x`, jalankan `penjaga.sh sshd` → harus cetak "sshd AKTIF" (exit 0).
 - Verifikasi: `bash -x skrip.sh` untuk melihat tiap baris dieksekusi (debug).
-:::
+  :::

@@ -54,31 +54,31 @@ Cepat cari materi: tekan `Ctrl`+`K` (atau `⌘`+`K` di Mac)
 
 ## 📚 Daftar Modul
 
-| # | Modul |
-|---|-------|
-| 00 | [Pengantar & Roadmap](/rhcsa/modul/00-pengantar-dan-roadmap) |
-| 01 | [Get Started with RHEL](/rhcsa/modul/01-get-started-rhel) |
-| 02 | [Access the Command Line](/rhcsa/modul/02-access-command-line) |
-| 03 | [Manage Files](/rhcsa/modul/03-manage-files) |
-| 04 | [Get Help in RHEL](/rhcsa/modul/04-get-help) |
-| 05 | [Text Files (vim)](/rhcsa/modul/05-text-files) |
-| 06 | [Users & Groups](/rhcsa/modul/06-users-groups) |
-| 07 | [Permissions & ACL](/rhcsa/modul/07-file-permissions) |
-| 08 | [Processes](/rhcsa/modul/08-processes) |
-| 09 | [systemd Services](/rhcsa/modul/09-services-daemons) |
-| 10 | [SSH & Security](/rhcsa/modul/10-ssh) |
-| 11 | [Networking](/rhcsa/modul/11-networking) |
-| 12 | [Software (DNF)](/rhcsa/modul/12-software-dnf) |
-| 13 | [File Systems & LVM](/rhcsa/modul/13-filesystems) |
-| 14 | [Support & Logs](/rhcsa/modul/14-support) |
-| 15 | [Podman & Containers](/rhcsa/modul/15-podman-containers) |
-| 16 | [SELinux](/rhcsa/modul/16-selinux) |
-| 17 | [Penjadwalan & Time Zone](/rhcsa/modul/17-scheduling) |
-| 18 | [EX200 (RHCSA) Prep](/rhcsa/modul/18-ex200-prep) |
-| 19 | [Skenario EX200 Terukur](/rhcsa/modul/19-skenario-ex200) |
-| 20 | [Shell Scripting Dasar](/rhcsa/modul/20-shell-scripting) |
-| 21 | [System Engineer Enterprise](/rhcsa/modul/21-enterprise-system-engineer) |
-| 22 | [Runbook Troubleshooting Produksi](/rhcsa/modul/22-runbook-troubleshooting-production) |
+| #   | Modul                                                                                  |
+| --- | -------------------------------------------------------------------------------------- |
+| 00  | [Pengantar & Roadmap](/rhcsa/modul/00-pengantar-dan-roadmap)                           |
+| 01  | [Get Started with RHEL](/rhcsa/modul/01-get-started-rhel)                              |
+| 02  | [Access the Command Line](/rhcsa/modul/02-access-command-line)                         |
+| 03  | [Manage Files](/rhcsa/modul/03-manage-files)                                           |
+| 04  | [Get Help in RHEL](/rhcsa/modul/04-get-help)                                           |
+| 05  | [Text Files (vim)](/rhcsa/modul/05-text-files)                                         |
+| 06  | [Users & Groups](/rhcsa/modul/06-users-groups)                                         |
+| 07  | [Permissions & ACL](/rhcsa/modul/07-file-permissions)                                  |
+| 08  | [Processes](/rhcsa/modul/08-processes)                                                 |
+| 09  | [systemd Services](/rhcsa/modul/09-services-daemons)                                   |
+| 10  | [SSH & Security](/rhcsa/modul/10-ssh)                                                  |
+| 11  | [Networking](/rhcsa/modul/11-networking)                                               |
+| 12  | [Software (DNF)](/rhcsa/modul/12-software-dnf)                                         |
+| 13  | [File Systems & LVM](/rhcsa/modul/13-filesystems)                                      |
+| 14  | [Support & Logs](/rhcsa/modul/14-support)                                              |
+| 15  | [Podman & Containers](/rhcsa/modul/15-podman-containers)                               |
+| 16  | [SELinux](/rhcsa/modul/16-selinux)                                                     |
+| 17  | [Penjadwalan & Time Zone](/rhcsa/modul/17-scheduling)                                  |
+| 18  | [EX200 (RHCSA) Prep](/rhcsa/modul/18-ex200-prep)                                       |
+| 19  | [Skenario EX200 Terukur](/rhcsa/modul/19-skenario-ex200)                               |
+| 20  | [Shell Scripting Dasar](/rhcsa/modul/20-shell-scripting)                               |
+| 21  | [System Engineer Enterprise](/rhcsa/modul/21-enterprise-system-engineer)               |
+| 22  | [Runbook Troubleshooting Produksi](/rhcsa/modul/22-runbook-troubleshooting-production) |
 
 ## 🖥️ Siapkan Lab (Gratis)
 
@@ -92,8 +92,8 @@ podman run -it --name lab-rhel rockylinux:9 bash
 
 Panduan ini mengikuti kurikulum resmi **RH124** dari playlist referensi.
 **Transkrip ke-19 video belum diambil seluruhnya** (YouTube memblokir akses
-transkrip dari IP ekstraksi). Materi diperkuat dengan latihan, *Jebakan Umum*,
-*Koneksi EX200*, dan kuis di tiap modul. Jika Anda punya transkrip resmi,
+transkrip dari IP ekstraksi). Materi diperkuat dengan latihan, _Jebakan Umum_,
+_Koneksi EX200_, dan kuis di tiap modul. Jika Anda punya transkrip resmi,
 kirimkan agar tiap modul bisa diperkaya dengan contoh video.
 
 **Playlist referensi:**

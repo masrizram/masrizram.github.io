@@ -1,8 +1,8 @@
 ---
-title: "Panduan Lengkap Persiapan RHCSA/EX200"
-description: "Roadmap praktik EX200: user & group, storage, network, sampai container dengan Podman."
+title: 'Panduan Lengkap Persiapan RHCSA/EX200'
+description: 'Roadmap praktik EX200: user & group, storage, network, sampai container dengan Podman.'
 date: 2026-06-20
-tags: ["RHCSA", "EX200", "Linux", "Sertifikasi"]
+tags: ['RHCSA', 'EX200', 'Linux', 'Sertifikasi']
 ---
 
 RHCSA (EX200) menitikberatkan pada kemampuan **praktik**, bukan hafalan teori. Berikut peta jalan

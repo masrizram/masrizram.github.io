@@ -2,13 +2,13 @@
 
 /* Lebar & padding container docs agar sama dengan home (max-w-6xl, px-6). */
 :root {
-  --sl-content-width: 50rem !important;
-  --sl-sidebar-width: 16rem !important;
+    --sl-content-width: 50rem !important;
+    --sl-sidebar-width: 16rem !important;
 }
 .page {
-  max-width: 72rem !important;
-  margin-inline: auto !important;
-  padding-inline: 1.5rem !important;
+    max-width: 72rem !important;
+    margin-inline: auto !important;
+    padding-inline: 1.5rem !important;
 }
 
 /* Samakan garis atas 3 kolom (sidebar "RHCSA" · TOC "On this page" · H1 judul):
@@ -16,25 +16,25 @@
    64 / .content-panel 24) sehingga judul tidak sejajar. Zero-kan agar ketiganya
    mulai tepat di bawah header (segaris, agak ke atas dari posisi TOC lama ~120). */
 .main-pane .sl-container {
-  padding-top: 0 !important;
+    padding-top: 0 !important;
 }
 .right-sidebar {
-  padding-top: 2.25rem !important;
+    padding-top: 2.25rem !important;
 }
 
 /* Hero + body content-panel punya padding-top 1.5rem (24px) → H1 turun.
    Zero-kan agar H1 sejajar dengan TOC & label sidebar di bawah header. */
 .main-pane .content-panel {
-  padding-top: 0 !important;
+    padding-top: 0 !important;
 }
 
 /* Label section sidebar ("RHCSA") — beri jarak dari header (jangan nempel). */
 .sidebar-content {
-  padding-top: 1.5rem !important;
+    padding-top: 1.5rem !important;
 }
 
 /* .main-frame: beri jarak 1.5rem dari header agar TOC & H1 tidak nempel/
    terpotong di bawah header sticky. (sebelumnya 0 → terlalu ke atas) */
 .main-frame {
-  padding-top: 1.5rem !important;
+    padding-top: 1.5rem !important;
 }

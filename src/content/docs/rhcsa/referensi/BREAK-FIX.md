@@ -2,9 +2,8 @@
 title: 🚑 Break & Fix — Troubleshooting Wajib EX200
 ---
 
-
 > EX200 itu **~40% soalnya adalah troubleshooting**. Peserta yang tidak tahu
-> cara *break & fix* sering gagal meski hafal perintah. Halaman ini rangkuman
+> cara _break & fix_ sering gagal meski hafal perintah. Halaman ini rangkuman
 > kompak cara memperbaiki sistem yang rusak — wajib dikuasai sebelum ujian.
 
 ## 1. Reset Password root (Emergency/Rescue)
@@ -15,6 +14,7 @@ Saat boot GRUB, tekan `e` pada entri RHEL, lalu di akhir baris `linux`:
 # Hapus ro & rhgb quiet, ganti dengan:
 rd.break enforcing=0
 ```
+
 Lalu `Ctrl+X`. Di shell `switch_root`:
 
 ```bash
@@ -43,12 +43,14 @@ Gunakan saat service gagal membuat boot hang.
 ## 3. Perbaiki `/etc/fstab` yang Salah (VM No-Boot)
 
 Gejala: stuck di emergency mode / "you are in rescue mode".
+
 ```bash
 # di emergency shell:
 mount -o remount,rw /
 vim /etc/fstab            # komen baris yang salah (awali #)
 reboot
 ```
+
 > **Cegah**: selalu `mount -a` sebelum reboot untuk uji fstab.
 
 ## 4. SELinux Lock (Permissive ↔ Enforcing)

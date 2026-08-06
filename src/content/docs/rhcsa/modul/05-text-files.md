@@ -2,7 +2,6 @@
 title: Modul 05 — Create, View, and Edit Text Files
 ---
 
-
 > 📺 Referensi video: [-gARZ98HUL4](https://www.youtube.com/watch?v=-gARZ98HUL4&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)
 
 ## 1. Melihat Isi Berkas
@@ -20,6 +19,7 @@ tail -f /var/log/messages # ikuti (follow) penambahan baru (Ctrl+C)
 `vim` hampir pasti ada di ujian EX200. Kuasai minimal mode dasar.
 
 **Tiga mode utama:**
+
 - **Normal** (tekan `Esc`) — navigasi & perintah.
 - **Insert** (tekan `i`) — mengetik.
 - **Command-line** (tekan `:` dari normal) — simpan/keluar.
@@ -28,20 +28,20 @@ tail -f /var/log/messages # ikuti (follow) penambahan baru (Ctrl+C)
 vim file.txt
 ```
 
-| Tombol (mode Normal) | Fungsi |
-|----------------------|--------|
-| `i` | mulai mengetik (insert) di kursor |
-| `a` | insert setelah kursor |
-| `o` | baris baru di bawah |
-| `Esc` | kembali ke Normal |
-| `:w` | simpan |
-| `:q` | keluar |
-| `:wq` / `ZZ` | simpan & keluar |
-| `:q!` | keluar tanpa simpan |
-| `dd` | hapus 1 baris |
-| `yy` | salin 1 baris |
-| `p` | tempel di bawah |
-| `/kata` | cari kata |
+| Tombol (mode Normal) | Fungsi                            |
+| -------------------- | --------------------------------- |
+| `i`                  | mulai mengetik (insert) di kursor |
+| `a`                  | insert setelah kursor             |
+| `o`                  | baris baru di bawah               |
+| `Esc`                | kembali ke Normal                 |
+| `:w`                 | simpan                            |
+| `:q`                 | keluar                            |
+| `:wq` / `ZZ`         | simpan & keluar                   |
+| `:q!`                | keluar tanpa simpan               |
+| `dd`                 | hapus 1 baris                     |
+| `yy`                 | salin 1 baris                     |
+| `p`                  | tempel di bawah                   |
+| `/kata`              | cari kata                         |
 
 ## 3. Redireksi & Here-Document
 
@@ -79,6 +79,7 @@ awk -F: '{print $1}' /etc/passwd      # cetak kolom 1
 ```
 
 ## Latihan
+
 1. Buat berkas dengan here-document berisi 3 baris, lalu `cat` untuk verifikasi.
 2. Di `vim`, ketik 5 baris, simpan dengan `:wq`, lalu buka lagi dan hapus 1 baris (`dd`).
 3. Hitung jumlah user di sistem: `wc -l /etc/passwd`.
@@ -86,22 +87,24 @@ awk -F: '{print $1}' /etc/passwd      # cetak kolom 1
 ## Kunci Jawaban (klik untuk lihat)
 
 :::note[Kunci Jawaban Latihan]
+
 1. vim standar; `i` masuk insert.
 2. Normal mode untuk navigasi/perintah.
 3. `grep` filter baris cocok.
-:::
+   :::
 
 ## Kuis
 
 1. Editor default RHEL untuk teks?
-   - a. vi/vim  b. nano  c. emacs  d. gedit
+    - a. vi/vim b. nano c. emacs d. gedit
 2. Di vim, mode untuk mengetik teks?
-   - a. Insert (i)  b. Normal  c. Command  d. Visual
+    - a. Insert (i) b. Normal c. Command d. Visual
 3. Perintah cari teks dalam file?
-   - a. grep  b. find  c. cat  d. less
+    - a. grep b. find c. cat d. less
 
 :::note[Kunci Jawaban Kuis]
+
 1. **a**
 2. **a**
 3. **a**
-:::
+   :::

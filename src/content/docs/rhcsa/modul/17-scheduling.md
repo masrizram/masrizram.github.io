@@ -2,8 +2,7 @@
 title: Modul 17 — Penjadwalan (cron, at) & Time Zone
 ---
 
-
-> Muncul di objektif EX200: *"deploy, adjust, and maintain systems"* —
+> Muncul di objektif EX200: _"deploy, adjust, and maintain systems"_ —
 > mencakup cron, at, dan pengaturan waktu/locale.
 
 > 📺 Referensi video: [RHCSA & EX200 Prep](https://www.youtube.com/watch?v=eGbNXqPdUa4&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns) (penjadwalan dalam kurikulum RH124/RH199)
@@ -26,6 +25,7 @@ sudo crontab -u budi -l      # lihat crontab user lain
 ```
 
 ### Direktori sistem
+
 ```bash
 /etc/cron.d/         # cron job gaya sysadmin (format: user perintah)
 /etc/cron.hourly/   # jalan tiap jam
@@ -35,6 +35,7 @@ sudo crontab -u budi -l      # lihat crontab user lain
 ```
 
 ### Anacron (untuk desktop/laptop mati)
+
 ```bash
 cat /etc/anacrontab  # tugas harian/mingguan dengan delay boot
 ```
@@ -51,6 +52,7 @@ atrm 1                     # batalkan job nomor 1
 ```
 
 ## 3. Time Zone & Waktu
+
 ```bash
 timedatectl                 # lihat tanggal, waktu, zona
 sudo timedatectl set-timezone Asia/Jakarta
@@ -60,7 +62,7 @@ timedatectl list-timezones | grep -i jakarta
 
 ## 3b. Time Service Client (`chrony`) — Wajib EX200
 
-Objektif EX200: *"Configure time service clients"*. RHEL menggunakan **chrony**
+Objektif EX200: _"Configure time service clients"_. RHEL menggunakan **chrony**
 (`chronyd`) sebagai NTP client/server. Konfigurasi di `/etc/chrony.conf`.
 
 ```bash
@@ -80,7 +82,6 @@ sudo chronyc makestep              # paksa sinkron sekarang
 > `timedatectl` menunjukkan `System clock synchronized: yes`.
 > Soal EX200: "konfigurasi client waktu ke NTP server X" → edit
 > `/etc/chrony.conf`, ganti/ tambah `server X iburst`, lalu `restart chronyd`.
-
 
 ## 4. `systemd` Timer (Modern)
 
@@ -121,6 +122,7 @@ sudo systemctl start backup-etc.service           # jalankan manual (tes)
 ```
 
 Format `OnCalendar` berguna:
+
 ```text
 *-*-* 0200     # tiap hari 02:00
 *-*-* 02,1400  # 02:00 dan 14:00 tiap hari
@@ -137,22 +139,25 @@ daily              # kata kunci (juga: hourly, weekly, monthly)
 ## 5. Jebakan Umum (EX200)
 
 :::danger[Jebakan]
+
 - `crontab -r` tanpa argumen = **hapus semua** jadwal (bukan "remove one").
 - Path di cron tidak punya `$PATH` lengkap → selalu pakai **path absolut**
   ke skrip/perintah.
 - Cron menggunakan `/bin/sh`, bukan bash → hindari bashism (`source`, `[[ ]]`).
 - Lupa `systemctl enable crond` (jarang, tapi pastikan `crond` jalan).
-:::
+  :::
 
 ## 6. Koneksi ke EX200
 
 :::tip[EX200]
 Soal: "Buat tugas yang membackup `/etc` tiap hari 02:00 ke `/backup/etc.tar.gz`."
+
 ```bash
 sudo mkdir -p /backup
 (sudo crontab -l 2>/dev/null; echo "0 2 * * * tar czf /backup/etc.tar.gz /etc") | sudo crontab -
 sudo crontab -l
 ```
+
 :::
 
 ## Kuis Cepat
@@ -162,6 +167,7 @@ sudo crontab -l
 3. Set zona waktu Jakarta? (`timedatectl set-timezone Asia/Jakarta`)
 
 ## Latihan
+
 1. Buat crontab yang mencatat `date` ke `~/log.txt` tiap 5 menit (`*/5 * * * *`).
 2. Jadwalkan `at` 1 menit lagi untuk `echo done > ~/at.txt`.
 3. Ubah zona waktu ke `Asia/Jakarta`, verifikasi `timedatectl`.
@@ -169,13 +175,15 @@ sudo crontab -l
 ## Kunci Jawaban (klik untuk lihat)
 
 :::note[Kunci Jawaban Latihan]
+
 1. `crontab -e` → `*/5 * * * * date >> ~/log.txt` (5 kolom: m h dom mon dow).
 2. `echo "echo done > ~/at.txt" | at now + 1 minute`.
 3. `timedatectl set-timezone Asia/Jakarta`; `timedatectl` → Time zone: Asia/Jakarta.
-:::
+   :::
 
 :::note[Kunci Jawaban Kuis]
+
 1. **5 kolom**: menit, jam, tanggal-bulan, bulan, hari-dalam-minggu.
 2. **`crontab -r`** menghapus semua crontab user (tanpa konfirmasi).
 3. **`timedatectl set-timezone Asia/Jakarta`**.
-:::
+   :::

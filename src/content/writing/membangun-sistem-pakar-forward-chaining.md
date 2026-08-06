@@ -1,11 +1,11 @@
 ---
-title: "Membangun Sistem Pakar dengan Forward Chaining"
-description: "Konsep dasar rule-based expert system dan implementasi Forward Chaining untuk skripsi mahasiswa."
+title: 'Membangun Sistem Pakar dengan Forward Chaining'
+description: 'Konsep dasar rule-based expert system dan implementasi Forward Chaining untuk skripsi mahasiswa.'
 date: 2026-07-09
-tags: ["Sistem Pakar", "Skripsi", "AI"]
+tags: ['Sistem Pakar', 'Skripsi', 'AI']
 ---
 
-Forward Chaining adalah strategi inferensi *data-driven* yang cocok untuk sistem pakar
+Forward Chaining adalah strategi inferensi _data-driven_ yang cocok untuk sistem pakar
 diagnosis. Aturan (rules) dievaluasi dari fakta yang diketahui ke kesimpulan.
 
 ## Kenapa Forward Chaining?
@@ -22,6 +22,6 @@ rules       -> IF <kondisi> THEN <kesimpulan>
 temp_facts  -> hasil evaluasi sementara
 ```
 
-> Tips: batasi jumlah aturan agar tidak *branch* tak terhingga. Uji dengan 3 kasus nyata.
+> Tips: batasi jumlah aturan agar tidak _branch_ tak terhingga. Uji dengan 3 kasus nyata.
 
 Kembali ke [beranda portofolio](/).

@@ -4,8 +4,8 @@
    4) tokens & base       5) override Starlight (header/sidebar/layout/typography)
    6) scrollbar & reveal. */
 
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 /* Scan juga markdown di content collection supaya utility (grid-cols-2,
    aspect-[16/9], dll) yang dipakai di dalam .md docs ikut ter-generate. */
@@ -14,16 +14,16 @@
 @custom-variant dark (&:is(.dark *));
 
 /* Design tokens (light/dark) + mapping utility Tailwind. */
-@import "./tokens.css";
+@import './tokens.css';
 /* Reset dasar: border & warna body. */
-@import "./base.css";
+@import './base.css';
 
 /* Override Starlight (docs) — dikelompokkan per fungsi. */
-@import "./starlight/header.css";
-@import "./starlight/sidebar.css";
-@import "./starlight/docs-layout.css";
-@import "./starlight/typography.css";
+@import './starlight/header.css';
+@import './starlight/sidebar.css';
+@import './starlight/docs-layout.css';
+@import './starlight/typography.css';
 
 /* Scrollbar tipis (tanpa panah native) & animasi reveal. */
-@import "./scrollbar.css";
-@import "./animations.css";
+@import './scrollbar.css';
+@import './animations.css';

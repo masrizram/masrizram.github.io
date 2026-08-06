@@ -1,11 +1,11 @@
 /* Reset dasar: border default & warna body mengikuti token tema. */
 
 @layer base {
-  * {
-    border-color: var(--color-border);
-  }
-  body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
-  }
+    * {
+        border-color: var(--color-border);
+    }
+    body {
+        background-color: var(--color-background);
+        color: var(--color-foreground);
+    }
 }

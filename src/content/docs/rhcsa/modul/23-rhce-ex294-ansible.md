@@ -1,12 +1,11 @@
 ---
-title: "Modul 23 — RHCE / EX294 Prep: Ansible Automation (Skala Besar)"
+title: 'Modul 23 — RHCE / EX294 Prep: Ansible Automation (Skala Besar)'
 ---
-
 
 > Setelah menguasai RHCSA (single-node) & Modul 21/22 (enterprise & firefighting),
 > langkah naik level adalah **RHCE (EX294)** — otomasi dengan **Ansible**.
 > Di perbankan, server dikelola ratusan sekaligus; Ansible adalah alat utamanya
-> (Red Hat Ansible Automation Platform / AAP). Modul ini adalah *prep padat*.
+> (Red Hat Ansible Automation Platform / AAP). Modul ini adalah _prep padat_.
 
 > 📺 Referensi: dokumentasi resmi Ansible + RH294 (Red Hat Enterprise Linux
 > Automation). Modul ini menyelaraskan dengan praktik enterprise.
@@ -39,11 +38,13 @@ db1.panin.local
 web
 db
 ```
+
 ```yaml
 # group_vars/prod.yml
 ntp_server: 10.0.0.5
 selinux_mode: enforcing
 ```
+
 ```bash
 ansible prod -i inventory.ini -m setup        # fakta (facts) tiap host
 ansible prod -i inventory.ini -m debug -a 'var=ansible_distribution'
@@ -57,37 +58,38 @@ ansible prod -i inventory.ini -m debug -a 'var=ansible_distribution'
   hosts: prod
   become: true
   vars:
-    selinux_mode: enforcing
+      selinux_mode: enforcing
   tasks:
-    - name: pastikan firewalld jalan
-      ansible.posix.firewalld:
-        service: http
-        permanent: true
-        state: enabled
-        immediate: true
+      - name: pastikan firewalld jalan
+        ansible.posix.firewalld:
+            service: http
+            permanent: true
+            state: enabled
+            immediate: true
 
-    - name: buka port 8080
-      ansible.posix.firewalld:
-        port: 8080/tcp
-        permanent: true
-        state: enabled
+      - name: buka port 8080
+        ansible.posix.firewalld:
+            port: 8080/tcp
+            permanent: true
+            state: enabled
 
-    - name: SELinux enforcing
-      ansible.posix.selinux:
-        policy: targeted
-        state: ""
+      - name: SELinux enforcing
+        ansible.posix.selinux:
+            policy: targeted
+            state: ''
 
-    - name: pasang httpd
-      ansible.builtin.dnf:
-        name: httpd
-        state: present
+      - name: pasang httpd
+        ansible.builtin.dnf:
+            name: httpd
+            state: present
 
-    - name: enable & start httpd
-      ansible.builtin.service:
-        name: httpd
-        enabled: true
-        state: started
+      - name: enable & start httpd
+        ansible.builtin.service:
+            name: httpd
+            enabled: true
+            state: started
 ```
+
 ```bash
 ansible-playbook -i inventory.ini harden.yml
 # dry-run (cek tanpa ubah):
@@ -101,27 +103,28 @@ ansible-playbook -i inventory.ini harden.yml --check --diff
   hosts: db
   become: true
   tasks:
-    - name: buat LV data
-      community.general.lvol:
-        vg: vg0
-        lv: data
-        size: 10g
-    - name: format XFS (hanya jika belum)
-      community.general.filesystem:
-        fstype: xfs
-        dev: /dev/vg0/data
-    - name: mount
-      ansible.posix.mount:
-        path: /data
-        src: /dev/vg0/data
-        fstype: xfs
-        state: mounted
-        fstab: /etc/fstab
+      - name: buat LV data
+        community.general.lvol:
+            vg: vg0
+            lv: data
+            size: 10g
+      - name: format XFS (hanya jika belum)
+        community.general.filesystem:
+            fstype: xfs
+            dev: /dev/vg0/data
+      - name: mount
+        ansible.posix.mount:
+            path: /data
+            src: /dev/vg0/data
+            fstype: xfs
+            state: mounted
+            fstab: /etc/fstab
 ```
 
 ## 5. Integrasi ke Change Request (CR) Perbankan
 
 Di enterprise, Ansible **bukan** "jalankan sembarang". Alur:
+
 1. Tulis playbook di repo version-control (Git).
 2. Review & approval lewat **Merge Request / CR**.
 3. Jalankan di **maintenance window** (Ansible Tower/AAP scheduled job).
@@ -143,14 +146,15 @@ ansible-vault create secrets.yml          # buat file terenkripsi
 ansible-vault edit secrets.yml            # edit
 ansible-playbook -i inv site.yml --ask-vault-pass
 ```
+
 > Jangan commit password mentah ke Git. Pakai `ansible-vault` atau
 > credential store AAP.
 
 ## 7. Koneksi ke EX294 (RHCE)
 
 :::tip[EX294]
-Soal RHCE: *"Gunakan Ansible untuk mengonfigurasi N host agar memenuhi
-spesifikasi (user, package, service, firewall, SELinux, storage, cron)."*
+Soal RHCE: _"Gunakan Ansible untuk mengonfigurasi N host agar memenuhi
+spesifikasi (user, package, service, firewall, SELinux, storage, cron)."_
 Kunci: playbook idempoten + `ansible-navigator`/`ansible-playbook`,
 inventory terstruktur, dan verifikasi via `assert`.
 :::
@@ -158,6 +162,7 @@ inventory terstruktur, dan verifikasi via `assert`.
 ## 8. Jebakan Umum (Ansible)
 
 :::danger[Jebakan]
+
 - `command` vs `shell` — `command` tidak punya pipe/`$`; pakai `shell`
   bila perlu, atau modul spesifik (lebih idempoten).
 - Lupa `become: true` → task gagal (butuh root).
@@ -165,7 +170,7 @@ inventory terstruktur, dan verifikasi via `assert`.
 - Jalankan tanpa `--check` di production → efek tak terduga.
 - Commit secret ke Git → pakai `ansible-vault`.
 - Menghapus (state: absent) tanpa guard → data hilang.
-:::
+  :::
 
 ## 9. Self-Check: Siap EX294?
 
@@ -177,6 +182,7 @@ inventory terstruktur, dan verifikasi via `assert`.
 - [ ] Verifikasi hasil via `assert` / monitoring.
 
 ## Latihan
+
 1. Buat `inventory.ini` (2 VM lab), jalankan `ansible all -m ping`.
 2. Tulis playbook yang menginstal `httpd`, buka port 80, enable SELinux.
 3. Jalankan `--check` lalu real; bandingkan output.

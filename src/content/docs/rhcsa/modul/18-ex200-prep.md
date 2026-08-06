@@ -2,7 +2,6 @@
 title: Modul 18 — EX200 (RHCSA) Exam Preparation
 ---
 
-
 > 📺 Referensi video: [RHCSA & EX200 Prep](https://www.youtube.com/watch?v=eGbNXqPdUa4&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns) · [Pass the EX200](https://www.youtube.com/watch?v=2n2P0Awz3U4&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)
 
 Ini adalah **modul persiapan utama (kanonik)** untuk ujian EX200. Halaman
@@ -11,7 +10,7 @@ tapi seluruh materi & simulasi soal berada di modul ini.
 
 ## 1. Format Ujian EX200
 
-- **Tipe**: *performance-based* (hands-on di server nyata, bukan pilihan ganda).
+- **Tipe**: _performance-based_ (hands-on di server nyata, bukan pilihan ganda).
 - **Durasi**: 3 jam (180 menit).
 - **Skor lolos**: Red Hat tidak mengumumkan angka pasti; historis ~210/300.
   Strategi aman: kejar **semua** tugas, jangan mengejar nilai tertentu.
@@ -25,19 +24,19 @@ EX200 **saat ini resmi berbasis RHEL 10**. Berikut 11 kategori objektif resmi
 (Red Hat, 2026) dan pemetaannya ke modul di repo ini. **Ini yang benar-benar
 diujikan** — fokuskan latihan ke sini.
 
-| # | Area objektif | Contoh tugas | Modul |
-|---|--------------|-------------|-------|
-| 1 | Understand and use essential tools | shell prompt, redireksi, `grep`+regex, SSH, `tar`/`gzip`/`bzip2`, vim, file/dir, hard/soft link, ugo/rwx, `man`/`info`/`/usr/share/doc` | 02, 03, 04, 05 |
-| 2 | Manage software | repo RPM, install/remove via DNF, **repo & paket Flatpak** | 12 |
-| 3 | Create simple shell scripts | `if`/`test`/`[]`, loop `for`, argumen `$1 $2`, output command | 20 |
-| 4 | Operate running systems | boot/reboot/shutdown, target manual, **interrupt boot** (`rd.break`), proses CPU/mem (`kill`), `nice`, **tuned**, log/journal, **preserve journals**, service status, transfer file aman | 08, 09 |
-| 5 | Configure local storage | partisi **GPT**, PV/VG/LV, mount by **UUID/label**, tambah partisi/LV/swap non-destruktif | 13 |
-| 6 | Create & configure file systems | **VFAT/ext4/XFS**, mount NFS, **autofs**, **extend LV**, diagnosis permission | 13 |
-| 7 | Deploy/adjust/maintain systems | `at`/`cron`/systemd timer, service auto-boot, boot target, **chrony** (time client), update software, **grub2/bootloader** | 09, 12, 17 |
-| 8 | Manage basic networking | **IPv4 & IPv6**, hostname resolution, service auto-boot, **firewalld** | 11 |
-| 9 | Manage users & groups | `useradd`/`usermod`/`userdel`, password aging (`chage`), group, privileged access (`sudo`/`wheel`) | 06 |
-| 10 | Manage security | **firewalld**, **umask** default, **SSH key-based**, SELinux **enforcing/permissive**, context file/proses, **restorecon**, **SELinux port labels**, **boolean** | 07, 10, 16 |
-| 11 | *Containers* | **🚫 TIDAK LAGI masuk objektif resmi EX200 RHEL 10** — lihat catatan §4 | — |
+| #   | Area objektif                      | Contoh tugas                                                                                                                                                                             | Modul          |
+| --- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| 1   | Understand and use essential tools | shell prompt, redireksi, `grep`+regex, SSH, `tar`/`gzip`/`bzip2`, vim, file/dir, hard/soft link, ugo/rwx, `man`/`info`/`/usr/share/doc`                                                  | 02, 03, 04, 05 |
+| 2   | Manage software                    | repo RPM, install/remove via DNF, **repo & paket Flatpak**                                                                                                                               | 12             |
+| 3   | Create simple shell scripts        | `if`/`test`/`[]`, loop `for`, argumen `$1 $2`, output command                                                                                                                            | 20             |
+| 4   | Operate running systems            | boot/reboot/shutdown, target manual, **interrupt boot** (`rd.break`), proses CPU/mem (`kill`), `nice`, **tuned**, log/journal, **preserve journals**, service status, transfer file aman | 08, 09         |
+| 5   | Configure local storage            | partisi **GPT**, PV/VG/LV, mount by **UUID/label**, tambah partisi/LV/swap non-destruktif                                                                                                | 13             |
+| 6   | Create & configure file systems    | **VFAT/ext4/XFS**, mount NFS, **autofs**, **extend LV**, diagnosis permission                                                                                                            | 13             |
+| 7   | Deploy/adjust/maintain systems     | `at`/`cron`/systemd timer, service auto-boot, boot target, **chrony** (time client), update software, **grub2/bootloader**                                                               | 09, 12, 17     |
+| 8   | Manage basic networking            | **IPv4 & IPv6**, hostname resolution, service auto-boot, **firewalld**                                                                                                                   | 11             |
+| 9   | Manage users & groups              | `useradd`/`usermod`/`userdel`, password aging (`chage`), group, privileged access (`sudo`/`wheel`)                                                                                       | 06             |
+| 10  | Manage security                    | **firewalld**, **umask** default, **SSH key-based**, SELinux **enforcing/permissive**, context file/proses, **restorecon**, **SELinux port labels**, **boolean**                         | 07, 10, 16     |
+| 11  | _Containers_                       | **🚫 TIDAK LAGI masuk objektif resmi EX200 RHEL 10** — lihat catatan §4                                                                                                                  | —              |
 
 > ⚠️ **SELinux** sering jadi penyebab gagal. Jangan mematikan — konfigurasikan
 > dengan benar (`setsebool`, `semanage fcontext`, `restorecon`, `semanage port`).
@@ -62,6 +61,7 @@ skor ujian** saat ini:
   persisten), **IPv6** eksplisit di networking.
 
 Topik yang sering luput peserta (dan MASIH relevan RHEL 10):
+
 - **Flatpak** — repo & paket desktop (Modul 12).
 - **tuned** — profil tuning (`tuned-adm`, Modul 09).
 - **grub2 / bootloader + `rd.break`** — interrupt boot (Modul 09).
@@ -72,24 +72,26 @@ Topik yang sering luput peserta (dan MASIH relevan RHEL 10):
 
 ## 4. RHEL 9 vs RHEL 10 (Fakta, Bukan Spekulasi)
 
-| Aspek | RHEL 9 | RHEL 10 (ujian saat ini) |
-|-------|--------|---------------------------|
-| Containers di EX200 | **Masuk** objektif | **DIHAPUS** (diganti Flatpak) |
-| Storage modern | Stratis/VDO sering dibahas | **Tidak** di objektif resmi |
-| Init & service | systemd | systemd (sama) |
-| OS model | RPM/DNF package-based | Image mode (`bootc`) *tersedia*, tapi **tidak diujikan** di EX200 |
-| Default FS | XFS | XFS |
-| Networking | nmcli (IPv4) | nmcli + **IPv6 eksplisit** |
-| Security | SELinux enforcing/boolean | + **port labels**, **restorecon** ditekankan |
+| Aspek               | RHEL 9                     | RHEL 10 (ujian saat ini)                                          |
+| ------------------- | -------------------------- | ----------------------------------------------------------------- |
+| Containers di EX200 | **Masuk** objektif         | **DIHAPUS** (diganti Flatpak)                                     |
+| Storage modern      | Stratis/VDO sering dibahas | **Tidak** di objektif resmi                                       |
+| Init & service      | systemd                    | systemd (sama)                                                    |
+| OS model            | RPM/DNF package-based      | Image mode (`bootc`) _tersedia_, tapi **tidak diujikan** di EX200 |
+| Default FS          | XFS                        | XFS                                                               |
+| Networking          | nmcli (IPv4)               | nmcli + **IPv6 eksplisit**                                        |
+| Security            | SELinux enforcing/boolean  | + **port labels**, **restorecon** ditekankan                      |
 
-**Bootc / Image Mode (RHEL 10):** sistem bisa dikelola sebagai *image*
+**Bootc / Image Mode (RHEL 10):** sistem bisa dikelola sebagai _image_
 (`bootc upgrade`/`rollback`). **Tidak masuk objektif EX200** — cukup tahu
 ada, jangan panik bila tidak ada di lab RHEL 9.
+
 ```bash
 bootc status          # lihat status image/rollback (RHEL 10 image mode)
 bootc upgrade         # upgrade ke image baru
 bootc rollback        # kembalikan ke image sebelumnya
 ```
+
 > Fokus utama EX200 RHEL 10 tetaplah administrasi standar: user, storage
 > (GPT/LVM), service (systemd), network (nmcli + IPv6), **SELinux**, dan
 > **Flatpak** — bukan container/bootc.
@@ -140,13 +142,16 @@ EX200 adalah troubleshooting.)
 - [Simulasi Ujian 3 Jam / 180 Menit](/rhcsa/referensi/SIMULASI-UJIAN) & [Checklist H-1](/rhcsa/referensi/CHECKLIST-H1).
 
 ## Latihan
+
 - Kerjakan skenario 1–8 di atas tanpa melihat jawaban (soal 9–11 opsional/bonus). Catat waktu tiap tugas.
 
 ## Kunci Jawaban (klik untuk lihat)
+
 :::note[Kunci Jawaban Latihan]
+
 - Kerjakan skenario di atas di lab; verifikasi tiap tugas dengan
   `id`, `getfacl`, `sshd -t`, `firewall-cmd --list-all`, `df -h`,
   `getenforce`, `tuned-adm active`, `flatpak list` — sesuai kolom
   "Cara Buktikan" di tiap skenario.
 - Target: rata-rata < 18 menit/tugas dan skor ≥ 80% sebelum ujian nyata.
-:::
+  :::

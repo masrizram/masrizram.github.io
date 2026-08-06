@@ -2,7 +2,6 @@
 title: Modul 14 — Analyze Servers and Get Support
 ---
 
-
 > 📺 Referensi video: [44ObsKHr0IA](https://www.youtube.com/watch?v=44ObsKHr0IA&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)
 
 ## 1. Log Sistem
@@ -20,7 +19,7 @@ tail -f /var/log/messages      # (jika rsyslog aktif)
 
 ## 2. journald — Preserve System Journals (Wajib EX200)
 
-Objektif EX200: *"Preserve system journals"*. Secara default, journal disimpan
+Objektif EX200: _"Preserve system journals"_. Secara default, journal disimpan
 di RAM (`/run/log/journal`) dan **hilang setelah reboot**. Agar log persisten,
 set `Storage=persistent`.
 
@@ -34,6 +33,7 @@ sudo systemctl restart systemd-journald
 ```
 
 Verifikasi:
+
 ```bash
 ls -d /var/log/journal/*        # ada direktori (artinya persisten)
 journalctl --disk-usage         # lihat ukuran log di disk
@@ -42,7 +42,6 @@ journalctl -b -1                # log boot SEBELUMNYA (bukti persisten)
 
 > Tanpa ini, `journalctl -b -1` kosong setelah reboot — soal EX200 bisa minta
 > "pastikan log sistem tersimpan antar reboot".
-
 
 ## 3. Cockpit (Web Console)
 
@@ -93,6 +92,7 @@ sudo subscription-manager repos --list
 6. Reproduksi di lingkungan bersih bila perlu.
 
 ## Latihan
+
 1. Jalankan `journalctl -p err -b` dan catat 1 error (walau minor).
 2. Buka Cockpit di browser lab (atau pastikan socket aktif).
 3. Buat "checklist triase" singkat untuk kasus "web tidak bisa diakses".
@@ -100,24 +100,26 @@ sudo subscription-manager repos --list
 ## Kunci Jawaban (klik untuk lihat)
 
 :::note[Kunci Jawaban Latihan]
+
 1. `journalctl -p err -b` → error sejak boot; mis. unit failed.
 2. `systemctl enable --now cockpit.socket` lalu buka `https://host:9090`.
 3. Triase: (a) cek service `systemctl status httpd`; (b) firewall
    `firewall-cmd --list-all`; (c) port listen `ss -tulnp | grep :80`;
    (d) log `journalctl -u httpd`.
-:::
+   :::
 
 ## Kuis
 
 1. Perintah melihat log live satu layanan?
-   - a. `journalctl -f -u nginx`  b. `tail /var/log/nginx`  c. `log nginx`  d. `dmesg -u`
+    - a. `journalctl -f -u nginx` b. `tail /var/log/nginx` c. `log nginx` d. `dmesg -u`
 2. Cockpit diakses lewat port?
-   - a. 8080  b. 9090  c. 80  d. 22
+    - a. 8080 b. 9090 c. 80 d. 22
 3. Untuk klon gratis (Rocky), subscription-manager diperlukan?
-   - a. Ya  b. Tidak  c. Hanya untuk update  d. Hanya di RHEL 10
+    - a. Ya b. Tidak c. Hanya untuk update d. Hanya di RHEL 10
 
 :::note[Kunci Jawaban Kuis]
+
 1. **a** (`journalctl -f -u <svc>` live tail layanan).
 2. **b** (Cockpit port 9090).
 3. **b** (klon gratis tidak perlu subscription-manager).
-:::
+   :::

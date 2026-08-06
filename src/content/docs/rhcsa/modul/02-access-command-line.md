@@ -2,7 +2,6 @@
 title: Modul 02 — Access the Command Line
 ---
 
-
 > 📺 Referensi video: [aYTFiUhNN7E](https://www.youtube.com/watch?v=aYTFiUhNN7E&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)
 
 ## 1. Anatomi Perintah Shell
@@ -43,16 +42,16 @@ Ctrl + R                # cari interaktif di history
 
 ## 4. Menyelesaikan & Membatalkan Perintah
 
-| Tombol | Fungsi |
-|--------|--------|
-| `Tab` | *auto-complete* nama berkas/perintah |
-| `Ctrl + C` | batalkan perintah yang berjalan |
-| `Ctrl + D` | tutup shell / kirim EOF |
-| `Ctrl + L` | bersihkan layar |
-| `Ctrl + A` | ke awal baris |
-| `Ctrl + E` | ke akhir baris |
-| `Ctrl + U` | hapus dari awal hingga kursor |
-| `Ctrl + K` | hapus dari kursor hingga akhir |
+| Tombol     | Fungsi                               |
+| ---------- | ------------------------------------ |
+| `Tab`      | _auto-complete_ nama berkas/perintah |
+| `Ctrl + C` | batalkan perintah yang berjalan      |
+| `Ctrl + D` | tutup shell / kirim EOF              |
+| `Ctrl + L` | bersihkan layar                      |
+| `Ctrl + A` | ke awal baris                        |
+| `Ctrl + E` | ke akhir baris                       |
+| `Ctrl + U` | hapus dari awal hingga kursor        |
+| `Ctrl + K` | hapus dari kursor hingga akhir       |
 
 ## 5. Variabel Lingkungan (Environment)
 
@@ -73,6 +72,7 @@ echo hai\ dunia       # backslash menghubungkan spasi
 ```
 
 ## Latihan
+
 1. Gunakan `history` lalu jalankan kembali perintah nomor tertentu dengan `!nomor`.
 2. Di `/etc`, jalankan `ls -la` dan jelaskan kolom pertama (izin).
 3. Buat variabel `export LATIHAN=RH124` lalu `echo $LATIHAN`.
@@ -80,25 +80,27 @@ echo hai\ dunia       # backslash menghubungkan spasi
 ## Kunci Jawaban (klik untuk lihat)
 
 :::note[Kunci Jawaban Latihan]
+
 1. `history` menampilkan daftar perintah bernomor; `!nomor` (mis. `!123`)
    menjalankan ulang baris ke-123 dari riwayat.
 2. `ls -la` kolom pertama = izin (mis. `-rw-r--r--`); opsi `-a` menampilkan
    berkas tersembunyi (diawali titik), `-l` format panjang.
 3. `export LATIHAN=RH124` membuat variabel lingkungan; `echo $LATIHAN`
    menampilkan nilainya → `RH124`.
-:::
+   :::
 
 ## Kuis
 
 1. Untuk menjalankan perintah sebagai admin?
-   - a. sudo cmd  b. su cmd  c. admin cmd  d. root cmd
+    - a. sudo cmd b. su cmd c. admin cmd d. root cmd
 2. `ls -l` menampilkan?
-   - a. detail izin/owner  b. hanya nama  c. ukuran saja  d. waktu saja
+    - a. detail izin/owner b. hanya nama c. ukuran saja d. waktu saja
 3. Virtual console diakses dengan?
-   - a. Ctrl+Alt+F2  b. Alt+Tab  c. Ctrl+C  d. Win+L
+    - a. Ctrl+Alt+F2 b. Alt+Tab c. Ctrl+C d. Win+L
 
 :::note[Kunci Jawaban Kuis]
+
 1. **a**
 2. **a**
 3. **a**
-:::
+   :::

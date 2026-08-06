@@ -2,12 +2,11 @@
 title: Modul 09 — Control Services and Daemons (systemd)
 ---
 
-
 > 📺 Referensi video: [RESDzgTwqYk](https://www.youtube.com/watch?v=RESDzgTwqYk&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)
 
 ## 1. systemd — Init System Modern
 
-RHEL 7+ menggunakan **systemd** sebagai init. Ia mengelola *unit* (service,
+RHEL 7+ menggunakan **systemd** sebagai init. Ia mengelola _unit_ (service,
 target, socket, dll). `systemctl` adalah alat utamanya.
 
 ## 2. Perintah Dasar `systemctl`
@@ -39,15 +38,15 @@ sudo systemctl set-default graphical.target
 sudo systemctl isolate rescue.target   # masuk mode rescue (single-user)
 ```
 
-| Target lama | Setara |
-|-------------|--------|
-| runlevel 3 | `multi-user.target` |
-| runlevel 5 | `graphical.target` |
-| runlevel 6 | `reboot.target` |
+| Target lama | Setara              |
+| ----------- | ------------------- |
+| runlevel 3  | `multi-user.target` |
+| runlevel 5  | `graphical.target`  |
+| runlevel 6  | `reboot.target`     |
 
 ## 5. Tuning Profiles (`tuned`) — Wajib EX200
 
-Objektif EX200: *"Manage tuning profiles"*. `tuned` menyediakan profil
+Objektif EX200: _"Manage tuning profiles"_. `tuned` menyediakan profil
 optimasi performa/daya yang bisa aktif otomatis.
 
 ```bash
@@ -68,10 +67,11 @@ Profil umum: `balanced` (default), `powersave`, `throughput-performance`
 
 ## 6. Bootloader (`grub2`) & Akses Darurat — Wajib EX200
 
-Objektif EX200: *"Modify the system bootloader"* dan *"Interrupt the boot
-process in order to gain access to a system"* (mis. lupa root password).
+Objektif EX200: _"Modify the system bootloader"_ dan _"Interrupt the boot
+process in order to gain access to a system"_ (mis. lupa root password).
 
 **Mengubah parameter bootloader (grub2):**
+
 ```bash
 # Lihat entry & edit default via grubby (cara aman di RHEL)
 grubby --update-kernel=ALL --args="nomodeset"   # tambah param boot
@@ -80,17 +80,19 @@ sudo grub2-mkconfig -o /boot/grub2/grub.cfg      # regenerate grub.cfg
 ```
 
 **Interrupt boot untuk reset password root (rd.break):**
+
 1. Di menu GRUB, tekan `e` pada kernel default.
 2. Di baris `linux`/`linuxefi`, tambahkan `rd.break` di akhir (lalu `Ctrl+X`).
 3. Sistem berhenti di `switch_root:/#` (initramfs shell).
 4. Remount root writable & masuk chroot:
-   ```bash
-   mount -o remount,rw /sysroot
-   chroot /sysroot
-   passwd root          # set password root baru
-   touch /.autorelabel  # penting: biar SELinux relabel
-   exit; exit           # reboot
-   ```
+    ```bash
+    mount -o remount,rw /sysroot
+    chroot /sysroot
+    passwd root          # set password root baru
+    touch /.autorelabel  # penting: biar SELinux relabel
+    exit; exit           # reboot
+    ```
+
 > ⚠️ Tanpa `touch /.autorelabel`, SELinux akan blokir login setelah reboot
 > (label konteks berubah). Di RHEL 9+ bisa juga pakai `rw init=/sysroot/bin/sh`
 > lalu `chroot` manual.
@@ -109,6 +111,7 @@ journalctl -b                       # sejak boot terakhir
 ## 8. Membuat Unit Service Sederhana
 
 `/etc/systemd/system/hello.service`:
+
 ```ini
 [Unit]
 Description=Hello Service
@@ -120,6 +123,7 @@ Restart=on-failure
 [Install]
 WantedBy=multi-user.target
 ```
+
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl enable --now hello.service
@@ -128,6 +132,7 @@ sudo systemctl enable --now hello.service
 ## 9. Jebakan Umum (EX200)
 
 :::danger[Jebakan]
+
 - `systemctl restart` memutus koneksi sesaat — di server produksi gunakan
   `reload` bila layanan mendukung (tercantum di `systemctl cat <svc>`).
 - Lupa `systemctl daemon-reload` setelah mengedit file unit → perubahan
@@ -136,7 +141,7 @@ sudo systemctl enable --now hello.service
   butuh `enable --now` atau `start`.
 - Melihat log tapi pakai `cat /var/log/messages` padahal layanan menulis ke
   journal → gunakan `journalctl -u <svc>`.
-:::
+  :::
 
 ## 10. Koneksi ke EX200
 
@@ -150,10 +155,11 @@ saat boot, dan restart bila gagal." Kunci: tulis unit di
 ## Kunci Jawaban (klik untuk lihat)
 
 :::note[Kunci Jawaban Latihan]
+
 1. `systemctl enable --now` aktif sekarang & saat boot.
 2. `systemctl status` kolom: Loaded/Active/Sub.
 3. `journalctl -u` filter log unit.
-:::
+   :::
 
 ## Kuis Cepat
 
@@ -162,6 +168,7 @@ saat boot, dan restart bila gagal." Kunci: tulis unit di
 3. Cek log satu layanan? (`journalctl -u <nama>`)
 
 ## Latihan
+
 1. Cek status `sshd`: `systemctl status sshd`.
 2. Matikan dan nyalakan kembali `cups` (jika ada), amati dengan `journalctl -u cups`.
 3. Lihat target default dan ubah ke `multi-user.target` (jangan lupa kembalikan).

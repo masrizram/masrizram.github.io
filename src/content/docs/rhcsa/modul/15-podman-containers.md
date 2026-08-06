@@ -2,7 +2,6 @@
 title: Modul 15 — Podman & Containers (Materi Perluasan)
 ---
 
-
 > ⚠️ **Penting — status di EX200:** Mulai **EX200 berbasis RHEL 10** (ujian
 > saat ini, 2026), **Containers/Podman TIDAK LAGI masuk objektif resmi** —
 > Red Hat menggantinya dengan **Flatpak** (lihat Modul 12). Modul ini tetap
@@ -62,6 +61,7 @@ loginctl enable-linger $USER          # biar jalan walau user logout (rootless)
 ```
 
 Untuk **root** (system-wide):
+
 ```bash
 podman generate systemd --new --files --name web
 sudo mv container-web.service /etc/systemd/system/
@@ -89,14 +89,14 @@ podman system prune           # bersihkan semua tak terpakai
 
 ## 7. Jebakan Umum (EX200)
 
-
 :::danger[Jebakan]
+
 - Lupa `loginctl enable-linger` → container rootless mati setelah logout.
 - Menjalankan `podman` dengan `sudo` lalu mengharapkan container user muncul
-  di session user (berbeda *storage*). Konsisten root vs rootless.
+  di session user (berbeda _storage_). Konsisten root vs rootless.
 - Firewall host blokir port 8080 → tetap `firewall-cmd --add-port=8080/tcp`.
 - SELinux blocks read/write volume → `z`/`Z` flag: `-v /data:/data:Z`.
-:::
+  :::
 
 ## 8. Quadlet — Container sebagai systemd Unit (Wajib EX200 RHEL 9)
 
@@ -134,11 +134,13 @@ loginctl enable-linger $USER          # agar jalan walau user logout (rootless)
 ```
 
 Verifikasi:
+
 ```bash
 systemctl --user is-active web.service   # quadlet otomatis jadi *.service
 podman ps | grep web
 curl -s localhost:8080 | head -1
 ```
+
 > Quadlet mendeteksi file `*.container`/`*.volume`/`*.network` di direktori
 > systemd dan membangun unit systemd-nya saat `daemon-reload`. Di SOAL EX200
 > yang explicit minta "quadlet" atau "systemd-managed container", gunakan cara
@@ -176,13 +178,14 @@ podman pull myapp:1.0             # image buildah bisa dipakai podman
 ## 10. Koneksi ke EX200 (Era RHEL 9 — Bonus di RHEL 10)
 
 :::tip[EX200 (RHEL 9) / Bonus RHEL 10]
-Di era **RHEL 9**, soal container umumnya: *"Jalankan image X sebagai
+Di era **RHEL 9**, soal container umumnya: _"Jalankan image X sebagai
 container bernama Y, port P, persistent, dan pastikan hidup setelah
-reboot."* Kunci: `podman run` + `-v` + `podman generate systemd --new` +
+reboot."_ Kunci: `podman run` + `-v` + `podman generate systemd --new` +
 `systemctl enable`.
+
 > Di **EX200 RHEL 10**, container **tidak lagi diujikan** — fokus ke
 > Flatpak (Modul 12). Modul ini bermanfaat untuk jalur RHCE.
-:::
+> :::
 
 ## Kuis Cepat
 
@@ -192,6 +195,7 @@ reboot."* Kunci: `podman run` + `-v` + `podman generate systemd --new` +
    (`loginctl enable-linger` + `systemctl --user enable`)
 
 ## Latihan
+
 1. `podman pull` image `ubi9/ubi`, jalankan interaktif `podman run -it --rm ubi9/ubi bash`.
 2. Jalankan `nginx` di port 8080, akses via browser/curl, lalu hapus.
 3. Generate systemd unit untuk container nginx dan enable --now.
@@ -199,10 +203,11 @@ reboot."* Kunci: `podman run` + `-v` + `podman generate systemd --new` +
 ## Kunci Jawaban (klik untuk lihat)
 
 :::note[Kunci Jawaban Latihan]
+
 1. `podman pull registry.access.redhat.com/ubi9/ubi` lalu `podman run -it --rm ubi9/ubi bash`.
 2. `podman run -d -p 8080:80 --name web nginx`; `curl localhost:8080`;
    `podman rm -f web`.
 3. `podman generate systemd --new --files --name web`; pindahkan unit ke
    `~/.config/systemd/user/`; `systemctl --user enable --now container-web.service`
    (butuh `loginctl enable-linger $USER` agar jalan saat boot).
-:::
+   :::

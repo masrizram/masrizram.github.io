@@ -2,7 +2,6 @@
 title: Modul 07 — Access to Files (Permissions & Ownership)
 ---
 
-
 > 📺 Referensi video: [FmyIyp73bGM](https://www.youtube.com/watch?v=FmyIyp73bGM&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)
 
 ## 1. Model Izin Linux
@@ -42,7 +41,7 @@ sudo chown -R budi:dev /data      # rekursif
 
 ## 4. Default Izin: `umask`
 
-`umask` menentukan izin yang *tidak* diberikan saat berkas baru dibuat.
+`umask` menentukan izin yang _tidak_ diberikan saat berkas baru dibuat.
 
 ```bash
 umask              # lihat (mis. 022)
@@ -52,11 +51,11 @@ umask 027          # owner penuh, group baca, other tidak ada
 
 ## 5. Special Permissions
 
-| Bit | Nilai | Fungsi |
-|-----|-------|--------|
-| SUID | 4 | eksekusi sebagai pemilik berkas |
-| SGID | 2 | eksekusi sebagai group; di direktori → warisan group |
-| Sticky | 1 | di direktori, hanya pemilik yg bisa hapus isinya (`/tmp`) |
+| Bit    | Nilai | Fungsi                                                    |
+| ------ | ----- | --------------------------------------------------------- |
+| SUID   | 4     | eksekusi sebagai pemilik berkas                           |
+| SGID   | 2     | eksekusi sebagai group; di direktori → warisan group      |
+| Sticky | 1     | di direktori, hanya pemilik yg bisa hapus isinya (`/tmp`) |
 
 ```bash
 chmod 2755 dir/       # set SGID
@@ -83,6 +82,7 @@ Jelaskan siapa yang bisa baca/tulis. (Owner budi rw; group dev r; other tidak ad
 ## 8. Jebakan Umum (EX200)
 
 :::danger[Jebakan]
+
 - `chmod 777` untuk "memperbaiki" akses → **masalah keamanan & salah di ujian**.
   Gunakan ACL (`setfacl`) untuk akses granular, bukan 777.
 - Lupa bahwa **executable bit** (`+x`) wajib agar skrip/program bisa dijalankan.
@@ -91,7 +91,7 @@ Jelaskan siapa yang bisa baca/tulis. (Owner budi rw; group dev r; other tidak ad
 - `umask` hanya berlaku untuk sesi shell saat itu; untuk permanen set di
   `/etc/profile` atau `~/.bashrc`.
 - SGID pada direktori **tidak** mewarisi permission, hanya mewarisi **group**.
-:::
+  :::
 
 ## 9. Koneksi ke EX200
 
@@ -105,10 +105,11 @@ tertentu akses lewat **ACL** tanpa mengubah owner. Kunci: `chmod`, `chown`,
 ## Kunci Jawaban (klik untuk lihat)
 
 :::note[Kunci Jawaban Latihan]
+
 1. `chmod 755 file` → rwxr-xr-x (owner rw, grup+other r-x).
 2. `chown user:grp` mengubah owner & group.
 3. `setfacl -m urwx` memberi akses rwx khusus alice (tanpa ubah owner).
-:::
+   :::
 
 ## Kuis Cepat
 
@@ -118,6 +119,7 @@ tertentu akses lewat **ACL** tanpa mengubah owner. Kunci: `chmod`, `chown`,
 3. Apa fungsi bit SGID pada direktori? (file baru mewarisi group direktori)
 
 ## Latihan
+
 1. Buat berkas `rahasia.txt`, set `chmod 600` (hanya owner).
 2. Buat direktori `kerja` dengan SGID agar file baru mewarisi group.
 3. Beri user `siswa` akses baca lewat ACL tanpa mengubah pemilik.

@@ -2,13 +2,12 @@
 title: Modul 12 — Install and Update Software (DNF)
 ---
 
-
 > 📺 Referensi video: [CDpa7ZpNNEE](https://www.youtube.com/watch?v=CDpa7ZpNNEE&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)
 
 ## 1. DNF vs RPM
 
 - **RPM** = format paket; tidak menyelesaikan dependensi sendiri.
-- **DNF** = *package manager* modern (menggantikan `yum`) yang otomatis
+- **DNF** = _package manager_ modern (menggantikan `yum`) yang otomatis
   menyelesaikan dependensi. Di RHEL 8/9, `yum` adalah alias ke `dnf`.
 
 ## 2. Repositori (Repos)
@@ -20,7 +19,7 @@ sudo dnf config-manager --enable crb   # aktifkan repo (mis. CRB)
 ```
 
 Repositori didefinisikan di `/etc/yum.repos.d/*.repo`. Untuk RHEL butuh
-*subscription*; klon gratis (Rocky/Alma) sudah punya repo publik.
+_subscription_; klon gratis (Rocky/Alma) sudah punya repo publik.
 
 ## 3. Mencari & Memasang
 
@@ -60,7 +59,7 @@ sudo rpm -ivh paket.rpm        # pasang rpm lokal (tanpa resolve dep)
 
 ## 7. Modul (AppStream) — Penting di RHEL 9
 
-Beberapa paket punya *module stream* (versi berbeda, mis. PostgreSQL 13/15).
+Beberapa paket punya _module stream_ (versi berbeda, mis. PostgreSQL 13/15).
 
 ```bash
 dnf module list                # lihat modul
@@ -72,7 +71,7 @@ sudo dnf install postgresql-server
 
 Selain RPM/DNF, objektif EX200 mencantumkan **Flatpak**: "Configure access to
 Flatpak repositories" & "Install and remove Flatpak software packages".
-Flatpak memakai *runtime* terisolasi (sandbox) — umum untuk aplikasi desktop.
+Flatpak memakai _runtime_ terisolasi (sandbox) — umum untuk aplikasi desktop.
 
 ```bash
 # 1. Pasang flatpak (di RHEL butuh repo Extra/CRB atau EPEL di klon)
@@ -99,6 +98,7 @@ flatpak remotes                # lihat repo terdaftar
 ## 9. Jebakan Umum (EX200)
 
 :::danger[Jebakan]
+
 - `dnf update` tanpa `dnf history` / snapshot → paket krusial (kernel, DB)
   ter-upgrade dan sesuatu rusak. Di lab selalu snapshot dulu.
 - Lupa `sudo` → "permission denied" saat install/remove.
@@ -106,7 +106,7 @@ flatpak remotes                # lihat repo terdaftar
   Enable modul **sebelum** `dnf install`.
 - Repo nonaktif (RHEL butuh subscription) → `dnf` gagal. Klon gratis
   (Rocky/Alma) sudah punya repo publik.
-:::
+  :::
 
 ## 10. Koneksi ke EX200
 
@@ -124,6 +124,7 @@ lalu `dnf install postgresql-server`.
 3. Cari paket pemilik berkas `/usr/bin/ssh`? (`dnf provides /usr/bin/ssh`)
 
 ## Latihan
+
 1. Cari paket yang menyediakan `vim`: `dnf provides /usr/bin/vim`.
 2. Pasang `tree` lalu hapus: `sudo dnf install tree` → `sudo dnf remove tree`.
 3. Cek update yang tersedia: `dnf check-update` (tanpa memasang).
@@ -132,14 +133,16 @@ lalu `dnf install postgresql-server`.
 ## Kunci Jawaban (klik untuk lihat)
 
 :::note[Kunci Jawaban Latihan]
+
 1. `dnf provides /usr/bin/vim` → mis. `vim-enhanced`.
 2. `dnf install -y tree` lalu `dnf remove -y tree` (pakai sudo bila bukan root).
 3. `dnf check-update` menampilkan update tersedia tanpa memasang.
 4. `dnf module list`; `dnf module enable -y postgresql:15`.
-:::
+   :::
 
 :::note[Kunci Jawaban Kuis]
+
 1. **`dnf`** (RHEL 8+ menggantikan yum).
 2. **`dnf install pkg`** (tambah `-y` untuk non-interaktif).
 3. **`dnf provides /path`** mencari paket pemilik berkas/biner.
-:::
+   :::

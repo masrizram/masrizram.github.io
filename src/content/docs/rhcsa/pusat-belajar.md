@@ -2,7 +2,6 @@
 title: 🗺️ Pusat Belajar — Panduan RHCSA (RH124 / RH199)
 ---
 
-
 Selamat datang! Halaman ini adalah **peta jalan** agar kamu belajar efektif, tidak
 asal loncat. Ikuti urutan, kerjakan LAB di tiap modul, dan uji diri dengan kuis.
 
@@ -34,15 +33,15 @@ flowchart TD
     O --> P[Ujian EX200 / Karier Enterprise]
 ```
 
-| Minggu | Fokus | Modul |
-|--------|-------|-------|
-| 1–2 | Dasar akses, shell, berkas, bantuan | 0, 1, 2, 3, 4 |
-| 3–4 | Teks (vim), user/grup, permission & ACL | 5, 6, 7 |
-| 5–6 | Proses, systemd service | 8, 9 |
-| 7–8 | SSH hardening, jaringan, DNF | 10, 11, 12 |
-| 9–10 | File system, LVM, support/log | 13, 14 |
-| 11 | Containers (Podman) | 15 |
-| 12–16 | Ulangi LAB + Simulasi EX200 | 18 (EX200 Prep) + 19 (Skenario) + LAB |
+| Minggu | Fokus                                   | Modul                                 |
+| ------ | --------------------------------------- | ------------------------------------- |
+| 1–2    | Dasar akses, shell, berkas, bantuan     | 0, 1, 2, 3, 4                         |
+| 3–4    | Teks (vim), user/grup, permission & ACL | 5, 6, 7                               |
+| 5–6    | Proses, systemd service                 | 8, 9                                  |
+| 7–8    | SSH hardening, jaringan, DNF            | 10, 11, 12                            |
+| 9–10   | File system, LVM, support/log           | 13, 14                                |
+| 11     | Containers (Podman)                     | 15                                    |
+| 12–16  | Ulangi LAB + Simulasi EX200             | 18 (EX200 Prep) + 19 (Skenario) + LAB |
 
 ## 🎯 Cara Pakai Panduan Ini
 

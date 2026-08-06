@@ -1,13 +1,13 @@
-import type { APIRoute } from "astro";
-import { site } from "@/lib/site";
+import type { APIRoute } from 'astro';
+import { site } from '@/lib/site';
 
 export const GET: APIRoute = () => {
-  const body = `User-agent: *
+    const body = `User-agent: *
 Allow: /
 
 Sitemap: ${site.url}/sitemap-index.xml
 `;
-  return new Response(body, {
-    headers: { "Content-Type": "text/plain; charset=utf-8" },
-  });
+    return new Response(body, {
+        headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+    });
 };
