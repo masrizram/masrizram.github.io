@@ -70,6 +70,5 @@ title: 🎯 Persiapan EX200 — Ringkasan Taktis
 - RH124 + RH134 course content.
 - `lab/LAB.md`, `modul/`, dan [Modul 18](/rhcsa/modul/18-ex200-prep) di repo ini.
 
----
 > "Orang yang lulus RHCSA bukan yang hafal semua, tapi yang bisa memverifikasi
 > pekerjaannya sendiri." — prinsip lab.
