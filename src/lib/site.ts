@@ -19,7 +19,9 @@ export const site = {
 
 export const docsHref = '/rhcsa/';
 
-export const nav = [
+type NavItem = { href: string; label: string; match?: string[] };
+
+export const nav: NavItem[] = [
     { href: '/', label: 'Home' },
     { href: '/about/', label: 'About' },
     { href: '/writing/', label: 'Writing' },
@@ -27,6 +29,7 @@ export const nav = [
     { href: '/teaching/', label: 'Teaching' },
     { href: '/resources/', label: 'Resources' },
     { href: '/contact/', label: 'Contact' },
+    { href: docsHref, label: 'Docs', match: ['/rhcsa/', '/pentester/', '/koding/'] },
 ];
 
 // Social yang punya URL valid (bukan '#') — untuk render kondisional di footer/nav.
@@ -39,5 +42,5 @@ const SOCIAL_LABELS: Record<string, string> = {
 };
 
 export const activeSocials = Object.entries(site.socials)
-    .filter(([_, url]) => url && url !== '#' && !url.startsWith('mailto:'))
+    .filter(([, url]) => url && url !== '#' && !url.startsWith('mailto:'))
     .map(([key, url]) => ({ key, label: SOCIAL_LABELS[key] ?? key, url: url as string }));

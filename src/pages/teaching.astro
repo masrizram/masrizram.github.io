@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { Button } from '@/components/ui/button';
+import { withBase } from '@/lib/utils';
 
 const items = (await getCollection('teaching', ({ data }) => !data.draft)).sort((a, b) =>
     a.data.type === b.data.type ? 0 : a.data.type === 'Mata Kuliah' ? -1 : 1,
@@ -29,7 +30,7 @@ const items = (await getCollection('teaching', ({ data }) => !data.draft)).sort(
                             <div class="mt-4 space-y-4">
                                 {group.map((c) => (
                                     <a
-                                        href={`/teaching/${c.id}/`}
+                                        href={withBase(`/teaching/${c.id}/`)}
                                         class="flex flex-col gap-2 rounded-xl border border-border bg-card p-5 transition-colors hover:border-primary/50 sm:flex-row sm:items-center sm:justify-between"
                                     >
                                         <div>
@@ -50,7 +51,7 @@ const items = (await getCollection('teaching', ({ data }) => !data.draft)).sort(
         </div>
 
         <div class="mt-10">
-            <Button asChild variant="secondary"><a href="/resources/">Lihat resource & tautan →</a></Button>
+            <Button asChild variant="secondary"><a href={withBase('/resources/')}>Lihat resource & tautan →</a></Button>
         </div>
     </div>
 </BaseLayout>

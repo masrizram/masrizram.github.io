@@ -1,13 +1,12 @@
 ---
-import { site, nav, docsHref } from '@/lib/site';
+import { site, nav } from '@/lib/site';
+import { withBase } from '@/lib/utils';
 
 const path = Astro.url.pathname;
-const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
-const isDocsActive =
-    path.startsWith('/rhcsa/') ||
-    path.startsWith('/pentester/') ||
-    path.startsWith('/koding/') ||
-    path.startsWith(docsHref);
+const isActive = (item: { href: string; match?: string[] }) => {
+    if (item.match) return item.match.some((p) => path.startsWith(withBase(p)));
+    return item.href === '/' ? path === withBase('/') : path.startsWith(withBase(item.href));
+};
 ---
 
 <!--
@@ -21,28 +20,24 @@ const isDocsActive =
 -->
 <header class="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur">
     <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <a href="/" class="text-lg font-semibold tracking-tight">Nilma<span class="text-primary">.</span></a>
+        <a href={withBase('/')} class="text-lg font-semibold tracking-tight">Nilma<span class="text-primary">.</span></a
+        >
 
         <!-- desktop nav -->
         <nav class="hidden items-center gap-5 text-sm text-muted-foreground lg:flex">
             {
                 nav.map((item) => (
                     <a
-                        href={item.href}
+                        href={withBase(item.href)}
                         class:list={[
                             'transition-colors hover:text-foreground',
-                            isActive(item.href) && 'font-medium text-foreground',
+                            isActive(item) && 'font-medium text-foreground',
                         ]}
                     >
                         {item.label}
                     </a>
                 ))
             }
-            <a
-                href={docsHref}
-                class:list={['transition-colors hover:text-foreground', isDocsActive && 'font-medium text-foreground']}
-                >Docs</a
-            >
             <button
                 id="theme-toggle"
                 type="button"
@@ -89,23 +84,16 @@ const isDocsActive =
                 {
                     nav.map((item) => (
                         <a
-                            href={item.href}
+                            href={withBase(item.href)}
                             class:list={[
                                 'block rounded-md px-3 py-2 text-sm transition-colors hover:bg-muted',
-                                isActive(item.href) && 'font-medium text-foreground',
+                                isActive(item) && 'font-medium text-foreground',
                             ]}
                         >
                             {item.label}
                         </a>
                     ))
                 }
-                <a
-                    href={docsHref}
-                    class:list={[
-                        'block rounded-md px-3 py-2 text-sm transition-colors hover:bg-muted',
-                        isDocsActive && 'font-medium text-foreground',
-                    ]}>Docs</a
-                >
             </div>
         </details>
     </div>

@@ -1,27 +1,44 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { Button } from '@/components/ui/button';
+import { withBase } from '@/lib/utils';
 
 const resources = [
     {
         cat: 'Sertifikasi',
         items: [
-            { t: 'Panduan RHCSA/EX200 (MkDocs)', href: '/rhcsa/', d: 'Materi persiapan sertifikasi Red Hat.' },
-            { t: 'Cheat sheet Perintah Linux', href: '/rhcsa/', d: 'Referensi cepat perintah harian.' },
+            {
+                t: 'Panduan RHCSA/EX200 (MkDocs)',
+                href: withBase('/rhcsa/'),
+                d: 'Materi persiapan sertifikasi Red Hat.',
+            },
+            {
+                t: 'Cheat sheet Perintah Linux',
+                href: withBase('/rhcsa/referensi/cheatsheet/'),
+                d: 'Referensi cepat perintah harian.',
+            },
         ],
     },
     {
         cat: 'Web & Dokumentasi',
         items: [
-            { t: 'Astro + Starlight Starter', href: '/rhcsa/', d: 'Template dokumentasi siap pakai.' },
-            { t: 'shadcn/ui di Astro', href: '/rhcsa/', d: 'Cara pasang komponen UI modern.' },
+            {
+                t: 'Astro + Starlight Starter',
+                href: withBase('/writing/astro-starlight-dokumentasi/'),
+                d: 'Template dokumentasi siap pakai.',
+            },
+            { t: 'shadcn/ui di Astro', href: withBase('/rhcsa/'), d: 'Cara pasang komponen UI modern.' },
         ],
     },
     {
         cat: 'Sistem Pakar',
         items: [
-            { t: 'Forward Chaining 101', href: '/rhcsa/', d: 'Konsep & contoh rule engine.' },
-            { t: 'Contoh Skripsi Sistem Pakar', href: '/portfolio/', d: 'Kumpulan ide topik skripsi.' },
+            {
+                t: 'Forward Chaining 101',
+                href: withBase('/writing/membangun-sistem-pakar-forward-chaining/'),
+                d: 'Konsep & contoh rule engine.',
+            },
+            { t: 'Contoh Skripsi Sistem Pakar', href: withBase('/portfolio/'), d: 'Kumpulan ide topik skripsi.' },
         ],
     },
 ];
@@ -33,7 +50,7 @@ const external = [
 ];
 ---
 
-<BaseLayout title="Resources — Nilma, M.Kom." description="Kumpulan materi, panduan, dan tautan berguna.">
+<BaseLayout title="Resources" description="Kumpulan materi, panduan, dan tautan berguna.">
     <div class="mx-auto max-w-6xl px-6 py-20">
         <h1 class="text-4xl font-bold tracking-tight">Resources</h1>
         <p class="mt-3 max-w-2xl text-muted-foreground">
@@ -76,7 +93,7 @@ const external = [
         </div>
 
         <div class="mt-10">
-            <Button asChild variant="secondary"><a href="/contact/">Minta resource lain →</a></Button>
+            <Button asChild variant="secondary"><a href={withBase('/contact/')}>Minta resource lain →</a></Button>
         </div>
     </div>
 </BaseLayout>

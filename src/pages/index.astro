@@ -2,8 +2,9 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { Button } from '@/components/ui/button';
 import { Image } from 'astro:assets';
-import { Github, Linkedin, Twitter, Mail, ArrowRight } from 'lucide-react';
+import { Github as GithubIcon, Linkedin as LinkedinIcon, Twitter as TwitterIcon, Mail, ArrowRight } from 'lucide-react';
 import { site } from '@/lib/site';
+import { withBase } from '@/lib/utils';
 import heroImg from '@/assets/hero.webp';
 
 const techs = ['PHP', 'MySQL', 'Astro', 'Tailwind', 'Sistem Pakar', 'RHCSA/EX200', 'Pedagogi'];
@@ -64,7 +65,7 @@ const testimonials = [
 ];
 ---
 
-<BaseLayout title={site.fullName} description={site.description}>
+<BaseLayout description={site.description}>
     <!-- HERO -->
     <section class="reveal mx-auto grid max-w-6xl items-center gap-10 px-6 py-20 md:grid-cols-2">
         <div>
@@ -81,12 +82,12 @@ const testimonials = [
                 sertifikasi seperti RHCSA/EX200.
             </p>
             <div class="mt-7 flex flex-wrap gap-3">
-                <Button asChild size="lg"><a href="/portfolio/">Lihat Portofolio</a></Button>
-                <Button asChild size="lg" variant="outline"><a href="/contact/">Hubungi Saya</a></Button>
+                <Button asChild size="lg"><a href={withBase('/portfolio/')}>Lihat Portofolio</a></Button>
+                <Button asChild size="lg" variant="outline"><a href={withBase('/contact/')}>Hubungi Saya</a></Button>
             </div>
             <div class="mt-7 flex gap-4 text-muted-foreground">
                 <a href={site.socials.github} aria-label="GitHub" class="hover:text-foreground"
-                    ><Github className="size-5" /></a
+                    ><GithubIcon className="size-5" /></a
                 >
                 {
                     site.socials.linkedin !== '#' && (
@@ -97,7 +98,7 @@ const testimonials = [
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            <Linkedin className="size-5" />
+                            <LinkedinIcon className="size-5" />
                         </a>
                     )
                 }
@@ -110,7 +111,7 @@ const testimonials = [
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            <Twitter className="size-5" />
+                            <TwitterIcon className="size-5" />
                         </a>
                     )
                 }
@@ -167,7 +168,7 @@ const testimonials = [
                 }
             </div>
             <div class="mt-6">
-                <Button asChild variant="link"><a href="/about/">Cerita lengkap saya →</a></Button>
+                <Button asChild variant="link"><a href={withBase('/about/')}>Cerita lengkap saya →</a></Button>
             </div>
         </div>
     </section>
@@ -176,13 +177,13 @@ const testimonials = [
     <section class="reveal mx-auto max-w-6xl px-6 py-12">
         <div class="flex items-end justify-between">
             <h2 class="text-2xl font-bold tracking-tight">Tulisan Terbaru</h2>
-            <a href="/writing/" class="text-sm text-primary hover:underline">Lihat semua →</a>
+            <a href={withBase('/writing/')} class="text-sm text-primary hover:underline">Lihat semua →</a>
         </div>
         <div class="mt-6 grid gap-5 md:grid-cols-3">
             {
                 featured.map((p) => (
                     <a
-                        href="/writing/"
+                        href={withBase('/writing/')}
                         class="group rounded-xl border border-border bg-card p-5 transition-colors hover:border-primary/50"
                     >
                         <span class="text-xs text-muted-foreground">{p.tag}</span>
@@ -198,7 +199,7 @@ const testimonials = [
     <section class="reveal mx-auto max-w-6xl px-6 py-12">
         <div class="flex items-end justify-between">
             <h2 class="text-2xl font-bold tracking-tight">Portofolio & Karya</h2>
-            <a href="/portfolio/" class="text-sm text-primary hover:underline">Lihat semua →</a>
+            <a href={withBase('/portfolio/')} class="text-sm text-primary hover:underline">Lihat semua →</a>
         </div>
         <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {
@@ -273,9 +274,11 @@ const testimonials = [
                 </div>
                 <div class="flex flex-wrap gap-3 md:justify-end">
                     <Button asChild size="lg"
-                        ><a href="/contact/">Hubungi Saya <ArrowRight className="ml-1 size-4" /></a></Button
+                        ><a href={withBase('/contact/')}>Hubungi Saya <ArrowRight className="ml-1 size-4" /></a></Button
                     >
-                    <Button asChild size="lg" variant="outline"><a href="/teaching/">Lihat Materi Ajarku</a></Button>
+                    <Button asChild size="lg" variant="outline"
+                        ><a href={withBase('/teaching/')}>Lihat Materi Ajarku</a></Button
+                    >
                 </div>
             </div>
         </div>

@@ -1,12 +1,13 @@
 ---
 import { nav } from '@/lib/site';
+import { withBase } from '@/lib/utils';
 ---
 
 <div class="mobile-site-nav">
     <p class="mobile-site-nav__label">Situs Utama</p>
     <div class="mobile-site-nav__links">
-        <a href="/">Home</a>
-        {nav.filter((n) => n.href !== '/').map((item) => <a href={item.href}>{item.label}</a>)}
+        <a href={withBase('/')}>Home</a>
+        {nav.filter((n) => n.href !== '/').map((item) => <a href={withBase(item.href)}>{item.label}</a>)}
     </div>
 </div>
 

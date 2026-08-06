@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { site } from '@/lib/site';
+import { withBase } from '@/lib/utils';
 ---
 
-<BaseLayout title="About — Nilma, M.Kom." description="Cerita, latar belakang, dan fokus Nilma, M.Kom.">
+<BaseLayout title="About" description="Cerita, latar belakang, dan fokus Nilma, M.Kom.">
     <section class="reveal mx-auto max-w-6xl px-6 py-20">
         <h1 class="text-4xl font-bold tracking-tight">About</h1>
         <div class="mt-6 space-y-4 text-muted-foreground">
@@ -31,7 +32,7 @@ import { site } from '@/lib/site';
         </ul>
 
         <div class="mt-10">
-            <a href="/contact/" class="text-primary underline-offset-4 hover:underline">Hubungi saya →</a>
+            <a href={withBase('/contact/')} class="text-primary underline-offset-4 hover:underline">Hubungi saya →</a>
         </div>
     </section>
 </BaseLayout>

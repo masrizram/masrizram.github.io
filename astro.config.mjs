@@ -3,11 +3,31 @@ import starlight from '@astrojs/starlight';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import prefetch from '@astrojs/prefetch';
+import { unified } from '@astrojs/markdown-remark';
 
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
-import { SITE_URL } from './src/config/site.mjs';
+import { SITE_URL, BASE } from './src/config/site.mjs';
 import { sidebar } from './src/config/sidebar.mjs';
+
+// ── Deployment path ──────────────────────────────────────────────────────────
+// BASE diturunkan otomatis dari SITE_URL (src/config/site.mjs). Ubah SITE_URL saja.
+
+// Prefix link absolut internal dengan base deployment agar konten docs & markdown
+// ter-resolve benar. Guard !u.startsWith(base) mencegah double-prefix.
+function remarkBaseLinks(base = '/') {
+    const prefix = (url) =>
+        url.startsWith('/') && !url.startsWith(base) && !url.startsWith('//') ? base.replace(/\/$/, '') + url : url;
+    function walk(node) {
+        if (!node || typeof node !== 'object') return;
+        const n = node;
+        if ((n.type === 'link' || n.type === 'definition') && typeof n.url === 'string') {
+            n.url = prefix(n.url);
+        }
+        if (Array.isArray(n.children)) n.children.forEach(walk);
+    }
+    return (tree) => walk(tree);
+}
 
 // https://astro.build/config
 export default defineConfig({
@@ -15,9 +35,17 @@ export default defineConfig({
     // Diperlukan untuk canonical, OG tags, & sitemap.
     site: SITE_URL,
 
+    // Prefix path deployment. '/' = root (domain.com/). Lihat BASE di atas.
+    base: BASE,
+
     integrations: [
         starlight({
             title: 'Docs',
+            // Konten berbahasa Indonesia → <html lang="id"> (WCAG 3.1.1).
+            defaultLocale: 'root',
+            locales: {
+                root: { label: 'Bahasa Indonesia', lang: 'id' },
+            },
             // Injeksi Tailwind + token shadcn ke seluruh dokumen Starlight.
             customCss: ['./src/styles/global.css'],
             // SATUKAN header: pakai nav utama yang sama dengan site (Home/About/.../Contact)
@@ -46,5 +74,11 @@ export default defineConfig({
 
     vite: {
         plugins: [tailwindcss()],
+    },
+
+    // Prefix link internal di markdown (.md docs + writing/portfolio/teaching).
+    // Pendekatan modern Astro 7: `processor: unified({ remarkPlugins })`.
+    markdown: {
+        processor: unified({ remarkPlugins: [remarkBaseLinks(BASE)] }),
     },
 });

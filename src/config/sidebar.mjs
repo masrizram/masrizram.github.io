@@ -34,7 +34,6 @@ export const sidebar = [
                         label: '22 Runbook Troubleshooting',
                         link: '/rhcsa/modul/22-runbook-troubleshooting-production/',
                     },
-                    { label: '23 RHCE (EX294) Ansible', link: '/rhcsa/modul/23-rhce-ex294-ansible/' },
                 ],
             },
             {
@@ -56,11 +55,28 @@ export const sidebar = [
                 ],
             },
             { label: 'Pusat Belajar', link: '/rhcsa/pusat-belajar/' },
+            { label: 'Jalur Sertifikasi', link: '/rhcsa/cert-path/' },
         ],
     },
     {
         label: 'Pentester',
-        items: [{ label: 'Beranda Pentester', link: '/pentester/' }],
+        items: [
+            { label: 'Beranda Pentester', link: '/pentester/' },
+            {
+                label: 'Kategori',
+                items: [
+                    { label: 'Recon & Enumeration', link: '/pentester/recon/' },
+                    { label: 'Web Application', link: '/pentester/web/' },
+                    { label: 'Active Directory', link: '/pentester/active-directory/' },
+                    { label: 'Cloud & Containers', link: '/pentester/cloud/' },
+                    { label: 'Network & Pivoting', link: '/pentester/network/' },
+                    { label: 'Post-Exploitation', link: '/pentester/post-exploitation/' },
+                    { label: 'Reporting', link: '/pentester/reporting/' },
+                    { label: 'Lab & Setup', link: '/pentester/lab/' },
+                    { label: 'OffSec Cert Path', link: '/pentester/cert-path/' },
+                ],
+            },
+        ],
     },
     {
         label: 'Koding',

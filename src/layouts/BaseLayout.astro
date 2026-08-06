@@ -1,7 +1,8 @@
 ---
 import '@/styles/global.css';
 import { Button } from '@/components/ui/button';
-import { site, nav, docsHref } from '@/lib/site';
+import { site, nav, activeSocials } from '@/lib/site';
+import { withBase } from '@/lib/utils';
 
 interface Props {
     title?: string;
@@ -10,14 +11,17 @@ interface Props {
     type?: 'website' | 'profile' | 'article';
 }
 
-const { title, description = site.description, image = '/og.svg', type = 'website' } = Astro.props;
+const { title, description = site.description, image = '/og.png', type = 'website' } = Astro.props;
 
 const pageTitle = title ? `${title} — ${site.fullName}` : `${site.fullName} — ${site.role}`;
 const path = Astro.url.pathname;
-const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+const isActive = (href: string) => {
+    const abs = withBase(href);
+    return href === '/' ? path === abs : path.startsWith(abs);
+};
 
 const canonical = new URL(Astro.url.pathname, site.url).href;
-const ogImage = new URL(image, site.url).href;
+const ogImage = new URL(withBase(image), site.url).href;
 const sameAs = Object.values(site.socials).filter((v) => v.startsWith('http'));
 
 const jsonLd = [
@@ -42,14 +46,14 @@ const jsonLd = [
 ---
 
 <!doctype html>
-<html lang="id" class="scroll-smooth">
+<html lang="id">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="referrer" content="strict-origin-when-cross-origin" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+        <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} />
+        <link rel="manifest" href={withBase('/site.webmanifest')} />
         <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
         <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
         <title>{pageTitle}</title>
@@ -66,7 +70,7 @@ const jsonLd = [
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={ogImage} />
-        <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+        <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
         <!-- Anti-FOUC: terapkan tema sebelum paint -->
         <script is:inline>
@@ -90,7 +94,7 @@ const jsonLd = [
         <!-- NAV -->
         <header class="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur">
             <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-                <a href="/" class="text-lg font-semibold tracking-tight"
+                <a href={withBase('/')} class="text-lg font-semibold tracking-tight"
                     >{site.name}<span class="text-primary">.</span></a
                 >
 
@@ -99,7 +103,7 @@ const jsonLd = [
                     {
                         nav.map((item) => (
                             <a
-                                href={item.href}
+                                href={withBase(item.href)}
                                 class:list={[
                                     'transition-colors hover:text-foreground',
                                     isActive(item.href) && 'font-medium text-foreground',
@@ -109,9 +113,6 @@ const jsonLd = [
                             </a>
                         ))
                     }
-                    <Button asChild variant="outline" size="sm">
-                        <a href={docsHref}>Docs</a>
-                    </Button>
                     <button
                         id="theme-toggle"
                         type="button"
@@ -158,7 +159,7 @@ const jsonLd = [
                         {
                             nav.map((item) => (
                                 <a
-                                    href={item.href}
+                                    href={withBase(item.href)}
                                     class:list={[
                                         'block rounded-md px-3 py-2 text-sm transition-colors hover:bg-muted',
                                         isActive(item.href) && 'font-medium text-foreground',
@@ -168,11 +169,6 @@ const jsonLd = [
                                 </a>
                             ))
                         }
-                        <a
-                            href={docsHref}
-                            class="block rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted"
-                            >Docs</a
-                        >
                     </div>
                 </details>
             </div>
@@ -186,11 +182,15 @@ const jsonLd = [
             <div
                 class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 py-8 text-sm text-muted-foreground sm:flex-row"
             >
-                <p>© {new Date().getFullYear()} {site.fullName}</p>
+                <p>© {new Date().getFullYear()} {site.fullName}. Dibangun dengan Astro & Starlight.</p>
                 <div class="flex gap-4">
-                    <a href={docsHref} class="hover:text-foreground">Docs</a>
-                    <a href={site.socials.github} class="hover:text-foreground">GitHub</a>
-                    <a href={site.socials.linkedin} class="hover:text-foreground">LinkedIn</a>
+                    {
+                        activeSocials.map((s) => (
+                            <a href={s.url} class="hover:text-foreground" target="_blank" rel="noopener noreferrer">
+                                {s.label}
+                            </a>
+                        ))
+                    }
                 </div>
             </div>
         </footer>

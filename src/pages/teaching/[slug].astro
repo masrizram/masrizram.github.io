@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { withBase } from '@/lib/utils';
 
 export async function getStaticPaths() {
     const items = await getCollection('teaching', ({ data }) => !data.draft);
@@ -16,7 +17,7 @@ const { Content } = await render(item);
 
 <BaseLayout title={item.data.title} description={item.data.description}>
     <article class="mx-auto max-w-6xl px-6 py-20">
-        <a href="/teaching/" class="text-sm text-primary hover:underline">← Semua materi</a>
+        <a href={withBase('/teaching/')} class="text-sm text-primary hover:underline">← Semua materi</a>
         <h1 class="mt-4 text-4xl font-bold tracking-tight">{item.data.title}</h1>
         <p class="mt-2 font-mono text-sm text-primary">
             {item.data.code ?? '—'} · {item.data.semester ?? ''} · {item.data.type}
