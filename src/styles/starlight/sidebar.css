@@ -1,0 +1,27 @@
+/* OVERRIDE SIDEBAR DOCS (Starlight) — agar identik & minimalis seperti home. */
+
+/* Sidebar kiri Starlight = <nav class="sidebar"> di grid kolom 1, default
+   position:sticky; left:0 (mentok tepi viewport x=0). Karena .page punya
+   padding 1.5rem, kolom 1 seharusnya mulai di x=70 (sejajar logo header).
+   Set left:auto agar sticky mengikuti flow kolom 1 (bukan nempel x=0). */
+#starlight__sidebar {
+  left: auto !important;
+}
+
+/* Di dark mode Starlight pakai --sl-color-bg-sidebar (abu-abu / --sl-color-gray-6)
+   bukan hitam seperti page background. Samakan dengan --color-background
+   (sinkron dark/light: hitam di dark, putih di light). */
+.sidebar-pane {
+  background-color: var(--color-background) !important;
+}
+
+/* Perbaikan B: sembunyikan panah naik/turun (caret) di grup sidebar docs
+   (RHCSA/Modul/Lab/dst) supaya minimalis seperti home, DAN paksa isi semua
+   grup tetap tampil (efek "terbuka default") walau atribut open=false —
+   tanpa ubah Starlight internals. Collapse tetap aman untuk a11y (aria tetap ada). */
+.sidebar .caret {
+  display: none !important;
+}
+.sidebar details:not([open]) > :not(summary) {
+  display: block !important;
+}

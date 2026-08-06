@@ -1,0 +1,9 @@
+/* NETRALISIR WRAPPER HEADER BAWAAN STARLIGHT (<header class="header">)
+   Starlight membungkus Header.astro kita dengan elemen ini yang punya background
+   abu-abu (--sl-color-bg-nav) + border + position:fixed. display:contents → wrapper
+   tidak menggambar box, jadi background abu-abu & border & fixed HILANG, header kita
+   jadi anak langsung .page (sejajar dengan home). */
+
+header.header {
+  display: contents !important;
+}
