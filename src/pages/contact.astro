@@ -15,18 +15,25 @@ const faq = [
     { q: 'Bisa bantu review kode PHP/MySQL?', a: 'Tentu, khususnya untuk project mahasiswa dan skripsi.' },
 ];
 
-// Form functional tanpa backend: kirim lewat mailto (works di static host).
-const mailto = `mailto:${site.email}?subject=${encodeURIComponent('Halo ' + site.name + ' — pesan dari situs')}`;
+// Situs statis tanpa backend. Form dirakit menjadi mailto: lengkap (subject+body)
+// oleh script kecil saat submit — sehingga isi pesan BENAR-BENAR terbawa.
+// Tanpa JavaScript, tombol cadangan di bawah tetap membuka email client.
+const mailtoFallback = `mailto:${site.email}?subject=${encodeURIComponent('Halo ' + site.name + ' — pesan dari situs')}`;
 ---
 
-<BaseLayout title="Contact" description="Hubungi Nilma untuk bimbingan, mentoring, atau kolaborasi.">
+<BaseLayout
+    title="Contact"
+    description="Hubungi Nilma untuk bimbingan, mentoring, atau kolaborasi."
+    faq={faq}
+    breadcrumbs={[{ label: 'Contact', href: '/contact/' }]}
+>
     <div class="mx-auto max-w-6xl px-6 py-20">
         <h1 class="text-4xl font-bold tracking-tight">Contact</h1>
         <p class="mt-3 text-muted-foreground">
             Punya topik skripsi, butuh mentor sertifikasi, atau ingin kolaborasi? Kirim pesan.
         </p>
 
-        <form class="mt-8 grid gap-4 sm:grid-cols-2" action={mailto} method="get">
+        <form id="contact-form" class="mt-8 grid gap-4 sm:grid-cols-2" action={mailtoFallback} method="get">
             <div class="flex flex-col gap-1">
                 <label for="cf-nama" class="text-sm font-medium text-foreground">Nama</label>
                 <input
@@ -58,10 +65,53 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent('Halo ' + site
                     class="rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring sm:col-span-2"
                     placeholder="Pesan"></textarea>
             </div>
-            <div class="sm:col-span-2">
+            <div class="flex flex-wrap items-center gap-3 sm:col-span-2">
                 <Button type="submit">Kirim Pesan</Button>
+                <span class="text-xs text-muted-foreground">
+                    Tombol ini membuka aplikasi email Anda dengan pesan sudah terisi.
+                </span>
             </div>
         </form>
+
+        <!--
+            Merakit mailto: lengkap saat submit. Ini memperbaiki bug lama:
+            `<form action="mailto:" method="get">` diabaikan browser modern,
+            sehingga klik Kirim tidak melakukan apa pun (silent failure).
+        -->
+        <script is:inline define:vars={{ email: site.email }}>
+            (function () {
+                const form = document.getElementById('contact-form');
+                if (!form) return;
+
+                // Rakit mailto: lengkap (subject + body) dari isi form.
+                function buildMailto() {
+                    const data = new FormData(form);
+                    const nama = String(data.get('nama') || '').trim();
+                    const dari = String(data.get('email') || '').trim();
+                    const pesan = String(data.get('pesan') || '').trim();
+                    const subject = 'Pesan dari situs — ' + (nama || 'Pengunjung');
+                    const body = 'Nama: ' + nama + '\nEmail: ' + dari + '\n\n' + pesan;
+                    return (
+                        'mailto:' +
+                        email +
+                        '?subject=' +
+                        encodeURIComponent(subject) +
+                        '&body=' +
+                        encodeURIComponent(body)
+                    );
+                }
+
+                // `action` diperbarui live sehingga submit native langsung membuka
+                // email client dengan pesan terisi. Ini memperbaiki bug lama:
+                // form mailto + method="get" diabaikan browser (klik Kirim = diam saja).
+                function sync() {
+                    form.setAttribute('action', buildMailto());
+                }
+                form.addEventListener('input', sync);
+                form.addEventListener('submit', sync);
+                sync();
+            })();
+        </script>
 
         <div class="mt-10 flex flex-wrap gap-6 text-sm text-muted-foreground">
             <span>📧 {site.email}</span>

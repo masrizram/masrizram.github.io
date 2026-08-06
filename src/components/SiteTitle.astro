@@ -1,9 +1,10 @@
 ---
 import { site } from '@/lib/site';
+import { withBase } from '@/lib/utils';
 ---
 
 <!-- Logo docs IDENTIK dengan home: "Nilma." -->
-<a href="/" class="site-title sl-flex">
+<a href={withBase('/')} class="site-title sl-flex">
     <span class="site-title__name">{site.name}<span class="site-title__dot">.</span></span>
 </a>
 

@@ -1,13 +1,20 @@
 {
-  "name": "Nilma, M.Kom. — Dosen & Konsultan Teknologi",
-  "short_name": "Nilma",
-  "description": "Portofolio, panduan, dan dokumentasi Nilma, M.Kom.",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#0a0a0a",
-  "theme_color": "#0a0a0a",
-  "icons": [
-    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" },
-    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
-  ]
+    "name": "Nilma, M.Kom. — Dosen & Konsultan Teknologi",
+    "short_name": "Nilma",
+    "description": "Portofolio, panduan, dan dokumentasi Nilma, M.Kom.",
+    "start_url": ".",
+    "scope": ".",
+    "display": "standalone",
+    "background_color": "#0a0a0a",
+    "theme_color": "#0a0a0a",
+    "lang": "id",
+    "dir": "ltr",
+    "categories": ["education", "productivity"],
+    "icons": [
+        { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+        { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any" },
+        { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+        { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+        { "src": "icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    ]
 }

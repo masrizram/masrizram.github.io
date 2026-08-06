@@ -15,7 +15,17 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description}>
+<BaseLayout
+    title={post.data.title}
+    description={post.data.description}
+    type="article"
+    publishedAt={post.data.date}
+    tags={post.data.tags}
+    breadcrumbs={[
+        { label: 'Writing', href: '/writing/' },
+        { label: post.data.title, href: `/writing/${post.id}/` },
+    ]}
+>
     <article class="mx-auto max-w-6xl px-6 py-20">
         <a href={withBase('/writing/')} class="text-sm text-primary hover:underline">← Semua tulisan</a>
         <h1 class="mt-4 text-4xl font-bold tracking-tight">{post.data.title}</h1>

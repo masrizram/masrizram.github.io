@@ -8,9 +8,25 @@ interface Props {
     description?: string;
     image?: string;
     type?: 'website' | 'profile' | 'article';
+    /** Metadata artikel — mengaktifkan schema.org Article. */
+    publishedAt?: Date;
+    tags?: string[];
+    /** Remah roti: [{ label, href }] tanpa item Home (ditambah otomatis). */
+    breadcrumbs?: { label: string; href: string }[];
+    /** Pasangan tanya-jawab → schema.org FAQPage. */
+    faq?: { q: string; a: string }[];
 }
 
-const { title, description = site.description, image = '/og.png', type = 'website' } = Astro.props;
+const {
+    title,
+    description = site.description,
+    image = '/og.png',
+    type = 'website',
+    publishedAt,
+    tags,
+    breadcrumbs,
+    faq,
+} = Astro.props;
 
 const pageTitle = title ? `${title} — ${site.fullName}` : `${site.fullName} — ${site.role}`;
 const path = Astro.url.pathname;
@@ -23,7 +39,7 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
 const ogImage = new URL(withBase(image), site.url).href;
 const sameAs = Object.values(site.socials).filter((v) => v.startsWith('http'));
 
-const jsonLd = [
+const jsonLd: Record<string, unknown>[] = [
     {
         '@context': 'https://schema.org',
         '@type': 'WebSite',
@@ -42,6 +58,51 @@ const jsonLd = [
         sameAs,
     },
 ];
+
+// Article — hanya untuk halaman konten bertanggal (writing/portfolio/teaching).
+if (type === 'article' && title) {
+    jsonLd.push({
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: title,
+        description,
+        image: ogImage,
+        inLanguage: 'id-ID',
+        mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+        author: { '@type': 'Person', name: site.fullName, url: site.url },
+        publisher: { '@type': 'Person', name: site.fullName, url: site.url },
+        ...(publishedAt ? { datePublished: publishedAt.toISOString() } : {}),
+        ...(tags?.length ? { keywords: tags.join(', ') } : {}),
+    });
+}
+
+// BreadcrumbList — bantu Google menampilkan jalur navigasi di SERP.
+if (breadcrumbs?.length) {
+    const trail = [{ label: 'Home', href: '/' }, ...breadcrumbs];
+    jsonLd.push({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: trail.map((c, i) => ({
+            '@type': 'ListItem',
+            position: i + 1,
+            name: c.label,
+            item: new URL(withBase(c.href), site.url).href,
+        })),
+    });
+}
+
+// FAQPage — halaman Contact sudah punya daftar FAQ.
+if (faq?.length) {
+    jsonLd.push({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map((f) => ({
+            '@type': 'Question',
+            name: f.q,
+            acceptedAnswer: { '@type': 'Answer', text: f.a },
+        })),
+    });
+}
 ---
 
 <!doctype html>
@@ -58,6 +119,12 @@ const jsonLd = [
         <title>{pageTitle}</title>
         <meta name="description" content={description} />
         <link rel="canonical" href={canonical} />
+        <link
+            rel="alternate"
+            type="application/rss+xml"
+            title={`${site.fullName} — Writing`}
+            href={withBase('/rss.xml')}
+        />
         <meta property="og:type" content={type} />
         <meta property="og:locale" content="id_ID" />
         <meta property="og:site_name" content={site.fullName} />

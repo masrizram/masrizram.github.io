@@ -1,5 +1,6 @@
 ---
 import { site, activeSocials } from '@/lib/site';
+import { withBase } from '@/lib/utils';
 ---
 
 <footer class="border-t border-border/60">
@@ -8,11 +9,11 @@ import { site, activeSocials } from '@/lib/site';
     >
         <p>© {new Date().getFullYear()} {site.fullName}. Dibangun dengan Astro & Starlight.</p>
         <div class="flex gap-4">
-            <a href="/rhcsa/" class="hover:text-foreground">Docs</a>
+            <a href={withBase('/rhcsa/')} class="hover:text-foreground">Docs</a>
             {
                 activeSocials.map((s) => (
                     <a href={s.url} class="hover:text-foreground" target="_blank" rel="noopener noreferrer">
-                        {s.key === 'github' ? 'GitHub' : s.key.charAt(0).toUpperCase() + s.key.slice(1)}
+                        {s.label}
                     </a>
                 ))
             }

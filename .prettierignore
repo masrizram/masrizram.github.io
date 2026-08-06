@@ -12,3 +12,8 @@ package-lock.json
 
 # Vendor / generated
 pagefind/
+
+# Artefak hasil test (Playwright) — regenerated, jangan di-format
+test-results/
+playwright-report/
+

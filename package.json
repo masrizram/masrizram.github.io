@@ -19,12 +19,15 @@
         "test": "vitest run",
         "test:watch": "vitest",
         "coverage": "vitest run --coverage",
-        "verify": "npm run format:check && npm run lint && npm run check && npm run test && npm run build"
+        "verify": "npm run format:check && npm run lint && npm run check && npm run test && npm run build && npm run test:e2e",
+        "test:e2e": "playwright test",
+        "test:all": "npm run test && npm run test:e2e"
     },
     "dependencies": {
         "@astrojs/mdx": "^7.0.5",
         "@astrojs/prefetch": "^0.4.1",
         "@astrojs/react": "^6.0.2",
+        "@astrojs/rss": "^4.0.19",
         "@astrojs/sitemap": "^3.7.3",
         "@astrojs/starlight": "^0.41.6",
         "@tailwindcss/vite": "^4.3.3",
@@ -43,7 +46,9 @@
     },
     "devDependencies": {
         "@astrojs/check": "^0.9.10",
+        "@axe-core/playwright": "^4.12.1",
         "@eslint/js": "^9.39.5",
+        "@playwright/test": "^1.62.1",
         "astro-eslint-parser": "^3.0.0",
         "eslint": "^9.39.5",
         "eslint-plugin-astro": "^1.7.0",
