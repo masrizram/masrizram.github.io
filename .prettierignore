@@ -17,3 +17,6 @@ pagefind/
 test-results/
 playwright-report/
 
+
+# coverage report (generated)
+coverage/
