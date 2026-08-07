@@ -1,7 +1,7 @@
 {
-    "name": "Nilma, M.Kom. — Dosen & Konsultan Teknologi",
-    "short_name": "Nilma",
-    "description": "Portofolio, panduan, dan dokumentasi Nilma, M.Kom.",
+    "name": "Sutan Rizki Ramdani — Full-Stack Developer & Security Researcher",
+    "short_name": "masrizram",
+    "description": "Portofolio, riset keamanan, dan dokumentasi teknis Sutan Rizki Ramdani.",
     "start_url": ".",
     "scope": ".",
     "display": "standalone",
@@ -9,7 +9,7 @@
     "theme_color": "#0a0a0a",
     "lang": "id",
     "dir": "ltr",
-    "categories": ["education", "productivity"],
+    "categories": ["developer", "security", "productivity"],
     "icons": [
         { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
         { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any" },

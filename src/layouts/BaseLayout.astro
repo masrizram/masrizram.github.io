@@ -15,24 +15,34 @@ interface Props {
     breadcrumbs?: { label: string; href: string }[];
     /** Pasangan tanya-jawab → schema.org FAQPage. */
     faq?: { q: string; a: string }[];
+    /** Daftar layanan → schema.org Service (satu node per layanan). */
+    servicesSchema?: { name: string; description: string }[];
+    /** Item koleksi (portfolio) → schema.org ItemList. */
+    itemList?: { name: string; url: string; description?: string }[];
+    /** Testimoni → schema.org Review (terikat ke Person sebagai author layanan). */
+    reviews?: { quote: string; author: string; role: string }[];
 }
 
 const {
     title,
     description = site.description,
-    image = '/og.png',
+    image = '/og.webp',
     type = 'website',
     publishedAt,
     tags,
     breadcrumbs,
     faq,
+    servicesSchema,
+    itemList,
+    reviews,
 } = Astro.props;
 
 const pageTitle = title ? `${title} — ${site.fullName}` : `${site.fullName} — ${site.role}`;
-const path = Astro.url.pathname;
 const isActive = (href: string) => {
-    const abs = withBase(href);
-    return href === '/' ? path === abs : path.startsWith(abs);
+    const norm = (p: string) => p.replace(/index\.html$/, '').replace(/\/+$/, '') || '/';
+    const abs = norm(withBase(href));
+    const cur = norm(Astro.url.pathname);
+    return href === '/' ? cur === '/' || cur === abs : cur.startsWith(abs);
 };
 
 const canonical = new URL(Astro.url.pathname, site.url).href;
@@ -47,6 +57,14 @@ const jsonLd: Record<string, unknown>[] = [
         url: site.url,
         description: site.description,
         inLanguage: 'id-ID',
+        potentialAction: {
+            '@type': 'SearchAction',
+            target: {
+                '@type': 'EntryPoint',
+                urlTemplate: `${site.url}/?q={search_term_string}`,
+            },
+            'query-input': 'required name=search_term_string',
+        },
     },
     {
         '@context': 'https://schema.org',
@@ -91,7 +109,7 @@ if (breadcrumbs?.length) {
     });
 }
 
-// FAQPage — halaman Contact sudah punya daftar FAQ.
+// FAQPage — halaman Contact & Home punya daftar FAQ.
 if (faq?.length) {
     jsonLd.push({
         '@context': 'https://schema.org',
@@ -100,6 +118,50 @@ if (faq?.length) {
             '@type': 'Question',
             name: f.q,
             acceptedAnswer: { '@type': 'Answer', text: f.a },
+        })),
+    });
+}
+
+// Review — testimoni klien, terikat ke Person sebagai penyedia layanan.
+if (reviews?.length) {
+    for (const r of reviews) {
+        jsonLd.push({
+            '@context': 'https://schema.org',
+            '@type': 'Review',
+            reviewBody: r.quote,
+            author: { '@type': 'Person', name: r.author },
+            itemReviewed: { '@type': 'Person', name: site.fullName, jobTitle: site.role },
+            reviewRating: { '@type': 'Rating', ratingValue: 5, bestRating: 5 },
+        });
+    }
+}
+if (itemList?.length) {
+    jsonLd.push({
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        itemListElement: itemList.map((it, i) => ({
+            '@type': 'ListItem',
+            position: i + 1,
+            name: it.name,
+            url: new URL(withBase(it.url), site.url).href,
+            ...(it.description ? { description: it.description } : {}),
+        })),
+    });
+}
+// mengenali daftar layanan (rich result potensial).
+if (servicesSchema?.length) {
+    jsonLd.push({
+        '@context': 'https://schema.org',
+        '@type': 'OfferCatalog',
+        name: `${site.fullName} — Layanan`,
+        itemListElement: servicesSchema.map((s) => ({
+            '@type': 'Offer',
+            itemOffered: {
+                '@type': 'Service',
+                name: s.name,
+                description: s.description,
+                provider: { '@type': 'Person', name: site.fullName, url: site.url },
+            },
         })),
     });
 }
@@ -176,6 +238,7 @@ if (faq?.length) {
                                     'transition-colors hover:text-foreground',
                                     isActive(item.href) && 'font-medium text-foreground',
                                 ]}
+                                aria-current={isActive(item.href) ? 'page' : undefined}
                             >
                                 {item.label}
                             </a>
@@ -232,6 +295,7 @@ if (faq?.length) {
                                         'block rounded-md px-3 py-2 text-sm transition-colors hover:bg-muted',
                                         isActive(item.href) && 'font-medium text-foreground',
                                     ]}
+                                    aria-current={isActive(item.href) ? 'page' : undefined}
                                 >
                                     {item.label}
                                 </a>
@@ -295,5 +359,13 @@ if (faq?.length) {
                 });
             })();
         </script>
+
+        <!-- Observability: Umami (privacy-friendly, self-hostable). Aktif hanya bila
+             env UMAMI_SRC & UMAMI_ID diisi saat build — tidak memecah build lokal. -->
+        {
+            import.meta.env.UMAMI_SRC && import.meta.env.UMAMI_ID && (
+                <script is:inline async src={import.meta.env.UMAMI_SRC} data-website-id={import.meta.env.UMAMI_ID} />
+            )
+        }
     </body>
 </html>

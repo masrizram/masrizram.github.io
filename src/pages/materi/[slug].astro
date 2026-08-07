@@ -20,12 +20,12 @@ const { Content } = await render(item);
     description={item.data.description}
     type="article"
     breadcrumbs={[
-        { label: 'Teaching', href: '/teaching/' },
-        { label: item.data.title, href: `/teaching/${item.id}/` },
+        { label: 'Materi', href: '/materi/' },
+        { label: item.data.title, href: `/materi/${item.id}/` },
     ]}
 >
     <article class="mx-auto max-w-6xl px-6 py-20">
-        <a href={withBase('/teaching/')} class="text-sm text-primary hover:underline">← Semua materi</a>
+        <a href={withBase('/materi/')} class="text-sm text-primary hover:underline">← Semua materi</a>
         <h1 class="mt-4 text-4xl font-bold tracking-tight">{item.data.title}</h1>
         <p class="mt-2 font-mono text-sm text-primary">
             {item.data.code ?? '—'} · {item.data.semester ?? ''} · {item.data.type}

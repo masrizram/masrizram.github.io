@@ -2,17 +2,21 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { Button } from '@/components/ui/button';
 import { site } from '@/lib/site';
+import { withBase } from '@/lib/utils';
 
 const faq = [
     {
-        q: 'Apakah bisa bimbingan skripsi online?',
-        a: 'Ya, saya melayani bimbingan remote untuk topik sistem pakar dan web.',
+        q: 'Bisa bantu pengembangan aplikasi full-stack?',
+        a: 'Ya, mulai dari frontend, backend, hingga deployment infrastruktur.',
     },
     {
         q: 'Apakah ada materi persiapan RHCSA berbayar?',
         a: 'Materi dasar gratis di Docs; sesi mentoring bisa diatur secara personal.',
     },
-    { q: 'Bisa bantu review kode PHP/MySQL?', a: 'Tentu, khususnya untuk project mahasiswa dan skripsi.' },
+    {
+        q: 'Bisa bantu audit/penetration test aplikasi web?',
+        a: 'Tentu, termasuk review keamanan kode dan penyusunan laporan mitigasi.',
+    },
 ];
 
 // Situs statis tanpa backend. Form dirakit menjadi mailto: lengkap (subject+body)
@@ -23,17 +27,23 @@ const mailtoFallback = `mailto:${site.email}?subject=${encodeURIComponent('Halo 
 
 <BaseLayout
     title="Contact"
-    description="Hubungi Nilma untuk bimbingan, mentoring, atau kolaborasi."
+    description="Hubungi Sutan Rizki Ramdani untuk kolaborasi, riset keamanan, atau pengembangan aplikasi."
     faq={faq}
     breadcrumbs={[{ label: 'Contact', href: '/contact/' }]}
 >
-    <div class="mx-auto max-w-6xl px-6 py-20">
+    <div class="mx-auto max-w-3xl px-6 py-20">
         <h1 class="text-4xl font-bold tracking-tight">Contact</h1>
-        <p class="mt-3 text-muted-foreground">
-            Punya topik skripsi, butuh mentor sertifikasi, atau ingin kolaborasi? Kirim pesan.
+
+        <!-- 1. INTRO -->
+        <p class="mt-3 max-w-2xl text-muted-foreground">
+            Punya proyek yang ingin dibangun, butuh <strong class="text-foreground">audit keamanan</strong>, atau ingin
+            berkolaborasi? Saya terbuka untuk kolaborasi & riset keamanan. Prinsip saya sederhana:
+            <strong class="text-foreground">transparan sejak hari pertama</strong>, konsultasi gratis, dan
+            <strong class="text-foreground">kode & laporan sepenuhnya milik Anda</strong>.
         </p>
 
-        <form id="contact-form" class="mt-8 grid gap-4 sm:grid-cols-2" action={mailtoFallback} method="get">
+        <!-- 2. FORM -->
+        <form id="konsultasi" class="mt-8 grid gap-4 sm:grid-cols-2" action={mailtoFallback} method="get">
             <div class="flex flex-col gap-1">
                 <label for="cf-nama" class="text-sm font-medium text-foreground">Nama</label>
                 <input
@@ -67,8 +77,8 @@ const mailtoFallback = `mailto:${site.email}?subject=${encodeURIComponent('Halo 
             </div>
             <div class="flex flex-wrap items-center gap-3 sm:col-span-2">
                 <Button type="submit">Kirim Pesan</Button>
-                <span class="text-xs text-muted-foreground">
-                    Tombol ini membuka aplikasi email Anda dengan pesan sudah terisi.
+                <span id="cf-status" class="text-xs text-muted-foreground" role="status" aria-live="polite">
+                    Tombol ini membuka aplikasi email Anda dengan pesan sudah terisi — mudah dan tanpa form backend.
                 </span>
             </div>
         </form>
@@ -80,7 +90,7 @@ const mailtoFallback = `mailto:${site.email}?subject=${encodeURIComponent('Halo 
         -->
         <script is:inline define:vars={{ email: site.email }}>
             (function () {
-                const form = document.getElementById('contact-form');
+                const form = document.getElementById('konsultasi');
                 if (!form) return;
 
                 // Rakit mailto: lengkap (subject + body) dari isi form.
@@ -101,24 +111,35 @@ const mailtoFallback = `mailto:${site.email}?subject=${encodeURIComponent('Halo 
                     );
                 }
 
-                // `action` diperbarui live sehingga submit native langsung membuka
-                // email client dengan pesan terisi. Ini memperbaiki bug lama:
-                // form mailto + method="get" diabaikan browser (klik Kirim = diam saja).
                 function sync() {
                     form.setAttribute('action', buildMailto());
                 }
                 form.addEventListener('input', sync);
-                form.addEventListener('submit', sync);
+                form.addEventListener('submit', function () {
+                    sync();
+                    const status = document.getElementById('cf-status');
+                    if (status) {
+                        status.textContent =
+                            'Membuka aplikasi email Anda… jika tidak muncul, salin alamat ' + email + ' secara manual.';
+                    }
+                });
                 sync();
             })();
         </script>
 
+        <!-- 3. CONTACT INFO -->
         <div class="mt-10 flex flex-wrap gap-6 text-sm text-muted-foreground">
             <span>📧 {site.email}</span>
             <span>📍 Indonesia (remote)</span>
+            <span
+                class="rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 text-emerald-700 dark:text-emerald-300"
+            >
+                ✓ Konsultasi gratis 30 menit · Kode &amp; laporan milik Anda
+            </span>
         </div>
 
-        <h2 class="mt-12 text-2xl font-bold tracking-tight">FAQ</h2>
+        <!-- 4. FAQ INLINE -->
+        <h2 class="mt-12 text-2xl font-bold tracking-tight">Pertanyaan Umum</h2>
         <div class="mt-4 space-y-4">
             {
                 faq.map((f) => (
@@ -128,6 +149,20 @@ const mailtoFallback = `mailto:${site.email}?subject=${encodeURIComponent('Halo 
                     </div>
                 ))
             }
+        </div>
+
+        <!-- 5. CTA -->
+        <div
+            class="mt-12 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/5 to-transparent p-8 text-center"
+        >
+            <h2 class="text-2xl font-bold tracking-tight">Mulai kolaborasi</h2>
+            <p class="mt-2 text-muted-foreground">
+                Diskusikan Proyek Anda atau mulai kolaborasi — konsultasi gratis 30 menit, tanpa biaya, tanpa ikatan.
+            </p>
+            <div class="mt-6 flex flex-wrap justify-center gap-3">
+                <Button asChild size="lg"><a href={withBase('/contact/') + '#konsultasi'}>Konsultasi Gratis</a></Button>
+                <Button asChild size="lg" variant="outline"><a href={`mailto:${site.email}`}>Hubungi Saya</a></Button>
+            </div>
         </div>
     </div>
 </BaseLayout>

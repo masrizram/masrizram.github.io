@@ -1,5 +1,5 @@
 ---
-title: 'Modul 23 — RHCE / EX294 Prep: Ansible Automation (Skala Besar)'
+title: 'Modul 23 — Persiapan RHCE/EX294: Otomasi Ansible (Ansible Automation)'
 ---
 
 > Setelah menguasai RHCSA (single-node) & Modul 21/22 (enterprise & firefighting),
@@ -180,6 +180,54 @@ inventory terstruktur, dan verifikasi via `assert`.
 - [ ] Pakai `--check --diff` sebelum production.
 - [ ] Kelola rahasia via `ansible-vault`.
 - [ ] Verifikasi hasil via `assert` / monitoring.
+
+## 10. Kuis Cepat
+
+1. Apa yang dimaksud idempotensi dalam Ansible, dan mengapa penting untuk
+   perubahan di production?
+2. Kapan sebaiknya memakai modul spesifik dibanding `command`/`shell`, dan
+   apa beda `command` dengan `shell`?
+3. Opsi apa yang dipakai untuk menguji playbook tanpa mengubah sistem, dan
+   bagaimana melihat perbedaan yang akan diterapkan?
+4. Bagaimana cara menyimpan kredensial secara aman di repositori Ansible?
+5. Modul apa yang dipakai untuk memastikan hasil eksekusi sesuai harapan
+   (misalnya layanan benar-benar listen di port 80)?
+
+:::note[Kunci Jawaban Kuis]
+
+1. Menjalankan playbook berulang kali menghasilkan state akhir yang sama;
+   task tidak mengubah apa pun bila kondisi sudah sesuai — aman diulang saat
+   Change Request atau remediasi.
+2. Pakai modul spesifik (`dnf`, `service`, `lvol`, `firewalld`) karena
+   idempoten dan melaporkan `changed` dengan benar. `command` menjalankan
+   perintah tanpa shell (tidak ada pipe, redirect, atau ekspansi `$`),
+   sedangkan `shell` menjalankannya melalui shell.
+3. `--check` (dry run), dikombinasikan dengan `--diff` untuk melihat
+   perubahan berkas/konfigurasi yang akan terjadi.
+4. Dengan `ansible-vault` (enkripsi file/variabel), dijalankan memakai
+   `--ask-vault-pass` atau `--vault-password-file`.
+5. Modul `assert` (dapat dipadukan dengan `wait_for`, `uri`, atau
+   `command` + `register` untuk mengambil fakta lebih dulu).
+   :::
+
+## 11. Koneksi ke EX200
+
+Modul ini adalah **jembatan pasca-RHCSA**, bukan materi ujian EX200. Ansible
+**tidak** diujikan di EX200 — ia adalah inti **EX294 (RHCE)**. Namun setiap
+playbook di sini hanyalah otomasi dari objektif EX200 yang sudah Anda kuasai
+secara manual:
+
+| Objektif EX200 (manual)           | Padanan Ansible di modul ini (§)  |
+| --------------------------------- | --------------------------------- |
+| `useradd` / `usermod` / `chage`   | modul `user`, integrasi SSSD (§3) |
+| `lvcreate` / `lvextend` / `mount` | otomasi LVM idempoten (§4)        |
+| `firewall-cmd --permanent`        | modul `firewalld` (§3)            |
+| `dnf install` / `update`          | modul `dnf`, patching (§3)        |
+| `systemctl enable --now`          | modul `service`/`systemd` (§3)    |
+
+**Syarat masuk:** RHCSA aktif adalah prasyarat resmi untuk RHCE. Jangan mulai
+modul ini sebelum lulus EX200 — lihat
+[Jalur Sertifikasi](/rhcsa/cert-path/).
 
 ## Latihan
 

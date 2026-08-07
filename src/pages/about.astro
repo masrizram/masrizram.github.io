@@ -1,38 +1,106 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { Button } from '@/components/ui/button';
 import { site } from '@/lib/site';
 import { withBase } from '@/lib/utils';
+
+const skills = [
+    'Pengembangan full-stack: frontend, backend, hingga infrastruktur',
+    'Security research & pengujian aplikasi web (OWASP Top 10)',
+    'Privasi & keamanan data',
+    'Dokumentasi teknis & materi Linux (RHCSA/EX200)',
+];
 ---
 
-<BaseLayout title="About" description="Cerita, latar belakang, dan fokus Nilma, M.Kom.">
-    <section class="reveal mx-auto max-w-6xl px-6 py-20">
+<BaseLayout
+    title="About"
+    description={`Profil ${site.fullName} — ${site.role}: keahlian, nilai tambah, filosofi kerja, dan kontribusi nyata.`}
+>
+    <section class="reveal mx-auto max-w-3xl px-6 py-20">
         <h1 class="text-4xl font-bold tracking-tight">About</h1>
-        <div class="mt-6 space-y-4 text-muted-foreground">
+
+        <!-- 1. PROFIL SINGKAT -->
+        <h2 class="mt-12 text-2xl font-bold tracking-tight">Profil Singkat</h2>
+        <div class="mt-4 space-y-4 text-muted-foreground">
             <p>
-                Saya <strong class="text-foreground">{site.fullName}</strong> — dosen yang harian saya habiskan membantu mahasiswa
-                membangun produk digital yang fungsional: dari sistem pakar berbasis rule (Forward Chaining) hingga aplikasi
-                web PHP & MySQL.
+                Saya <strong class="text-foreground">{site.fullName}</strong> — {site.role} dari Indonesia, bagian dari komunitas
+                <strong class="text-foreground">xaisyndicatelab</strong>. Sehari-hari saya membangun aplikasi web
+                end-to-end dan mengujinya sampai jebol: <em>I build and break apps</em>.
             </p>
             <p>
-                Selain mengajar, saya menulis panduan teknis dan memelihara materi persiapan sertifikasi seperti <strong
-                    class="text-foreground">RHCSA/EX200</strong
-                >. Saya percaya dokumentasi yang rapi sama pentingnya dengan kode yang jalan.
-            </p>
-            <p>
-                Di luar kelas, saya eksplorasi tooling modern — Astro, Tailwind, dan ekosistem komponen terbuka — supaya
-                materi yang saya berikan selalu relevan dengan industri.
+                Keahlian inti saya mencakup <strong class="text-foreground">frontend</strong> (antarmuka yang cepat & aksesibel),
+                <strong class="text-foreground">backend</strong> (API & logika bisnis),
+                <strong class="text-foreground">infrastruktur</strong> (deployment & observability), serta
+                <strong class="text-foreground">riset keamanan</strong> — mencari celah di aplikasi web sebelum penyerang
+                menemukannya. Sebagai <strong class="text-foreground">privacy advocate</strong>, saya menjaga data
+                pengguna sebagai bagian tak negosiasi dari kualitas.
             </p>
         </div>
 
-        <h2 class="mt-12 text-2xl font-bold tracking-tight">Fokus</h2>
+        <!-- 2. NILAI TAMBAH -->
+        <h2 class="mt-12 text-2xl font-bold tracking-tight">Nilai Tambah</h2>
+        <p class="mt-4 text-muted-foreground">
+            Kebanyakan tim memisahkan <em>yang membangun</em> dan <em>yang menguji</em>. Saya menyatukan keduanya —
+            sehingga keamanan bukan tahap akhir, melainkan fondasi sejak baris kode pertama. Manfaat nyata bagi Anda:
+        </p>
         <ul class="mt-4 space-y-2 text-muted-foreground">
-            <li>• Pembimbingan skripsi/TA (Sistem Pakar, Web PHP/MySQL)</li>
-            <li>• Mentoring sertifikasi Red Hat (RHCSA/EX200)</li>
-            <li>• Pengembangan & dokumentasi situs dengan Astro + Tailwind</li>
+            <li>
+                <strong class="text-foreground">Celah ditemukan lebih cepat</strong> — saat masih murah untuk diperbaiki,
+                bukan setelah rilis.
+            </li>
+            <li>
+                <strong class="text-foreground">Biaya perbaikan lebih rendah</strong> — audit berkala mencegah teknis utang
+                menumpuk.
+            </li>
+            <li>
+                <strong class="text-foreground">Produk lebih aman</strong> — dirancang tahan terhadap ancaman umum (OWASP
+                Top 10) sejak awal.
+            </li>
+            <li>
+                <strong class="text-foreground">Dokumentasi rapi</strong> — tim Anda bisa lanjut tanpa bergantung pada saya.
+            </li>
         </ul>
 
-        <div class="mt-10">
-            <a href={withBase('/contact/')} class="text-primary underline-offset-4 hover:underline">Hubungi saya →</a>
+        <!-- 3. FILOSOFI KERJA -->
+        <h2 class="mt-12 text-2xl font-bold tracking-tight">Filosofi Kerja</h2>
+        <p class="mt-4 text-muted-foreground">
+            Saya percaya keamanan adalah <em>fondasi</em>, bukan tambahan. Software yang baik diamankan sejak rancangan,
+            ditulis rapi agar bisa diaudit, dan diuji seolah-olah ada yang mencoba meretasnya — karena memang akan ada.
+            Dokumentasi dan privasi bukan "nice to have", melainkan bagian dari kualitas itu sendiri: kode yang tidak
+            bisa dibaca tidak bisa dipertahankan, dan data yang tidak dijaga bukan milik Anda sepenuhnya.
+        </p>
+
+        <!-- 4. PENCAPAIAN & KONTRIBUSI -->
+        <h2 class="mt-12 text-2xl font-bold tracking-tight">Pencapaian & Kontribusi</h2>
+        <p class="mt-4 text-muted-foreground">
+            Saya menulis <strong class="text-foreground">Panduan RHCSA/EX200</strong> yang tersebar luas di komunitas — membantu
+            praktisi lulus sertifikasi Red Hat lewat materi yang akurat dan terstruktur. Sebagai
+            <strong class="text-foreground">GitHub Developer Program Member</strong>, saya berkontribusi pada proyek
+            keamanan open-source dan memelihara alur kerja otomatis yang dipakai orang lain. Setiap karya diukur dari
+            dampak nyata: efisiensi tim, keamanan sistem, dan adopsi yang lebih luas.
+        </p>
+
+        <!-- 5. SKILLS UTAMA -->
+        <h2 class="mt-12 text-2xl font-bold tracking-tight">Skills Utama</h2>
+        <ul class="mt-4 space-y-2 text-muted-foreground">
+            {skills.map((s) => <li>{s}</li>)}
+        </ul>
+        <div class="mt-4 flex flex-wrap gap-2">
+            {
+                ['Astro', 'TypeScript', 'Node.js', 'Python', 'Linux', 'Docker', 'OWASP', 'CI/CD'].map((t) => (
+                    <span class="rounded-full border border-border bg-muted px-3 py-1 text-sm text-muted-foreground">
+                        {t}
+                    </span>
+                ))
+            }
+        </div>
+
+        <!-- 6. CTA -->
+        <div class="mt-12 flex flex-wrap gap-3">
+            <Button asChild size="lg"><a href={withBase('/contact/')}>Hubungi Saya</a></Button>
+            <Button asChild size="lg" variant="outline"
+                ><a href={withBase('/contact/')}>Diskusikan Proyek Anda</a></Button
+            >
         </div>
     </section>
 </BaseLayout>

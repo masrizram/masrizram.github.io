@@ -1,5 +1,5 @@
 ---
-title: Modul 04 — Get Help in Red Hat Enterprise Linux
+title: Modul 04 — Mencari Bantuan di RHEL (Get Help in Red Hat Enterprise Linux)
 ---
 
 > 📺 Referensi video: [UC_V5af1Ah0](https://www.youtube.com/watch?v=UC_V5af1Ah0&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)
@@ -66,6 +66,51 @@ type ls              # apakah perintah, alias, atau fungsi?
 - https://access.redhat.com/documentation — dokumentasi resmi RHEL.
 - `cockpit` juga menyediakan panel bantuan.
 
+## 8. Jebakan Umum (EX200)
+
+:::danger[Jebakan]
+
+- `apropos`/`whatis` mengembalikan "nothing appropriate" karena basis data
+  belum dibangun → jalankan `sudo mandb`.
+- Mencari opsi perintah bawaan shell (`cd`, `export`) lewat `man` padahal
+  itu builtin → gunakan `help cd` atau `man bash`.
+- Membaca man section yang salah: `man passwd` (1, perintah) berbeda dengan
+  `man 5 passwd` (format berkas).
+- Melewatkan contoh konfigurasi siap pakai di `/usr/share/doc/<paket>` yang
+  sering menjadi jalan pintas jawaban ujian.
+- Terlalu lama membaca dokumentasi saat waktu ujian menipis; gunakan `/`
+  untuk mencari di dalam man page, bukan membaca dari awal.
+- Berharap ada akses internet saat ujian — **tidak ada**; hanya dokumentasi
+  lokal (man, info, `/usr/share/doc`) yang tersedia.
+  :::
+
+## 9. Koneksi ke EX200
+
+:::tip[EX200]
+Objektif resmi menyebut **"Locate, read, and use system documentation
+including man, info, and files in /usr/share/doc"**. Tidak ada soal yang
+berbunyi "bacalah man page", tetapi ujian sengaja memuat tugas dengan opsi
+yang jarang dihafal — kemampuan menemukan jawabannya di dokumentasi offline
+adalah pembeda antara lulus dan kehabisan waktu. Latih pola
+`man -k <kata>` → `man <section> <topik>` → cari dengan `/opsi`.
+:::
+
+## Kuis
+
+1. Perintah mencari halaman manual berdasarkan kata kunci?
+    - a. `man -k` b. `whatis` c. `info` d. `help`
+2. `man 5 passwd` membahas?
+    - a. perintah `passwd` b. format file `/etc/passwd` c. password d. grup
+3. Bantuan untuk perintah internal bash (mis. `cd`)?
+    - a. `man cd` b. `cd --help` c. `help cd` d. `info cd`
+
+:::note[Kunci Jawaban Kuis]
+
+1. **a** (`man -k` = `apropos`).
+2. **b** (section 5 = format berkas).
+3. **c** (`help` khusus builtin bash; `man cd` tidak ada karena cd builtin).
+   :::
+
 ## Latihan
 
 1. Buka `man hier` untuk memahami struktur direktori, lalu tutup dengan `q`.
@@ -82,20 +127,4 @@ type ls              # apakah perintah, alias, atau fungsi?
    `date --help` → daftar opsi lengkap (`-d`, `-u`, `+FORMAT`).
 3. `apropos network` → mis. `ip(8)`, `nmcli(1)`, `ss(8)` (dokumentasi
    terkait subnet/interface).
-   :::
-
-## Kuis
-
-1. Perintah mencari halaman manual berdasarkan kata kunci?
-    - a. `man -k` b. `whatis` c. `info` d. `help`
-2. `man 5 passwd` membahas?
-    - a. perintah `passwd` b. format file `/etc/passwd` c. password d. grup
-3. Bantuan untuk perintah internal bash (mis. `cd`)?
-    - a. `man cd` b. `cd --help` c. `help cd` d. `info cd`
-
-:::note[Kunci Jawaban Kuis]
-
-1. **a** (`man -k` = `apropos`).
-2. **b** (section 5 = format berkas).
-3. **c** (`help` khusus builtin bash; `man cd` tidak ada karena cd builtin).
    :::

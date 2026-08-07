@@ -1,0 +1,114 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { Button } from '@/components/ui/button';
+import { withBase } from '@/lib/utils';
+import { site } from '@/lib/site';
+
+const experiments = [
+    {
+        t: 'Rule Engine Forward Chaining',
+        d: 'PoC mesin inferensi sistem pakar yang transparan dan mudah diaudit — setiap kesimpulan bisa dilacak ke aturannya. Bukti bahwa logika bisnis kritis sebaiknya bisa dijelaskan, bukan kotak hitam.',
+        href: withBase('/blog/membangun-sistem-pakar-forward-chaining/'),
+    },
+    {
+        t: 'Dokumentasi Otomatis (Astro + Starlight)',
+        d: 'Template docs site yang mengubah kode membingungkan jadi produk yang bisa dipakai orang lain. Otomasi dokumentasi memangkas waktu manual dan menjaga pengetahuan tetap hidup saat tim berganti.',
+        href: withBase('/blog/astro-starlight-dokumentasi/'),
+    },
+    {
+        t: 'Panduan RHCSA / EX200',
+        d: 'Materi persiapan sertifikasi Red Hat yang tersebar luas di komunitas. Dibangun dari pengalaman praktik nyata, bukan ringkasan teori — membantu praktisi lulus dengan pemahaman yang bisa diaplikasikan.',
+        href: withBase('/rhcsa/'),
+    },
+];
+const references = [
+    { t: 'OWASP Top 10', href: 'https://owasp.org/Top10/' },
+    { t: 'CIS Benchmarks', href: 'https://www.cisecurity.org/benchmark/' },
+    {
+        t: 'Red Hat RHCSA (EX200)',
+        href: 'https://www.redhat.com/en/services/training/ex200-red-hat-certified-system-administrator-rhcsa-exam',
+    },
+    { t: 'Astro Docs', href: 'https://docs.astro.build' },
+    { t: 'Starlight', href: 'https://starlight.astro.build' },
+    { t: 'Tailwind CSS', href: 'https://tailwindcss.com' },
+    { t: 'Repositori GitHub', href: site.socials.github },
+];
+---
+
+<BaseLayout
+    title="Lab & References"
+    description="Eksperimen teknis, proof-of-concept, dan kurasi standar industri resmi — bukti komitmen pada standar kerja yang bisa diverifikasi."
+    itemList={[
+        ...experiments.map((e) => ({ name: e.t, url: e.href, description: e.d })),
+        ...references.map((r) => ({ name: r.t, url: r.href, description: `Standar industri / rujukan: ${r.t}` })),
+    ]}
+>
+    <div class="mx-auto max-w-6xl px-6 py-20">
+        <h1 class="text-4xl font-bold tracking-tight">Lab & References</h1>
+
+        <!-- 1. INTRO -->
+        <p class="mt-3 max-w-2xl text-muted-foreground">
+            <strong class="text-foreground">Lab</strong> adalah ruang eksperimen saya — PoC kecil dan alat bantu yang membuktikan
+            klaim dengan kode, bukan janji. <strong class="text-foreground">References</strong> berisi kurasi standar industri
+            resmi (OWASP, CIS, Red Hat). Komitmen saya sederhana: <strong class="text-foreground"
+                >tidak ada klaim tanpa rujukan yang bisa diverifikasi</strong
+            >.
+        </p>
+
+        <!-- 2. EKSPERIMEN & PoC -->
+        <h2 class="mt-12 text-xl font-bold tracking-tight">Eksperimen & PoC</h2>
+        <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {
+                experiments.map((e) => (
+                    <a
+                        href={e.href}
+                        class="group flex flex-col rounded-xl border border-border bg-card p-5 transition-colors hover:border-primary/50"
+                    >
+                        <h3 class="font-semibold group-hover:text-primary">{e.t}</h3>
+                        <p class="mt-1 flex-1 text-sm text-muted-foreground">{e.d}</p>
+                        <span class="mt-3 text-xs text-primary transition-colors group-hover:underline">
+                            Lihat detail →
+                        </span>
+                    </a>
+                ))
+            }
+        </div>
+
+        <!-- 3. REFERENCES -->
+        <h2 class="mt-12 text-xl font-bold tracking-tight">Standar & Rujukan Industri</h2>
+        <p class="mt-2 max-w-2xl text-muted-foreground">
+            Setiap referensi di bawah adalah <strong class="text-foreground">dasar kerja saya</strong>, bukan sekadar
+            teori. Repositori GitHub menunjukkan kontribusi nyata — kode yang bisa dibaca orang lain.
+        </p>
+        <div class="mt-4 flex flex-wrap gap-3">
+            {
+                references.map((r) => (
+                    <a
+                        href={r.href}
+                        class="rounded-full border border-border bg-muted px-4 py-2 text-sm transition-colors hover:bg-accent"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        {r.t}
+                    </a>
+                ))
+            }
+        </div>
+
+        <!-- 4. CTA -->
+        <div
+            class="mt-12 flex flex-col items-start gap-4 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/5 to-transparent p-8 sm:flex-row sm:items-center sm:justify-between"
+        >
+            <div>
+                <h2 class="text-2xl font-bold tracking-tight">Punya ide eksperimen?</h2>
+                <p class="mt-2 max-w-xl text-muted-foreground">
+                    Minta eksperimen lain, atau diskusikan proyek riset keamanan yang ingin Anda buktikan dengan kode.
+                </p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+                <Button asChild size="lg"><a href={withBase('/contact/')}>Mulai Kolaborasi</a></Button>
+                <Button asChild size="lg" variant="outline"><a href={withBase('/contact/')}>Hubungi Saya</a></Button>
+            </div>
+        </div>
+    </div>
+</BaseLayout>

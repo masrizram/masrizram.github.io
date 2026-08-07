@@ -1,5 +1,5 @@
 ---
-title: Modul 08 — Monitor and Manage Linux Processes
+title: Modul 08 — Memantau & Mengelola Proses (Monitor and Manage Linux Processes)
 ---
 
 > 📺 Referensi video: [xeN2_R7W7so](https://www.youtube.com/watch?v=xeN2_R7W7so&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)
@@ -61,23 +61,34 @@ free -h                 # memori & swap
 vmstat 1                # statistik memori/IO/CPU per detik
 ```
 
-## Latihan
+## 7. Jebakan Umum (EX200)
 
-1. Jalankan `sleep 300 &`, cek `jobs`, lalu `kill %1`.
-2. Temukan PID `sshd` dengan `pgrep sshd`, lalu `ps -p <PID> -o pid,comm,ni`.
-3. Amati beban: `uptime` dan `free -h`.
+:::danger[Jebakan]
 
-## Kunci Jawaban (klik untuk lihat)
+- `kill -9` sebagai refleks pertama → proses tidak sempat membersihkan
+  berkas kunci; gunakan `SIGTERM` (default) lebih dulu.
+- Salah mengira `killall` dan `pkill` menerima PID; keduanya menerima
+  **nama** proses, sedangkan `kill` menerima PID.
+- Menjalankan proses panjang di foreground lalu sesi SSH putus → gunakan
+  `&`, `nohup`, atau unit systemd bila harus persisten.
+- Salah membaca nilai `nice`: nilai **lebih rendah** berarti prioritas
+  **lebih tinggi**; hanya root yang boleh menurunkan nilai di bawah 0.
+- Menyimpulkan sistem lambat hanya dari `%CPU` `top` tanpa melihat load
+  average, `wa` (I/O wait), atau pemakaian swap.
+- Mengubah prioritas dengan `renice` per-proses padahal soal menuntut
+  pengaturan permanen lewat unit systemd atau `tuned`.
+  :::
 
-:::note[Kunci Jawaban Latihan]
+## 8. Koneksi ke EX200
 
-1. `sleep 300 &` → muncul `[1] <PID>`; `jobs` menampilkan `[1]+ Running`;
-   `kill %1` mengirim SIGTERM → job selesai (Done).
-2. `pgrep sshd` → mis. `872`; `ps -p 872 -o pid,comm,ni` →
-   `872 sshd 0` (nice default 0).
-3. `uptime` → `load average: 0.00, 0.01, 0.05` (sistem idle);
-   `free -h` → total/used/free memori + swap.
-   :::
+:::tip[EX200]
+Modul ini menopang objektif **"Operate running systems"**, khususnya
+"identify CPU/memory intensive processes" dan "kill processes", serta
+"adjust process scheduling". Bentuk soal biasanya tidak berdiri sendiri:
+Anda diminta menemukan proses yang membebani sistem lalu menghentikannya,
+atau menjalankan sebuah program dengan nilai `nice` tertentu. Alat wajib:
+`ps aux`, `top`, `pgrep`/`pkill`, `kill`, `nice`, dan `renice`.
+:::
 
 ## Kuis
 
@@ -94,4 +105,22 @@ vmstat 1                # statistik memori/IO/CPU per detik
    tapi soal minta "standard" → `ps -ef`).
 2. **b** (SIGKILL tidak bisa diabaikan, risiko data korup).
 3. **b** (`nice -n 10 ./cmd`; `renice` untuk proses yang sudah jalan).
+   :::
+
+## Latihan
+
+1. Jalankan `sleep 300 &`, cek `jobs`, lalu `kill %1`.
+2. Temukan PID `sshd` dengan `pgrep sshd`, lalu `ps -p <PID> -o pid,comm,ni`.
+3. Amati beban: `uptime` dan `free -h`.
+
+## Kunci Jawaban (klik untuk lihat)
+
+:::note[Kunci Jawaban Latihan]
+
+1. `sleep 300 &` → muncul `[1] <PID>`; `jobs` menampilkan `[1]+ Running`;
+   `kill %1` mengirim SIGTERM → job selesai (Done).
+2. `pgrep sshd` → mis. `872`; `ps -p 872 -o pid,comm,ni` →
+   `872 sshd 0` (nice default 0).
+3. `uptime` → `load average: 0.00, 0.01, 0.05` (sistem idle);
+   `free -h` → total/used/free memori + swap.
    :::

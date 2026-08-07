@@ -5,6 +5,7 @@ category: 'Sistem Pakar'
 date: 2026-07-01
 img: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1400&h=900&auto=format&fit=crop&q=80'
 link: '/portfolio/'
+impact: 'Membantu pasien & tenaga klinis mengenali kerusakan gigi lebih awal melalui 30+ rule diagnosis (Forward Chaining). [Metrik: jumlah pengguna / tingkat akurasi — isi bila tersedia].'
 ---
 
 Sistem pakar untuk membantu pasien mengenali jenis kerusakan gigi dari gejala yang diinput.

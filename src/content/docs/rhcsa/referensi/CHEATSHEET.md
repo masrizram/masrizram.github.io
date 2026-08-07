@@ -124,8 +124,8 @@ ls -Z, ps -Z
 podman pull registry.redhat.io/..., podman images
 podman run -d -p 8080:80 --name web nginx
 podman ps, podman stop, podman rm, podman logs
-podman generate systemd --new --files --name web   # jadikan service
-# Quadlet (cara modern, wajib EX200 RHEL9): tulis file unit .container
+podman generate systemd --new --files --name web   # DEPRECATED, pakai Quadlet
+# Quadlet (cara modern, RHEL 9+): tulis file unit .container
 #   ~/.config/containers/systemd/web.container  lalu:
 systemctl --user daemon-reload
 systemctl --user enable --now web.container

@@ -1,5 +1,5 @@
 ---
-title: Modul 19 — Skenario EX200 Terukur (Latihan Berbobot)
+title: Modul 19 — Skenario Ujian EX200 Terukur (Scored Practice Exam)
 ---
 
 > Ini adalah **simulasi ujian beneran**: 10 tugas dengan _score sheet_ seperti
@@ -109,17 +109,26 @@ dnf module list postgresql      # 15 [e]
 rpm -q postgresql-server        # tidak terpasang
 ```
 
-## 🧪 Tugas 8 — Podman (10 pt)
+## 🧪 Tugas 8 — Podman (10 pt, BONUS — bukan objektif EX200 RHEL 10)
+
+:::caution[Tugas bonus]
+Container/Podman **bukan** objektif resmi EX200 RHEL 10 (masih relevan di era
+RHEL 9 & di lapangan). Kerjakan sebagai latihan tambahan; **jangan** hitung
+poinnya saat mengukur kesiapan ujian RHEL 10 — lihat Score Sheet.
+:::
 
 Jalankan `httpd` (httpd:alpine/rockylinux) di container bernama `web`, port
-`8080:80`, restart always. Generate systemd service agar container jalan saat boot.
+`8080:80`, restart always. Jadikan container berjalan saat boot memakai
+**Quadlet** (`~/.config/containers/systemd/web.container`) — cara resmi sejak
+RHEL 9; `podman generate systemd` sudah _deprecated_.
 
 **Verifikasi:**
 
 ```bash
 podman ps | grep web
 curl -s localhost:8080 | head -1     # halaman default
-ls ~/.config/systemd/user/ | grep web  # service ter-generate
+ls ~/.config/containers/systemd/ | grep web   # unit Quadlet ada
+systemctl --user is-enabled web.service       # aktif saat login/boot
 ```
 
 ## 🧪 Tugas 9 — SELinux (10 pt)
@@ -213,26 +222,29 @@ timedatectl | grep "System clock synchronized"   # yes
 
 ## 📊 Score Sheet
 
-| #   | Tugas                   | Poin | ✅  |
-| --- | ----------------------- | ---- | --- |
-| 1   | User & Group            | 10   |     |
-| 2   | Permission & ACL        | 10   |     |
-| 3   | LVM                     | 10   |     |
-| 4   | systemd service         | 10   |     |
-| 5   | SSH hardening           | 10   |     |
-| 6   | Networking              | 10   |     |
-| 7   | DNF module              | 10   |     |
-| 8   | Podman                  | 10   |     |
-| 9   | SELinux                 | 10   |     |
-| 10  | Cron & TZ               | 10   |     |
-| 11  | NFS share               | 10   |     |
-| 12  | autofs + tuned + chrony | 10   |     |
+| #   | Tugas                   | Poin       | ✅  |
+| --- | ----------------------- | ---------- | --- |
+| 1   | User & Group            | 10         |     |
+| 2   | Permission & ACL        | 10         |     |
+| 3   | LVM                     | 10         |     |
+| 4   | systemd service         | 10         |     |
+| 5   | SSH hardening           | 10         |     |
+| 6   | Networking              | 10         |     |
+| 7   | DNF module              | 10         |     |
+| 8   | Podman                  | 10 (bonus) |     |
+| 9   | SELinux                 | 10         |     |
+| 10  | Cron & TZ               | 10         |     |
+| 11  | NFS share               | 10         |     |
+| 12  | autofs + tuned + chrony | 10         |     |
 
-**Total:** _____ / 120
+**Total inti (tanpa Tugas 8):** _____ / 110
+**Total termasuk bonus:** _____ / 120
 
-- **≥ 96** (80%) → siap ujian.
-- **72–95** → ulangi modul yang lemah.
-- **< 72** → kerjakan ulang LAB per modul dulu.
+Gunakan **skor inti** untuk menilai kesiapan EX200 RHEL 10:
+
+- **≥ 88** (80% dari 110) → siap ujian.
+- **66–87** → ulangi modul yang lemah.
+- **< 66** → kerjakan ulang LAB per modul dulu.
 
 ## 💡 Tips Lulus
 
@@ -242,3 +254,69 @@ timedatectl | grep "System clock synchronized"   # yes
   untuk LVM/SELinux/Podman.
 - Jangan **matikan SELinux** — itu jalan pintas yang gagal di ujian.
 - Simpan lembar soal; catat IP/user/pass di awal.
+
+## Koneksi ke EX200
+
+Kedua belas tugas di atas dipetakan langsung ke area objektif resmi EX200
+(RHEL 10), sehingga skor inti Anda ≈ gambaran kesiapan ujian:
+
+| Tugas | Area objektif resmi EX200                                        |
+| ----- | ---------------------------------------------------------------- |
+| 1     | Manage users and groups                                          |
+| 2     | Manage security (permission, ACL, umask)                         |
+| 3     | Configure local storage (PV/VG/LV, extend)                       |
+| 4     | Deploy & maintain systems (start/enable service)                 |
+| 5     | Manage security (key-based SSH authentication)                   |
+| 6     | Manage basic networking (IPv4/IPv6, firewalld)                   |
+| 7     | Manage software (RPM repo, DNF module, Flatpak)                  |
+| 8     | — **bonus**, container bukan objektif RHEL 10                    |
+| 9     | Manage security (SELinux enforcing, context, boolean)            |
+| 10    | Deploy & maintain (cron/at/systemd timer, time zone)             |
+| 11    | Create & configure file systems (mount NFS)                      |
+| 12    | File systems (autofs) + operate running systems (tuned) + chrony |
+
+**Bentuk soalnya di ujian:** persis seperti ini — instruksi tugas tanpa langkah,
+dinilai otomatis dari **keadaan akhir sistem setelah reboot**. Karena itu kolom
+"Verifikasi" pada tiap tugas adalah bagian yang wajib dibiasakan, bukan opsional.
+
+## Jebakan Umum (EX200)
+
+:::danger[Jebakan]
+
+- Menganggap tugas "selesai" tanpa menjalankan poin verifikasi → di simulasi
+  maupun ujian nyata, tugas tak terbukti = 0 poin.
+- Membuat user/group atau mount hanya untuk sesi berjalan → lupa
+  `systemctl enable --now` atau entri `/etc/fstab`, hilang setelah reboot.
+- Salah tulis UUID pada Tugas LVM/NFS → VM tidak bisa boot. Uji `mount -a`
+  sebelum reboot.
+- `firewall-cmd` tanpa `--permanent` (atau lupa `--reload`) pada Tugas
+  Networking/NFS → port tertutup lagi setelah restart.
+- Mengedit `/etc/ssh/sshd_config` tanpa `sshd -t` lalu reload → layanan SSH
+  mati dan sesi remote putus.
+- Mengira Tugas 8 (Podman) mewakili objektif resmi EX200 RHEL 10 — tugas itu
+  **materi perluasan/bonus**; prioritaskan tugas objektif resmi seperti
+  autofs, chrony, tuned, dan systemd/service.
+  :::
+
+## Kuis Cepat
+
+1. Mengapa setiap tugas dalam simulasi ini menyertakan kolom
+   "Cara Buktikan"?
+2. Pada Tugas LVM, perintah apa yang wajib dijalankan setelah `lvextend`
+   agar kapasitas filesystem XFS ikut bertambah?
+3. Sebelum me-reload `sshd` pada Tugas SSH Hardening, perintah validasi apa
+   yang harus dijalankan?
+4. Tugas mana dalam simulasi ini yang termasuk materi perluasan/bonus,
+   bukan objektif resmi EX200 RHEL 10?
+5. Berapa skor minimum (dari total 120) yang menandakan Anda siap ujian?
+
+:::note[Kunci Jawaban Kuis]
+
+1. Karena penilaian EX200 berbasis hasil nyata pada sistem; tugas yang tidak
+   dapat dibuktikan/diverifikasi dianggap tidak dikerjakan.
+2. `xfs_growfs /mountpoint` (untuk ext4: `resize2fs`).
+3. `sshd -t` (uji sintaks konfigurasi) sebelum
+   `systemctl reload sshd`.
+4. **Tugas 8 — Podman**; container bukan objektif resmi EX200 RHEL 10.
+5. **≥ 96 poin** (80%).
+   :::

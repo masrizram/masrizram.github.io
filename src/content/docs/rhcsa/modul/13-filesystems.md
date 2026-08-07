@@ -1,5 +1,5 @@
 ---
-title: Modul 13 — Access Linux File Systems
+title: Modul 13 — Mengakses File System Linux (Access Linux File Systems)
 ---
 
 > 📺 Referensi video: [tuN89JVWjCs](https://www.youtube.com/watch?v=tuN89JVWjCs&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)
@@ -172,11 +172,17 @@ mount | grep auto.nfs      # terlihat entry automount
 > ⚠️ Bedanya dengan fstab statis: autofs **tidak** mem-block boot bila server
 > NFS down. Itu sebabnya sering jadi preferensi di soal EX200.
 
-## 11. Stratis — Manajemen Storage Lokal Modern (Wajib EX200)
+## 11. Stratis — Manajemen Storage Lokal Modern (Bonus RHEL 9)
+
+:::caution[Bukan objektif EX200 RHEL 10]
+Stratis muncul di objektif EX200 era **RHEL 9**, tetapi **tidak** ada di daftar
+objektif resmi **RHEL 10**. Pelajari sebagai **materi perluasan** (berguna di
+lapangan & lingkungan RHEL 9), bukan prioritas ujian. Prioritaskan LVM, GPT,
+autofs, dan mount permanen via UUID.
+:::
 
 Stratis menyederhanakan storage tingkat lanjut (snapshot, thin-provision,
-pool) di atas LVM/XFS dengan satu perintah. Objektif EX200 RHEL 9/10:
-_"Configure and manage storage using the Stratis"_ (sic) — jadi **wajib diuji**.
+pool) di atas LVM/XFS dengan satu perintah.
 
 **Konsep:** `blockdev` (disk) → `pool` (kumpulan storage) → `filesystem`
 (XFS di atas pool, thin-provision).
@@ -218,11 +224,16 @@ sudo stratis pool destroy mypool
 > ⚠️ Jangan format device yang SUDAH masuk pool Stratis dengan `mkfs`.
 > Stratis mengelola XFS di dalamnya sendiri.
 
-## 12. VDO — Deduplikasi & Kompresi (Wajib EX200)
+## 12. VDO — Deduplikasi & Kompresi (Bonus RHEL 9)
+
+:::caution[Bukan objektif EX200 RHEL 10]
+VDO ada di objektif EX200 era **RHEL 9**, **tidak** di objektif resmi **RHEL 10**.
+Materi perluasan, bukan prioritas ujian.
+:::
 
 VDO (Virtual Data Optimizer) memberikan deduplikasi + kompresi di atas block
 device, sehingga ruang fisik lebih efisien untuk data berulang (backup,
-image). Objektif EX200: _"Configure and manage storage using VDO"_.
+image).
 
 ```bash
 # 1. Pasang & aktifkan
@@ -249,10 +260,16 @@ vdostats --human-readable
 > ⚠️ VDO butuh device **kosong** (belum ada filesystem/partition table).
 > Gunakan `vdo remove --name=myvdo` untuk membongkar.
 
-## 13. Disk Quota — Batasi Pemakaian User/Group (Wajib EX200)
+## 13. Disk Quota — Batasi Pemakaian User/Group (Bonus RHEL 9)
 
-Objektif EX200: _"Implement disk quotas"_. Batasi berapa banyak ruang/ jumlah
-file yang boleh dipakai tiap user atau group pada suatu filesystem.
+:::caution[Bukan objektif EX200 RHEL 10]
+_"Implement disk quotas"_ tercantum di objektif EX200 era **RHEL 9**, namun
+**tidak** di objektif resmi **RHEL 10**. Materi perluasan — tetap relevan di
+lapangan.
+:::
+
+Batasi berapa banyak ruang / jumlah file yang boleh dipakai tiap user atau
+group pada suatu filesystem.
 
 ```bash
 # 1. Mount FS dengan opsi quota (userquota,grpquota)
@@ -315,17 +332,6 @@ Atau: "Batasi user `user1` maks 120M & 1200 file di `/home`" →
 **disk quota** (§13, perintah `xfs_quota -x -c 'limit ...'`).
 :::
 
-## Kunci Jawaban (klik untuk lihat)
-
-:::note[Kunci Jawaban Latihan]
-
-1. `lvcreate` butuh VG ada.
-2. `mkfs.xfs` memformat; XFS tidak bisa shrink.
-3. `mount -a` uji semua entri fstab.
-4. VFAT: `mkfs.vfat -F 32 /dev/sdX`; mount type `vfat`.
-5. autofs: isi `/etc/auto.master.d/*.autofs` + map file, lalu `enable --now autofs`.
-   :::
-
 ## Kuis Cepat
 
 1. Perintah verifikasi fstab tanpa reboot? (`mount -a`)
@@ -346,3 +352,14 @@ Atau: "Batasi user `user1` maks 120M & 1200 file di `/home`" →
 7. (RHEL 9/10) buat volume VDO dedup, format XFS, cek `vdostats`.
 8. (RHEL 9/10) pasang `usrquota,grpquota` di `/home`, set batas user dengan
    `xfs_quota -x -c 'limit ...'`, verifikasi dengan `report -h -u`.
+
+## Kunci Jawaban (klik untuk lihat)
+
+:::note[Kunci Jawaban Latihan]
+
+1. `lvcreate` butuh VG ada.
+2. `mkfs.xfs` memformat; XFS tidak bisa shrink.
+3. `mount -a` uji semua entri fstab.
+4. VFAT: `mkfs.vfat -F 32 /dev/sdX`; mount type `vfat`.
+5. autofs: isi `/etc/auto.master.d/*.autofs` + map file, lalu `enable --now autofs`.
+   :::

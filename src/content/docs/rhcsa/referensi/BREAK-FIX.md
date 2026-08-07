@@ -107,4 +107,4 @@ mount /dev/vg0/lv0 /mnt
 > Latih skenario ini di VM (bukan container) — container tidak punya GRUB/
 > systemd init, jadi `rd.break` tidak bisa diuji di podman.
 
-**Link:** [Persiapan EX200](/rhcsa/EX200-prep) · [Skenario Terukur](/rhcsa/modul/19-skenario-ex200) · [LAB](/rhcsa/lab/LAB)
+**Link:** [Persiapan EX200](/rhcsa/EX200-prep) · [Skenario Terukur](/rhcsa/modul/19-skenario-ex200) · [LAB](/rhcsa/lab/lab/)

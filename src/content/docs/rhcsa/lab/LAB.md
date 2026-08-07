@@ -138,7 +138,7 @@ sudo xfs_growfs /data
 ## Modul 15 — Drill Cepat EX200 (target < 90 menit, tanpa batas waktu)
 
 > Ini **drill latihan cepat**, bukan simulasi ujian berjadwal. Simulasi ujian
-> berdurasi penuh ada di **[Simulasi Ujian 3 Jam/180 mnt](/rhcsa/referensi/SIMULASI-UJIAN)**
+> berdurasi penuh ada di **[Simulasi Ujian 3 Jam/180 mnt](/rhcsa/referensi/simulasi-ujian/)**
 > dan **[Modul 19 — Skenario EX200 (120 mnt)](/rhcsa/modul/19-skenario-ex200)**.
 
 1. User `operator` UID 2000, group `ops` GID 3000, shell bash.

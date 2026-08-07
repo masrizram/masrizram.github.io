@@ -1,5 +1,5 @@
 ---
-title: Modul 00 — Pengantar & Roadmap Sertifikasi Red Hat
+title: Modul 00 — Pengantar & Peta Jalan Sertifikasi Red Hat
 ---
 
 > 📺 Referensi video: [Introduction](https://www.youtube.com/watch?v=pnHqii1Oq8Y&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns) · [Wrap Up](https://www.youtube.com/watch?v=O58uDdztjGU&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns) · [Pass the EX200](https://www.youtube.com/watch?v=2n2P0Awz3U4&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)
@@ -65,21 +65,37 @@ cat /etc/redhat-release
 | 11–12  | Ulangi semua LAB                                       |
 | 13–16  | Modul 18 (EX200 Prep) + 19 (Skenario) + simulasi EX200 |
 
-## Latihan
+## 6. Jebakan Umum (EX200)
 
-1. Tentukan distro yang akan kamu pakai untuk lab dan catat alasannya.
-2. Jalankan `cat /etc/redhat-release` dan simpan outputnya.
-3. Buat akun latihan bernama `student` (dilakukan di Modul 06 nanti).
+:::danger[Jebakan]
 
-## Kunci Jawaban (klik untuk lihat)
+- Menganggap RHCSA ujian pilihan ganda → EX200 **100% praktik** di sistem live;
+  hafalan teori tanpa latihan mengetik perintah tidak cukup.
+- Belajar di distribusi lain (Ubuntu/Debian) lalu kaget: `dnf`, `firewalld`,
+  SELinux, dan `nmcli` adalah dunia Red Hat, bukan `apt`/`ufw`/`netplan`.
+- Tidak memakai versi yang benar: objektif RHEL 10 berbeda dari RHEL 8/9
+  (mis. Podman & Stratis bukan lagi objektif resmi RHEL 10).
+- Semua konfigurasi harus **persisten setelah reboot** — banyak peserta lupa
+  `systemctl enable` atau tidak menulis ke `/etc/fstab`.
+- Mengabaikan manajemen waktu: ~2,5 jam untuk banyak tugas; lupa membaca
+  seluruh soal dulu dan menentukan urutan pengerjaan.
+- Tidak menyiapkan lab sendiri (VM RHEL developer subscription / Rocky /
+  AlmaLinux) sehingga tidak pernah benar-benar melatih perintah.
+  :::
 
-:::note[Kunci Jawaban Latihan]
+## 7. Koneksi ke EX200
 
-1. Pilih Rocky/AlmaLinux (100% RHEL-compatible, gratis) atau Fedora (WSL).
-   Alasan: tanpa langganan RHEL resmi tetap bisa latihan penuh.
-2. Output mis. `Rocky Linux release 9.4 (Blue Onyx)` — bukti distro RHEL-like.
-3. Akun `student` dibuat di Modul 06 (useradd); di sini cukup rencanakan.
-   :::
+:::tip[EX200]
+Modul ini belum menguji perintah, tetapi menentukan **peta jalan** semua
+objektif resmi EX200: essential tools, manage software (DNF + Flatpak),
+shell scripting, operate running systems, local storage, file systems,
+deploy & maintain, networking, users & groups, serta security (SELinux,
+umask, kunci SSH). Bentuk soal di ujian selalu berupa perintah kerja
+("Konfigurasikan …", "Buat …", "Pastikan tetap aktif setelah reboot"),
+dinilai otomatis dari kondisi akhir sistem — bukan dari cara Anda
+mengerjakannya. Gunakan roadmap 16 minggu di §5 sebagai urutan belajar dan
+selalu tutup setiap modul dengan latihan di VM.
+:::
 
 ## Kuis
 
@@ -95,4 +111,20 @@ cat /etc/redhat-release
 1. **b** (performance-based, diberi server nyata).
 2. **a** (RH124 → RH134 → EX200).
 3. **b** (Rocky/AlmaLinux biner-kompatibel RHEL).
+   :::
+
+## Latihan
+
+1. Tentukan distro yang akan kamu pakai untuk lab dan catat alasannya.
+2. Jalankan `cat /etc/redhat-release` dan simpan outputnya.
+3. Buat akun latihan bernama `student` (dilakukan di Modul 06 nanti).
+
+## Kunci Jawaban (klik untuk lihat)
+
+:::note[Kunci Jawaban Latihan]
+
+1. Pilih Rocky/AlmaLinux (100% RHEL-compatible, gratis) atau Fedora (WSL).
+   Alasan: tanpa langganan RHEL resmi tetap bisa latihan penuh.
+2. Output mis. `Rocky Linux release 9.4 (Blue Onyx)` — bukti distro RHEL-like.
+3. Akun `student` dibuat di Modul 06 (useradd); di sini cukup rencanakan.
    :::

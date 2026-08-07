@@ -1,5 +1,5 @@
 ---
-title: Modul 14 — Analyze Servers and Get Support
+title: Modul 14 — Analisis Server & Dukungan Teknis (Analyze Servers and Get Support)
 ---
 
 > 📺 Referensi video: [44ObsKHr0IA](https://www.youtube.com/watch?v=44ObsKHr0IA&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)
@@ -91,22 +91,39 @@ sudo subscription-manager repos --list
 5. Cek konfigurasi & izin.
 6. Reproduksi di lingkungan bersih bila perlu.
 
-## Latihan
+## 8. Jebakan Umum (EX200)
 
-1. Jalankan `journalctl -p err -b` dan catat 1 error (walau minor).
-2. Buka Cockpit di browser lab (atau pastikan socket aktif).
-3. Buat "checklist triase" singkat untuk kasus "web tidak bisa diakses".
+:::danger[Jebakan]
 
-## Kunci Jawaban (klik untuk lihat)
+- Mengira journald otomatis persisten → tanpa `/var/log/journal` (dan
+  `Storage=persistent`), log hilang setelah reboot. Jangan lupa
+  `systemctl restart systemd-journald`.
+- Membuat `/var/log/journal` dengan kepemilikan/izin salah → gunakan
+  `systemd-tmpfiles --create --prefix /var/log/journal` atau setel
+  `root:systemd-journal` mode `2755`.
+- Menggunakan `journalctl -b` saja padahal soal meminta log **boot
+  sebelumnya** (`journalctl -b -1`).
+- Mengabaikan filter waktu (`--since`, `--until`) dan prioritas (`-p err`)
+  sehingga tenggelam dalam ribuan baris log.
+- Menghapus log dengan `rm` di `/var/log/journal` alih-alih
+  `journalctl --vacuum-size=`/`--vacuum-time=`.
+- Mengandalkan Insights/Customer Portal saat ujian — **tidak ada akses
+  internet**; semua diagnosis harus dari `journalctl`, `/var/log`, dan
+  `systemctl status`.
+  :::
 
-:::note[Kunci Jawaban Latihan]
+## 9. Koneksi ke EX200
 
-1. `journalctl -p err -b` → error sejak boot; mis. unit failed.
-2. `systemctl enable --now cockpit.socket` lalu buka `https://host:9090`.
-3. Triase: (a) cek service `systemctl status httpd`; (b) firewall
-   `firewall-cmd --list-all`; (c) port listen `ss -tulnp | grep :80`;
-   (d) log `journalctl -u httpd`.
-   :::
+:::tip[EX200]
+Objektif resmi yang disentuh: **"Preserve system journals"** (bagian dari
+_Operate running systems_) dan kemampuan **"Locate and interpret system log
+files and journals"**. Bentuk soalnya lugas: "Konfigurasikan sistem agar
+journal tetap tersimpan setelah reboot" → buat `/var/log/journal`, setel
+`Storage=persistent` di `/etc/systemd/journald.conf`, restart
+`systemd-journald`, lalu verifikasi dengan `journalctl --list-boots`
+setelah reboot. Cockpit, Insights, dan manajemen langganan bersifat
+pendukung/lapangan, bukan materi yang diujikan.
+:::
 
 ## Kuis
 
@@ -122,4 +139,21 @@ sudo subscription-manager repos --list
 1. **a** (`journalctl -f -u <svc>` live tail layanan).
 2. **b** (Cockpit port 9090).
 3. **b** (klon gratis tidak perlu subscription-manager).
+   :::
+
+## Latihan
+
+1. Jalankan `journalctl -p err -b` dan catat 1 error (walau minor).
+2. Buka Cockpit di browser lab (atau pastikan socket aktif).
+3. Buat "checklist triase" singkat untuk kasus "web tidak bisa diakses".
+
+## Kunci Jawaban (klik untuk lihat)
+
+:::note[Kunci Jawaban Latihan]
+
+1. `journalctl -p err -b` → error sejak boot; mis. unit failed.
+2. `systemctl enable --now cockpit.socket` lalu buka `https://host:9090`.
+3. Triase: (a) cek service `systemctl status httpd`; (b) firewall
+   `firewall-cmd --list-all`; (c) port listen `ss -tulnp | grep :80`;
+   (d) log `journalctl -u httpd`.
    :::

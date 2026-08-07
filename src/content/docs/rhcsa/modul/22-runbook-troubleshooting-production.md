@@ -355,6 +355,75 @@ systemctl cat <app>                     # cek ExecStart & dependency
 > _tangani saat terjadi_. Kombinasi keduanya = amunisi hari pertama di
 > enterprise/perbankan.
 
+## Jebakan Umum (EX200)
+
+Meski modul ini berorientasi produksi, kesalahan berikut juga menggagalkan
+peserta di EX200 — karena ~40% soal ujian bersifat troubleshooting:
+
+- **Reboot sebelum `mount -a`.** Mengubah `/etc/fstab` lalu langsung reboot
+  tanpa uji `mount -a` → sistem stuck di emergency mode dan skor tugas hilang.
+- **`setenforce 0` sebagai "solusi".** Mematikan SELinux memang membuat service
+  jalan, tapi seluruh tugas keamanan dinilai nol. Perbaiki label dengan
+  `semanage fcontext` + `restorecon`, bukan mematikan penegakan.
+- **`systemctl stop firewalld`** agar port terbuka. Yang benar
+  `firewall-cmd --add-service=... --permanent && firewall-cmd --reload`.
+- **Lupa `--permanent` / `enable`.** Konfigurasi hanya bertahan sampai reboot,
+  padahal semua tugas EX200 dinilai **setelah reboot**.
+- **`lvextend` tanpa `xfs_growfs`/`resize2fs`.** LV membesar tapi filesystem
+  tidak — `df -h` tidak berubah dan tugas dianggap gagal.
+- **Tidak memverifikasi.** Menganggap tugas selesai tanpa membuktikan dengan
+  `systemctl is-enabled`, `getenforce`, `df -h`, atau `firewall-cmd --list-all`.
+
+## Koneksi ke EX200
+
+Modul ini tidak menambah objektif baru; ia **melatih kemampuan pemulihan** yang
+dipakai lintas objektif resmi EX200 (RHEL 10):
+
+| Skenario di modul ini          | Objektif resmi EX200 yang disentuh                                                       |
+| ------------------------------ | ---------------------------------------------------------------------------------------- |
+| No-boot karena fstab           | _Mount file systems at boot by UUID or label_; _boot into different targets_             |
+| SELinux memblokir service      | _Restore default file contexts_; _use Boolean settings_; _set enforcing_                 |
+| Disk `/` atau `/var/log` penuh | _Locate and interpret system log files and journals_; manajemen storage                  |
+| Port unreachable pasca patch   | _Restrict network access using firewalld_; _configure network services to start at boot_ |
+| LVM/PV bermasalah              | _Extend existing logical volumes_; _create and delete logical volumes_                   |
+| Root terkunci (`rd.break`)     | _Interrupt the boot process in order to gain access to a system_                         |
+| Service crash loop             | _Start, stop, and check the status of network services_                                  |
+
+**Bentuk soalnya di ujian:** Anda tidak diminta "menjelaskan" — sistem sudah
+dalam keadaan rusak dan Anda harus membuatnya berfungsi **dan tetap berfungsi
+setelah reboot**. Karena itu langkah "Cara Buktikan" di tiap skenario adalah
+kebiasaan yang paling menentukan kelulusan.
+
+## Kuis Cepat
+
+1. Server gagal boot ke emergency mode karena entri `/etc/fstab` salah —
+   apa dua langkah pertama yang Anda lakukan di emergency shell?
+2. Sebuah service diblokir SELinux setelah data dipindah ke direktori baru.
+   Perintah apa yang benar agar konteks permanen, dan mengapa `chcon` tidak
+   cukup?
+3. `/var/log` penuh 100% padahal file besar sedang dibuka proses — mengapa
+   `rm` tidak langsung mengembalikan ruang, dan apa alternatifnya?
+4. Setelah `lvextend`, kapasitas `df -h` belum bertambah. Apa penyebab dan
+   perbaikannya untuk XFS?
+5. Layanan mengalami crash loop. Sebutkan tiga perintah diagnosis utama.
+
+:::note[Kunci Jawaban Kuis]
+
+1. Masuk shell darurat (login root), `mount -o remount,rw /`, perbaiki baris
+   `/etc/fstab` (gunakan UUID yang benar atau beri komentar), lalu uji dengan
+   `mount -a` sebelum reboot.
+2. `semanage fcontext -a -t <tipe> "/path(/.*)?"` diikuti
+   `restorecon -Rv /path`. `chcon` hanya mengubah label saat ini dan akan
+   hilang saat relabel/`restorecon` berikutnya.
+3. Inode file masih dipegang oleh proses (deskriptor terbuka) sehingga ruang
+   baru bebas setelah proses ditutup/restart. Gunakan
+   `truncate -s 0 /var/log/file.log` atau rotasi via `logrotate -f`.
+4. Ukuran LV bertambah tetapi filesystem belum di-_grow_. Jalankan
+   `xfs_growfs /mountpoint` (ext4: `resize2fs /dev/vg/lv`).
+5. `systemctl status <svc>`, `journalctl -xeu <svc>`, dan `ss -tulpn`
+   (cek konflik port); lengkapi dengan `systemctl reset-failed`.
+   :::
+
 ## Latihan (di lab VM, BUKAN production)
 
 1. Sengaja salah tulis 1 baris fstab (UUID salah), reboot → recovery via console.

@@ -1,5 +1,5 @@
 ---
-title: Modul 03 — Manage Files from the Command Line
+title: Modul 03 — Mengelola Berkas dari Baris Perintah (Manage Files from the Command Line)
 ---
 
 > 📺 Referensi video: [__5fjNolVtU](https://www.youtube.com/watch?v=__5fjNolVtU&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)
@@ -111,20 +111,35 @@ star -czf backup.star /etc
 > 💡 Di RHEL, `tar` sudah cukup untuk ujian. `star` ada sebagai alternatif
 > (package `star`) — kenali perintahnya, tapi `tar` prioritas utama.
 
-## Latihan
+## 9. Jebakan Umum (EX200)
 
-1. Buat struktur: `mkdir -p latihan/modul03` lalu `touch latihan/modul03/coba.txt`.
-2. Salin ke `/tmp`: `cp -r latihan /tmp/latihan`.
-3. Gunakan wildcard: buat 3 berkas `x1 x2 x3`, lalu `ls x?` untuk membuktikan.
+:::danger[Jebakan]
 
-## Kunci Jawaban (klik untuk lihat)
+- `cp` tanpa `-a`/`-p` menghapus kepemilikan, timestamp, dan konteks SELinux
+  → soal yang menuntut atribut asli akan gagal.
+- `cp -r` untuk direktori sering tertukar dengan `cp` biasa → "omitting
+  directory".
+- Wildcard tidak dikutip pada `find -name` (`find / -name *.conf`) → shell
+  mengekspansi lebih dulu dan hasilnya salah; gunakan `-name '*.conf'`.
+- Membuat arsip dengan path absolut (`tar -cf … /etc`) lalu mengekstrak
+  menimpa sistem; gunakan path relatif atau `-C`.
+- Salah opsi kompresi: `.tar.gz` butuh `-z`, `.tar.bz2` butuh `-j`,
+  `.tar.xz` butuh `-J`.
+- Salah arah symlink atau membuat hard link lintas filesystem (tidak bisa).
+  :::
 
-:::note[Kunci Jawaban Latihan]
+## 10. Koneksi ke EX200
 
-1. `mkdir -p latihan/modul03` membuat nested; `touch` membuat berkas kosong.
-2. `cp -r` penting (direktori butuh `-r`), hasil di `/tmp/latihan/`.
-3. `x?` cocok `x1 x2 x3` (1 karakter sesudah x). `ls x*` juga cocok.
-   :::
+:::tip[EX200]
+Modul ini memenuhi objektif **"Create, delete, copy, and move files and
+directories"**, **"Create hard and soft links"**, serta
+**"Archive, compress, unpack, and uncompress files using tar, star, gzip,
+and bzip2"** — semuanya masuk kelompok _essential tools_. Bentuk soal
+tipikal: "Arsipkan `/etc/…` ke `/root/backup.tar.gz` mempertahankan izin"
+atau "Temukan semua berkas milik user X berukuran >5M dan salin ke
+`/opt/…`". Kunci jawaban hampir selalu kombinasi `find … -exec`/`xargs`
+dengan `cp -a` dan `tar` beropsi kompresi yang tepat.
+:::
 
 ## Kuis
 
@@ -140,4 +155,19 @@ star -czf backup.star /etc
 1. **b** (`-p` = parents, buat nested).
 2. **c** (`-rf` = recursive + force, tanpa konfirmasi — hati-hati).
 3. **b** (wildcard `*` = apa pun di akhiran).
+   :::
+
+## Latihan
+
+1. Buat struktur: `mkdir -p latihan/modul03` lalu `touch latihan/modul03/coba.txt`.
+2. Salin ke `/tmp`: `cp -r latihan /tmp/latihan`.
+3. Gunakan wildcard: buat 3 berkas `x1 x2 x3`, lalu `ls x?` untuk membuktikan.
+
+## Kunci Jawaban (klik untuk lihat)
+
+:::note[Kunci Jawaban Latihan]
+
+1. `mkdir -p latihan/modul03` membuat nested; `touch` membuat berkas kosong.
+2. `cp -r` penting (direktori butuh `-r`), hasil di `/tmp/latihan/`.
+3. `x?` cocok `x1 x2 x3` (1 karakter sesudah x). `ls x*` juga cocok.
    :::

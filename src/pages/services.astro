@@ -1,0 +1,131 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { Button } from '@/components/ui/button';
+import { withBase } from '@/lib/utils';
+
+const services = [
+    {
+        n: '01',
+        t: 'Pengembangan Web',
+        d: 'Aplikasi web full-stack yang robust & scalable, dibangun dengan standar keamanan sejak baris pertama kode. Saya menangani frontend yang cepat & aksesibel, backend & API yang andal, hingga deployment di infrastruktur yang terobservasi. Hasilnya: produk yang mudah dirawat (maintainable), siap tumbuh tanpa rewrite, dan tahan terhadap ancaman umum.',
+        tags: ['Web', 'API', 'Infra'],
+        link: { href: '/portfolio/', label: 'Lihat hasil →' },
+    },
+    {
+        n: '02',
+        t: 'Audit Source Code',
+        d: 'Tinjauan kode menyeluruh terhadap celah keamanan (OWASP Top 10), logika rawan bug, dan penyimpangan best practice. Saya tidak hanya menandai masalah — setiap temuan disertai rekomendasi mitigasi yang actionable, sehingga tim Anda bisa langsung mengeksekusi perbaikan tanpa tebak-tebakan.',
+        tags: ['AppSec', 'Pentest', 'Privacy'],
+        link: { href: '/lab/', label: 'Lihat PoC di Lab →' },
+    },
+    {
+        n: '03',
+        t: 'Dokumentasi Profesional',
+        d: 'Panduan teknis, README, dan docs site (Astro/Starlight) yang membuat produk Anda mudah dipahami oleh tim maupun klien. Dokumentasi sering terabaikan, padahal ia adalah aset yang paling berdampak pada adopsi dan kecepatan onboarding — investasi sekali, untung berulang.',
+        tags: ['Docs', 'Astro', 'Starlight'],
+        link: { href: '/blog/', label: 'Contoh dokumentasi →' },
+    },
+    {
+        n: '04',
+        t: 'Automation Tools',
+        d: 'Script dan alur kerja otomatis untuk build, test, deploy, hingga security scanning. Otomasi memangkas waktu manual berjam-jam dan menekan human error, sehingga rilis jadi konsisten, dapat diulang, dan aman — bukan mengandalkan ingatan seseorang.',
+        tags: ['CI/CD', 'Scripting', 'DevEx'],
+        link: { href: '/lab/', label: 'Lihat automation →' },
+    },
+];
+
+const faqs = [
+    {
+        q: 'Apakah bisa pesan satu layanan saja?',
+        a: 'Ya. Setiap layanan berdiri sendiri — Anda bisa pesan audit saja, dokumentasi saja, atau pengembangan penuh. Konsultasi gratis akan menentukan yang paling sesuai.',
+    },
+    {
+        q: 'Bagaimana dengan kerahasiaan kode?',
+        a: 'Kode, dokumentasi, dan laporan audit sepenuhnya milik Anda. Saya bekerja di bawah kesepakatan kerahasiaan dan tidak membagikan detail proyek tanpa izin.',
+    },
+    {
+        q: 'Berapa lama satu proyek?',
+        a: 'Tergantung ruang lingkup. Konsultasi awal 30 menit memetakan kebutuhan, lalu timeline dibagi per milestone agar transparan.',
+    },
+];
+---
+
+<BaseLayout
+    title="Services"
+    description="Layanan inti: pengembangan web full-stack, audit source code, dokumentasi profesional, dan automation tools — dibangun sekaligus diuji untuk hasil yang aman."
+    servicesSchema={services.map((s) => ({ name: s.t, description: s.d }))}
+    faq={faqs}
+>
+    <div class="mx-auto max-w-6xl px-6 py-20">
+        <h1 class="text-4xl font-bold tracking-tight">Services</h1>
+
+        <!-- 1. INTRO -->
+        <p class="mt-3 max-w-2xl text-muted-foreground">
+            Empat layanan inti yang dirancang untuk mempercepat <em>delivery</em> Anda sekaligus menekan risiko. Saya bekerja
+            dengan filosofi <strong class="text-foreground">builder sekaligus breaker</strong>: yang membangun adalah
+            yang menguji, sehingga celah ditemukan saat masih murah dan keamanan hadir sejak awal — bukan tempelan di
+            akhir. Satu orang, standar ganda.
+        </p>
+
+        <!-- 2–5. SERVICE CARDS -->
+        <div class="mt-10 grid gap-6 sm:grid-cols-2">
+            {
+                services.map((s) => (
+                    <div class="flex flex-col rounded-2xl border border-border bg-card p-7">
+                        <p class="text-sm font-medium text-primary">{s.n}</p>
+                        <h2 class="mt-2 text-xl font-semibold">{s.t}</h2>
+                        <p class="mt-3 text-sm leading-relaxed text-muted-foreground">{s.d}</p>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            {s.tags.map((tag) => (
+                                <span class="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+                        <div class="mt-5 pt-4 border-t border-border/60">
+                            <a
+                                href={withBase(s.link.href)}
+                                class="text-sm text-primary transition-colors hover:underline"
+                            >
+                                {s.link.label}
+                            </a>
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+
+        <!-- 6. CTA -->
+        <div class="mt-12 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/5 to-transparent p-8">
+            <h2 class="text-2xl font-bold tracking-tight">Mulai dari konsultasi gratis</h2>
+            <p class="mt-2 max-w-xl text-muted-foreground">
+                Kita petakan ruang lingkup dan risiko dulu, baru komitmen. <strong class="text-foreground"
+                    >Kode, dokumentasi, dan laporan audit sepenuhnya milik Anda</strong
+                > — transparan sejak hari pertama, tanpa ikatan tersembunyi.
+            </p>
+            <div class="mt-6 flex flex-wrap gap-3">
+                <Button asChild size="lg"
+                    ><a href={withBase('/contact/')}>Diskusikan Proyek Anda <span class="ml-1">→</span></a></Button
+                >
+                <Button asChild size="lg" variant="outline"
+                    ><a href={withBase('/portfolio/')}>Lihat Portofolio</a></Button
+                >
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <section class="mt-12">
+            <h2 class="text-2xl font-bold tracking-tight">FAQ</h2>
+            <div class="mt-6 space-y-3">
+                {
+                    faqs.map((f) => (
+                        <details class="group rounded-xl border border-border bg-card p-5" name="services-faq">
+                            <summary class="cursor-pointer list-none text-base font-medium">{f.q}</summary>
+                            <p class="mt-3 text-sm text-muted-foreground">{f.a}</p>
+                        </details>
+                    ))
+                }
+            </div>
+        </section>
+    </div>
+</BaseLayout>

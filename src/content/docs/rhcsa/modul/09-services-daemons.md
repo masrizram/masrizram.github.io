@@ -1,5 +1,5 @@
 ---
-title: Modul 09 — Control Services and Daemons (systemd)
+title: Modul 09 — Mengendalikan Service & Daemon (Control Services and Daemons)
 ---
 
 > 📺 Referensi video: [RESDzgTwqYk](https://www.youtube.com/watch?v=RESDzgTwqYk&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)
@@ -152,15 +152,6 @@ saat boot, dan restart bila gagal." Kunci: tulis unit di
 `WantedBy=multi-user.target`, lalu `daemon-reload` → `enable --now`.
 :::
 
-## Kunci Jawaban (klik untuk lihat)
-
-:::note[Kunci Jawaban Latihan]
-
-1. `systemctl enable --now` aktif sekarang & saat boot.
-2. `systemctl status` kolom: Loaded/Active/Sub.
-3. `journalctl -u` filter log unit.
-   :::
-
 ## Kuis Cepat
 
 1. Perintah muat ulang konfig setelah edit unit? (`systemctl daemon-reload`)
@@ -176,3 +167,12 @@ saat boot, dan restart bila gagal." Kunci: tulis unit di
 5. Cek profil tuned aktif: `tuned-adm active`; coba ganti ke `throughput-performance`.
 6. (Lab) simulasikan `rd.break`: di GRUB tekan `e`, tambah `rd.break`, `Ctrl+X`,
    lalu `mount -o remount,rw /sysroot && chroot /sysroot && passwd root && touch /.autorelabel`.
+
+## Kunci Jawaban (klik untuk lihat)
+
+:::note[Kunci Jawaban Latihan]
+
+1. `systemctl enable --now` aktif sekarang & saat boot.
+2. `systemctl status` kolom: Loaded/Active/Sub.
+3. `journalctl -u` filter log unit.
+   :::

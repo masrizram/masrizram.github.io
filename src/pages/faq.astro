@@ -1,0 +1,82 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { Button } from '@/components/ui/button';
+import { withBase } from '@/lib/utils';
+
+const faq = [
+    {
+        q: 'Berapa harga layanan?',
+        a: 'Disesuaikan dengan ruang lingkup & kompleksitas. Konsultasi awal gratis untuk memetakan kebutuhan sehingga Anda tahu perkiraan sebelum berkomitmen.',
+    },
+    {
+        q: 'Berapa lama timeline?',
+        a: 'Timeline jelas sejak kickoff, dibagi menjadi milestone bertahap agar Anda selalu tahu posisi proyek — tanpa kejutan di akhir.',
+    },
+    {
+        q: 'Tools apa yang dipakai?',
+        a: 'Stack modern & open-source (Astro, Tailwind, tooling keamanan standar industri). Tanpa vendor lock-in — kode & dokumentasi sepenuhnya milik Anda.',
+    },
+    {
+        q: 'Apakah bisa remote?',
+        a: 'Ya. Seluruh kolaborasi berjalan async ditambah sesi rutin, di mana pun Anda berada.',
+    },
+    {
+        q: 'Apakah saya bisa melihat hasil audit sebelum bayar?',
+        a: 'Ya. Laporan audit awal bisa ditinjau sebelum komitmen penuh, agar Anda yakin dengan kualitas kerja.',
+    },
+    {
+        q: 'Apakah dokumentasi & laporan saya rahasia?',
+        a: 'Ya. Semua dokumen & laporan bersifat rahasia, hanya milik Anda, dan tidak dibagikan ke pihak ketiga tanpa izin.',
+    },
+];
+---
+
+<BaseLayout
+    title="FAQ"
+    description="Pertanyaan umum seputar harga, timeline, tools, dan cara kerja — jawaban jelas untuk mengurangi keraguan sebelum Anda menghubungi saya."
+    faq={faq}
+>
+    <div class="mx-auto max-w-3xl px-6 py-20">
+        <h1 class="text-4xl font-bold tracking-tight">FAQ</h1>
+
+        <!-- 1. INTRO -->
+        <p class="mt-3 max-w-2xl text-muted-foreground">
+            Pertanyaan yang sering diajukan klien. Jawaban dibuat singkat dan langsung agar Anda bisa
+            <strong class="text-foreground">memutuskan dengan yakin</strong> — tanpa tebak-tebakan soal harga, timeline, atau
+            kerahasiaan.
+        </p>
+
+        <!-- 2. Q/A -->
+        <div class="mt-10 space-y-4">
+            {
+                faq.map((f, i) => (
+                    <details
+                        class="group rounded-xl border border-border bg-card p-5"
+                        name="faq"
+                        id={`faq-${i + 1}`}
+                        open={i === 0}
+                    >
+                        <summary class="cursor-pointer list-none text-base font-medium">{f.q}</summary>
+                        <p class="mt-3 text-sm leading-relaxed text-muted-foreground">{f.a}</p>
+                    </details>
+                ))
+            }
+        </div>
+
+        <!-- 3. CTA -->
+        <div
+            class="mt-12 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/5 to-transparent p-8 text-center"
+        >
+            <h2 class="text-2xl font-bold tracking-tight">Masih punya pertanyaan?</h2>
+            <p class="mt-2 text-muted-foreground">
+                Mulai dengan konsultasi gratis 30 menit — tanpa biaya, tanpa ikatan.
+            </p>
+            <div class="mt-6 flex flex-wrap justify-center gap-3">
+                <Button asChild size="lg"><a href={withBase('/contact/')}>Konsultasi Gratis</a></Button>
+                <Button asChild size="lg" variant="outline"
+                    ><a href={withBase('/contact/')}>Diskusikan Proyek Anda</a></Button
+                >
+            </div>
+        </div>
+    </div>
+</BaseLayout>

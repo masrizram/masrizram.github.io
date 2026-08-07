@@ -2,15 +2,23 @@
 import { SITE_URL } from '@/config/site.mjs';
 
 export const site = {
-    name: 'Nilma',
-    fullName: 'Nilma, M.Kom.',
-    role: 'Dosen & Konsultan Teknologi',
+    /** Nama lengkap — single source of truth untuk wordmark & semua schema. */
+    fullName: 'Sutan Rizki Ramdani',
+    /** Alias ke fullName (hindari duplikat literal). */
+    name: 'Sutan Rizki Ramdani',
+    /** Nama pendek untuk logo/wordmark & short_name PWA. */
+    shortName: 'masrizram',
+    role: 'Full-Stack Developer & Security Researcher',
     url: SITE_URL,
     description:
-        'Nilma, M.Kom. — Dosen, pembimbing skripsi/TA, dan mentor sertifikasi teknologi. Portofolio, panduan, dan dokumentasi.',
+        'Sutan Rizki Ramdani — Full-Stack Developer & Security Researcher. I build and break apps. Privacy advocate. Portofolio, riset keamanan, dan dokumentasi teknis.',
+    tagline: 'I build and break apps.',
+    location: 'Indonesia',
+    org: 'xaisyndicatelab',
     email: 'rizkiiramdaniii@gmail.com',
     socials: {
         github: 'https://github.com/masrizram',
+        website: 'https://xaisyndicate.net/',
         linkedin: '#',
         twitter: '#',
         email: 'mailto:rizkiiramdaniii@gmail.com',
@@ -21,13 +29,16 @@ export const docsHref = '/rhcsa/';
 
 type NavItem = { href: string; label: string; match?: string[] };
 
+// Urutan 10 menu utama sesuai struktur navigasi situs personal.
 export const nav: NavItem[] = [
     { href: '/', label: 'Home' },
     { href: '/about/', label: 'About' },
-    { href: '/writing/', label: 'Writing' },
+    { href: '/services/', label: 'Services' },
     { href: '/portfolio/', label: 'Portfolio' },
-    { href: '/teaching/', label: 'Teaching' },
-    { href: '/resources/', label: 'Resources' },
+    { href: '/testimonials/', label: 'Testimonials' },
+    { href: '/blog/', label: 'Blog' },
+    { href: '/lab/', label: 'Lab' },
+    { href: '/faq/', label: 'FAQ' },
     { href: '/contact/', label: 'Contact' },
     { href: docsHref, label: 'Docs', match: ['/rhcsa/', '/pentester/', '/koding/'] },
 ];
@@ -36,6 +47,7 @@ export const nav: NavItem[] = [
 // Label ditampilkan rapi (kapitalisasi proper) di footer.
 const SOCIAL_LABELS: Record<string, string> = {
     github: 'GitHub',
+    website: 'xaisyndicate.net',
     linkedin: 'LinkedIn',
     twitter: 'X',
     email: 'Email',

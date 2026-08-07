@@ -6,7 +6,7 @@ tags: ['RHCSA', 'EX200', 'Linux', 'Sertifikasi']
 ---
 
 RHCSA (EX200) menitikberatkan pada kemampuan **praktik**, bukan hafalan teori. Berikut peta jalan
-yang saya pakai membimbing mahasiswa.
+persiapan yang saya susun berdasarkan pengalaman praktik dan mentoring sertifikasi.
 
 ## Topik Wajib
 

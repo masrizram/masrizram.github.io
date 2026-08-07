@@ -36,13 +36,13 @@ title: 🎯 Persiapan EX200 — Ringkasan Taktis
 ## 3. Checklist H-7
 
 - [ ] Kerjakan semua modul 01–20 tanpa melihat catatan.
-- [ ] Selesaikan LAB & [Simulasi 3 Jam / 180 Menit](/rhcsa/referensi/SIMULASI-UJIAN) < 90 menit.
+- [ ] Selesaikan LAB & [Simulasi 3 Jam / 180 Menit](/rhcsa/referensi/simulasi-ujian/) < 90 menit.
 - [ ] Kuasai `vim`, `nmcli`, `systemctl`, `journalctl`, `dnf`, `firewall-cmd`, `setsebool`/`restorecon`, **`semanage port`** (SELinux port label).
 - [ ] Pahami LVM end-to-end (create → extend → growfs).
 - [ ] Kuasai **Flatpak** (`flatpak remote-add`/`install`) — pengganti container di RHEL 10.
 - [ ] Latihan `podman run` + generate systemd service + `skopeo inspect/copy` **(bonus RHCE, bukan objektif EX200 RHEL 10)**.
 - [ ] Simulasikan reboot VM dan pastikan tidak masuk grub rescue (fstab benar).
-- [ ] Kuasai [Break & Fix](/rhcsa/referensi/BREAK-FIX) — ~40% soal EX200 adalah troubleshooting.
+- [ ] Kuasai [Break & Fix](/rhcsa/referensi/break-fix/) — ~40% soal EX200 adalah troubleshooting.
 - [ ] **Topik sering luput (masih relevan RHEL 10)**: autofs, Flatpak, tuned, grub2/rd.break, VFAT, chrony/IPv6, SELinux port labels.
 
 ## 4. Jebakan Umum (Penyebab Gagal)

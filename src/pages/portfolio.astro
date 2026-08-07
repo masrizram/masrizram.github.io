@@ -9,17 +9,31 @@ const items = (await getCollection('portfolio', ({ data }) => !data.draft)).sort
 );
 ---
 
-<BaseLayout title="Portfolio" description="Karya, project, dan materi yang dibimbing atau dibuat oleh Nilma, M.Kom.">
+<BaseLayout
+    title="Portfolio"
+    description="Karya, riset keamanan, dan materi teknis: sistem pakar, panduan RHCSA/EX200, dan dokumentasi Astro — dengan dampak nyata bagi klien."
+    itemList={items.map((item) => ({
+        name: item.data.title,
+        url: `/portfolio/${item.id}/`,
+        description: item.data.description,
+    }))}
+>
     <div class="mx-auto max-w-6xl px-6 py-20">
         <h1 class="text-4xl font-bold tracking-tight">Portfolio</h1>
-        <p class="mt-3 max-w-2xl text-muted-foreground">Karya, project bimbingan, dan materi yang saya buat.</p>
+
+        <!-- 1. INTRO -->
+        <p class="mt-3 max-w-2xl text-muted-foreground">
+            Kumpulan karya nyata: aplikasi yang saya bangun, riset keamanan yang saya jalankan, dan materi teknis yang
+            saya tulis. Setiap proyek diukur dari <strong class="text-foreground">dampak nyata</strong> — efisiensi operasional,
+            keamanan sistem, dan adopsi yang lebih luas — bukan sekadar daftar fitur.
+        </p>
 
         <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {
                 items.map((item) => (
                     <a
                         href={withBase(`/portfolio/${item.id}/`)}
-                        class="group overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-primary/50"
+                        class="group flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-primary/50"
                     >
                         <div class="aspect-[16/10] overflow-hidden bg-muted">
                             {item.data.img && (
@@ -32,20 +46,36 @@ const items = (await getCollection('portfolio', ({ data }) => !data.draft)).sort
                                 />
                             )}
                         </div>
-                        <div class="p-4">
+                        <div class="flex flex-1 flex-col p-4">
                             <span class="text-xs text-primary">{item.data.category}</span>
                             <h3 class="mt-1 font-semibold group-hover:text-primary">{item.data.title}</h3>
-                            <p class="text-sm text-muted-foreground">{item.data.description}</p>
+                            <p class="mt-2 text-sm text-muted-foreground">{item.data.description}</p>
+                            {item.data.impact && !item.data.impact.includes('[Metrik') && (
+                                <p class="mt-3 border-t border-border/60 pt-3 text-xs text-emerald-700 dark:text-emerald-300">
+                                    → {item.data.impact}
+                                </p>
+                            )}
                         </div>
                     </a>
                 ))
             }
         </div>
 
-        <div class="mt-10">
-            <Button asChild variant="secondary"
-                ><a href={withBase('/contact/')}>Punya ide kolaborasi? Hubungi saya →</a></Button
-            >
+        <!-- 5. CTA -->
+        <div
+            class="mt-12 flex flex-col items-start gap-4 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/5 to-transparent p-8 sm:flex-row sm:items-center sm:justify-between"
+        >
+            <div>
+                <h2 class="text-2xl font-bold tracking-tight">Punya ide kolaborasi?</h2>
+                <p class="mt-2 max-w-xl text-muted-foreground">
+                    Mari bicarakan bagaimana saya bisa membantu membangun atau mengamankan produk Anda.
+                </p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+                <Button asChild size="lg"><a href={withBase('/contact/')}>Diskusikan Proyek Anda</a></Button>
+                <Button asChild size="lg" variant="outline"><a href={withBase('/contact/')}>Mulai Kolaborasi</a></Button
+                >
+            </div>
         </div>
     </div>
 </BaseLayout>

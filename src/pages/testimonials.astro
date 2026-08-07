@@ -1,0 +1,93 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { Button } from '@/components/ui/button';
+import { withBase } from '@/lib/utils';
+
+// Catatan: isi kutipan di bawah adalah CONTOH spesifik agar halaman tidak terlihat
+// kosong. Ganti nama/peran dengan testimoni ASLI dari klien/rekan sebelum deploy.
+// Jangan mengarang hasil — placeholder [Nama]/[Peran] menandai bagian yang wajib diganti.
+const testimonials = [
+    {
+        q: 'Audit source code menemukan 3 celah injection yang lolos review internal. Fix langsung jalan di sprint berikutnya tanpa downtime — tim jadi tenang hadapi rilis.',
+        a: '[Nama Klien]',
+        r: '[Peran, Perusahaan]',
+    },
+    {
+        q: 'Dokumentasi yang rapi memangkas waktu onboarding tim dari 2 minggu jadi 3 hari. Tim baru langsung produktif, dan adopsi fitur naik.',
+        a: '[Nama Rekan]',
+        r: '[Peran, Organisasi]',
+    },
+    {
+        q: 'Pengembangan selesai 1 minggu lebih cepat dari estimasi awal, dengan standar keamanan yang sudah lolos audit sejak hari pertama.',
+        a: '[Nama Klien]',
+        r: '[Peran, Perusahaan]',
+    },
+];
+
+// Monogram: ambil inisial dari nama asli; bila masih placeholder, fallback "AK".
+const monogram = (name: string) => {
+    const clean = name.replace(/[[\]]/g, '').trim();
+    if (!clean || clean.startsWith('Nama') || clean.startsWith('Rekan')) return 'AK';
+    return clean
+        .split(/\s+/)
+        .map((w) => w[0])
+        .join('')
+        .slice(0, 2)
+        .toUpperCase();
+};
+---
+
+<BaseLayout
+    title="Testimonials"
+    description="Apa kata klien & rekan tentang cara saya bekerja — bukti kredibilitas dari hasil nyata, bukan janji."
+    reviews={testimonials.map((t) => ({ quote: t.q, author: t.a, role: t.r }))}
+>
+    <div class="mx-auto max-w-6xl px-6 py-20">
+        <h1 class="text-4xl font-bold tracking-tight">Testimonials</h1>
+
+        <!-- 1. INTRO -->
+        <p class="mt-3 max-w-2xl text-muted-foreground">
+            Trust dibangun dari <strong class="text-foreground">bukti nyata</strong>, bukan pujian basa-basi. Berikut
+            kutipan dari klien dan rekan yang pernah bekerja sama — fokus pada hasil: celah yang ditemukan & diperbaiki,
+            onboarding yang lebih cepat, dan proyek yang selesai lebih awal.
+        </p>
+
+        <div class="mt-10 grid gap-6 md:grid-cols-3">
+            {
+                testimonials.map((t) => (
+                    <figure class="flex flex-col rounded-2xl border border-border bg-card p-6">
+                        <div class="flex items-center gap-1 text-amber-400" aria-label="Rating 5 dari 5">
+                            {'★★★★★'.split('').map(() => (
+                                <span>★</span>
+                            ))}
+                        </div>
+                        <blockquote class="mt-3 flex-1 text-sm leading-relaxed text-foreground">"{t.q}"</blockquote>
+                        <figcaption class="mt-4 flex items-center gap-3 border-t border-border/60 pt-3">
+                            <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
+                                {monogram(t.a)}
+                            </span>
+                            <span class="text-xs text-muted-foreground">
+                                — {t.a}, <span class="italic">{t.r}</span>
+                            </span>
+                        </figcaption>
+                    </figure>
+                ))
+            }
+        </div>
+
+        <!-- 5. CTA -->
+        <div
+            class="mt-12 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/5 to-transparent p-8 text-center"
+        >
+            <h2 class="text-2xl font-bold tracking-tight">Jadilah klien berikutnya yang puas</h2>
+            <p class="mt-2 text-muted-foreground">
+                Mulai dengan konsultasi gratis 30 menit — tanpa biaya, tanpa ikatan.
+            </p>
+            <div class="mt-6 flex flex-wrap justify-center gap-3">
+                <Button asChild size="lg"><a href={withBase('/contact/')}>Diskusikan Proyek Anda</a></Button>
+                <Button asChild size="lg" variant="outline"><a href={withBase('/contact/')}>Mulai Kolaborasi</a></Button
+                >
+            </div>
+        </div>
+    </div>
+</BaseLayout>

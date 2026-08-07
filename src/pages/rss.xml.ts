@@ -9,7 +9,7 @@ export async function GET(context: APIContext) {
     );
 
     return rss({
-        title: `${site.fullName} — Writing`,
+        title: `${site.fullName} — Blog`,
         description: site.description,
         // context.site sudah menyertakan base deployment.
         site: context.site ?? site.url,
@@ -19,7 +19,7 @@ export async function GET(context: APIContext) {
             description: post.data.description ?? '',
             pubDate: post.data.date,
             categories: post.data.tags,
-            link: `/writing/${post.id}/`,
+            link: `/blog/${post.id}/`,
         })),
         customData: '<language>id-ID</language>',
     });

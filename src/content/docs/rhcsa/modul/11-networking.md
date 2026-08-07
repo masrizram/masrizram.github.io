@@ -1,5 +1,5 @@
 ---
-title: Modul 11 — Manage Networking
+title: Modul 11 — Mengelola Jaringan (Manage Networking)
 ---
 
 > 📺 Referensi video: [sm2LR26JERA](https://www.youtube.com/watch?v=sm2LR26JERA&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)
@@ -62,13 +62,13 @@ resolvectl status              # lihat resolver (systemd-resolved)
 cat /etc/resolv.conf           # nameserver aktif
 ````
 
-## 4b. IPv6 (Wajib EX200)
+## 5. IPv6 (Wajib EX200)
 
 Objektif EX200: _"Configure IPv4 and IPv6 addresses"_. `nmcli` menangani keduanya
 lewat `ipv6.*` (lihat §3 di atas). Pastikan `ipv6.method manual` (bukan `ignore`)
 agar alamat aktif. Verifikasi dengan `ip -6 addr` dan `ping6`.
 
-## 5. Uji Konektivitas
+## 6. Uji Konektivitas
 
 ```bash
 ping -c 4 8.8.8.8             # uji reachability IP
@@ -77,7 +77,7 @@ traceroute 8.8.8.8           # jejak rute (mungkin perlu install)
 ss -tulnp                    # soket yang mendengar (port terbuka)
 ```
 
-## 6. Firewall (`firewalld`)
+## 7. Firewall (`firewalld`)
 
 ```bash
 sudo firewall-cmd --state
@@ -88,7 +88,7 @@ sudo firewall-cmd --reload
 sudo firewall-cmd --remove-service=http --permanent
 ```
 
-## 7. Hostname
+## 8. Hostname
 
 ```bash
 sudo hostnamectl set-hostname server1.lab.local
@@ -96,7 +96,7 @@ sudo hostnamectl set-hostname server1.lab.local
 hostnamectl
 ```
 
-## 7b. NFS (Network File System) — Wajib EX200
+## 9. NFS (Network File System) — Wajib EX200
 
 NFS dipakai untuk berbagi direktori antar host di jaringan yang sama.
 
@@ -135,7 +135,7 @@ df -hT /mnt/nfs             # verifikasi ter-mount
 > ⚠️ Jangan lupa `firewall-cmd --add-service=nfs` di server, dan opsi `_netdev`
 > di fstab klien — tanpa itu mount gagal saat boot (VM hang di emergency).
 
-## 7c. nmstate — Manajemen Network Deklaratif (RHEL 10)
+## 10. nmstate — Manajemen Network Deklaratif (RHEL 10)
 
 RHEL 10 memperkenalkan **nmstate** sebagai cara deklaratif mengonfigurasi
 jaringan (state file YAML → diterapkan oleh `nmcli`/`networkctl` via
@@ -190,7 +190,7 @@ ip -br addr; ip -6 addr show eth0
 > (idempoten: jika sudah cocok, tidak berubah). Cocok untuk EX200 RHEL 10,
 > tapi di lab RHEL 9 gunakan `nmcli` (§3) yang lebih umum diuji.
 
-## 8. Jebakan Umum (EX200)
+## 11. Jebakan Umum (EX200)
 
 :::danger[Jebakan]
 
@@ -203,7 +203,7 @@ ip -br addr; ip -6 addr show eth0
 - Firewall blokir port meski konfig benar → selalu `firewall-cmd --add-... --permanent && reload`.
   :::
 
-## 9. Koneksi ke EX200
+## 12. Koneksi ke EX200
 
 :::tip[EX200]
 Soal: "Set IP statis 192.168.1.50/24, gateway .1, DNS 8.8.8.8, pastikan
@@ -218,15 +218,6 @@ ip -br addr; ping -c2 192.168.1.1
 
 :::
 
-## Kunci Jawaban (klik untuk lihat)
-
-:::note[Kunci Jawaban Latihan]
-
-1. `nmcli con up` mengaktifkan koneksi.
-2. `ip addr` tampilkan interface & IP.
-3. `hostnamectl set-hostname` ubah hostname.
-   :::
-
 ## Kuis Cepat
 
 1. Alat modern konfig jaringan RHEL 9? (`nmcli` / NetworkManager)
@@ -239,3 +230,12 @@ ip -br addr; ping -c2 192.168.1.1
 2. Ubah hostname menjadi `rhcsa-lab` dengan `hostnamectl`.
 3. Buka port 80 di firewall: `firewall-cmd --add-service=http --permanent && firewall-cmd --reload`.
 4. (Opsional) coba `nmtui` untuk set IP via antarmuka TUI.
+
+## Kunci Jawaban (klik untuk lihat)
+
+:::note[Kunci Jawaban Latihan]
+
+1. `nmcli con up` mengaktifkan koneksi.
+2. `ip addr` tampilkan interface & IP.
+3. `hostnamectl set-hostname` ubah hostname.
+   :::

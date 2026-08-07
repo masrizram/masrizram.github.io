@@ -1,5 +1,5 @@
 ---
-title: Modul 07 — Access to Files (Permissions & Ownership)
+title: 'Modul 07 — Hak Akses Berkas: Permission & Ownership (Control Access to Files)'
 ---
 
 > 📺 Referensi video: [FmyIyp73bGM](https://www.youtube.com/watch?v=FmyIyp73bGM&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)
@@ -102,15 +102,6 @@ tertentu akses lewat **ACL** tanpa mengubah owner. Kunci: `chmod`, `chown`,
 `setfacl`, `getfacl` untuk memverifikasi.
 :::
 
-## Kunci Jawaban (klik untuk lihat)
-
-:::note[Kunci Jawaban Latihan]
-
-1. `chmod 755 file` → rwxr-xr-x (owner rw, grup+other r-x).
-2. `chown user:grp` mengubah owner & group.
-3. `setfacl -m urwx` memberi akses rwx khusus alice (tanpa ubah owner).
-   :::
-
 ## Kuis Cepat
 
 1. Izin `rwxr-xr--` berapa dalam angka oktal? (750)
@@ -124,3 +115,12 @@ tertentu akses lewat **ACL** tanpa mengubah owner. Kunci: `chmod`, `chown`,
 2. Buat direktori `kerja` dengan SGID agar file baru mewarisi group.
 3. Beri user `siswa` akses baca lewat ACL tanpa mengubah pemilik.
 4. Verifikasi dengan `getfacl` dan pastikan `ls -l` menampilkan tanda `+`.
+
+## Kunci Jawaban (klik untuk lihat)
+
+:::note[Kunci Jawaban Latihan]
+
+1. `chmod 755 file` → rwxr-xr-x (owner rw, grup+other r-x).
+2. `chown user:grp` mengubah owner & group.
+3. `setfacl -m urwx` memberi akses rwx khusus alice (tanpa ubah owner).
+   :::

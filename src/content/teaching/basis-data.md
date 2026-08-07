@@ -2,7 +2,7 @@
 title: 'Basis Data'
 code: 'TI-305'
 semester: 'Ganjil'
-type: 'Mata Kuliah'
+type: 'Materi'
 description: 'Perancangan relasional, query MySQL, normalisasi, dan optimalisasi dasar.'
 ---
 

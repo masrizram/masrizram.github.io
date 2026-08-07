@@ -1,5 +1,5 @@
 ---
-title: Modul 15 — Podman & Containers (Materi Perluasan)
+title: Modul 15 — Container dengan Podman (Manage Containers) — Materi Perluasan
 ---
 
 > ⚠️ **Penting — status di EX200:** Mulai **EX200 berbasis RHEL 10** (ujian
@@ -146,10 +146,19 @@ curl -s localhost:8080 | head -1
 > yang explicit minta "quadlet" atau "systemd-managed container", gunakan cara
 > ini (lebih bersih daripada `podman generate systemd --new`).
 
-## 9. skopeo & buildah — Inspeksi, Salin, & Bangun Image (Wajib EX200)
+## 9. skopeo & buildah — Inspeksi, Salin, & Bangun Image (Materi Perluasan)
 
-Selain `podman`, EX200 mengenal **skopeo** (inspeksi & copy image antar
-registry/tar tanpa perlu pull penuh) dan **buildah** (build image OCI tanpa
+:::caution[`podman generate systemd` sudah deprecated]
+Perintah `podman generate systemd` yang muncul di beberapa contoh modul ini
+**tidak lagi direkomendasikan** sejak RHEL 9. Cara resmi menjalankan container
+sebagai layanan systemd adalah **Quadlet** (file unit `.container`) — lihat §8.
+Contoh `generate systemd` dipertahankan hanya agar Anda mengenalinya di sistem
+lama.
+:::
+
+Selain `podman`, ekosistem container Red Hat mengenal **skopeo** (inspeksi &
+copy image antar registry/tar tanpa perlu pull penuh) dan **buildah** (build
+image OCI tanpa
 daemon). Berguna untuk soal "ambil image dari registry ke local store" atau
 "inspeksi image".
 

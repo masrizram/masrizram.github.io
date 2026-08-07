@@ -51,7 +51,7 @@ chmod 640 /shared/data.txt; setfacl -m ur /shared/data.txt`
 8. `lvcreate -L 500M -n lvdata rhel; mkfs.xfs /dev/rhel/lvdata;
 mkdir /data; echo '/dev/rhel/lvdata /data xfs defaults 0 0' >> /etc/fstab; mount -a`
 9. `podman run -d --name httpd -p 8080:80 docker.io/library/httpd;
-podman generate systemd --new --files --name httpd;
+podman generate systemd --new --files --name httpd;   # deprecated → Quadlet
 systemctl --user enable --now container-httpd.service`
 10. `semanage fcontext -a -t httpd_sys_content_t '/data(/.*)?';
 restorecon -Rv /data; setenforce 1; getenforce`

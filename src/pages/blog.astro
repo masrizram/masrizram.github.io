@@ -1,0 +1,75 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { withBase } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+
+const posts = (await getCollection('writing', ({ data }) => !data.draft)).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<BaseLayout
+    title="Blog"
+    description="Artikel & insight tentang software development, audit keamanan, dan pengalaman lapangan — catatan nyata cara saya berpikir, bukan artikel SEO generik."
+    itemList={posts.map((p) => ({
+        name: p.data.title,
+        url: `/blog/${p.id}/`,
+        description: p.data.description,
+    }))}
+>
+    <div class="mx-auto max-w-6xl px-6 py-20">
+        <h1 class="text-4xl font-bold tracking-tight">Blog & Insight</h1>
+
+        <!-- 1. INTRO -->
+        <p class="mt-3 max-w-2xl text-muted-foreground">
+            Catatan nyata dari lapangan — engineering, keamanan aplikasi, dan pelajaran membangun software yang aman.
+            Bukan artikel SEO generik: ini cara saya berpikir. Dengan membaca tulisan ini, Anda tahu
+            <strong class="text-foreground">standar kualitas</strong> yang saya bawa sebelum kita bekerja sama.
+        </p>
+
+        <div class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {
+                posts.map((p) => (
+                    <a
+                        href={withBase(`/blog/${p.id}/`)}
+                        class="group flex flex-col rounded-2xl border border-border bg-card p-6 transition-colors hover:border-primary/50"
+                    >
+                        <span class="text-xs text-primary">{p.data.tags.join(' · ')}</span>
+                        <h2 class="mt-2 text-lg font-semibold group-hover:text-primary">{p.data.title}</h2>
+                        <p class="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{p.data.description}</p>
+                        <div class="mt-4 flex items-center justify-between border-t border-border/60 pt-3">
+                            <time class="text-xs text-muted-foreground">
+                                {p.data.date.toLocaleDateString('id-ID', {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric',
+                                })}
+                            </time>
+                            <span class="text-xs text-primary transition-colors group-hover:underline">Baca →</span>
+                        </div>
+                    </a>
+                ))
+            }
+        </div>
+
+        <!-- 5. CTA -->
+        <div
+            class="mt-12 flex flex-col items-start gap-4 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/5 to-transparent p-8 sm:flex-row sm:items-center sm:justify-between"
+        >
+            <div>
+                <h2 class="text-2xl font-bold tracking-tight">Dari insight ke solusi</h2>
+                <p class="mt-2 max-w-xl text-muted-foreground">
+                    Suka cara saya berpikir? Mari bicarakan bagaimana pendekatan yang sama bisa diterapkan ke proyek
+                    Anda.
+                </p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+                <Button asChild size="lg"><a href={withBase('/contact/')}>Diskusikan Proyek Anda</a></Button>
+                <Button asChild size="lg" variant="outline"
+                    ><a href={withBase('/rhcsa/')}>Buka dokumentasi lengkap</a></Button
+                >
+            </div>
+        </div>
+    </div>
+</BaseLayout>

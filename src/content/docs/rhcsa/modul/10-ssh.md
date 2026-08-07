@@ -1,5 +1,5 @@
 ---
-title: Modul 10 — Configure and Secure SSH
+title: Modul 10 — Konfigurasi & Pengamanan SSH (Configure and Secure SSH)
 ---
 
 > 📺 Referensi video: [jGzIZZrdEpE](https://www.youtube.com/watch?v=jGzIZZrdEpE&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)
@@ -98,15 +98,6 @@ batasi user." Kunci: edit `/etc/ssh/sshd_config` → `sshd -t` (UJI!) →
 `systemctl restart sshd` → verifikasi dari sesi ke-2.
 :::
 
-## Kunci Jawaban (klik untuk lihat)
-
-:::note[Kunci Jawaban Latihan]
-
-1. `ssh-copy-id` menaruh pubkey ke authorized_keys.
-2. `PermitRootLogin no` cegah root login langsung.
-3. `scp -P 2222` untuk port non-default.
-   :::
-
 ## Kuis Cepat
 
 1. Perintah uji konfigurasi sshd sebelum restart? (`sshd -t`)
@@ -118,3 +109,12 @@ batasi user." Kunci: edit `/etc/ssh/sshd_config` → `sshd -t` (UJI!) →
 1. Buat kunci `ssh-keygen` dan salin ke server lab (atau VM lokal).
 2. Set `PasswordAuthentication no` + `PermitRootLogin no`, uji dengan `sshd -t`.
 3. Buat alias `Host lab` di `~/.ssh/config` dan login dengan `ssh lab`.
+
+## Kunci Jawaban (klik untuk lihat)
+
+:::note[Kunci Jawaban Latihan]
+
+1. `ssh-copy-id` menaruh pubkey ke authorized_keys.
+2. `PermitRootLogin no` cegah root login langsung.
+3. `scp -P 2222` untuk port non-default.
+   :::

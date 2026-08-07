@@ -1,4 +1,4 @@
-# Laporan Audit Source Code — Situs Nilma, M.Kom.
+# Laporan Audit Source Code — Situs masrizram (Sutan Rizki Ramdani)
 
 **Repo:** `C:\xampp\htdocs\notes` · **Stack:** Astro 7 + Starlight + Tailwind v4 + shadcn/ui
 **Tanggal audit:** 6 Agustus 2026 · **Commit hasil:** `1d5386e`, `f079903`
@@ -49,7 +49,7 @@ tidak deterministik. Sudah dihapus, dependensi diurutkan alfabetis.
 
 ### B3. Title tag ganda
 
-`<title>Contact — Nilma, M.Kom. — Nilma, M.Kom.</title>` di semua halaman;
+`<title>Contact — Nilma, M.Kom. — Nilma, M.Kom.</title>` di semua halaman (identitas situs saat itu);
 homepage `Nilma, M.Kom. — Nilma, M.Kom.`. Merusak SERP snippet.
 Perbaikan: halaman kirim title pendek, suffix ditangani `BaseLayout`.
 Hasil: `Contact — Nilma, M.Kom.` dan `Nilma, M.Kom. — Dosen & Konsultan Teknologi`.

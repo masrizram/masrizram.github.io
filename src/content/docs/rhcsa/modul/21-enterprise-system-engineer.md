@@ -1,5 +1,5 @@
 ---
-title: Modul 21 — System Engineer di Enterprise / Perbankan (Bridge RHCSA → Lapangan)
+title: Modul 21 — System Engineer di Enterprise (Bridge RHCSA → Lapangan)
 ---
 
 > Modul ini **bukan** bagian objektif EX200 RHCSA — ia menjembatani apa yang
@@ -11,7 +11,7 @@ title: Modul 21 — System Engineer di Enterprise / Perbankan (Bridge RHCSA → 
 > 📺 Referensi tetap Modul 0–20 (RH124/RH199). Modul ini menambahkan konteks
 > enterprise yang tidak diujikan di EX200 tapi **wajib di dunia nyata**.
 
-## 0. Mindset Perbedaan: RHCSA vs Enterprise
+## Mindset Perbedaan: RHCSA vs Enterprise
 
 | Aspek      | RHCSA (ujian)           | Enterprise nyata                                 |
 | ---------- | ----------------------- | ------------------------------------------------ |
@@ -295,6 +295,53 @@ flowchart LR
 > Fondasi RHCSA di repo ini (Modul 0–20) sudah memberi Anda _skill CLI & CLI
 > troubleshooting_ yang solid. Modul 21 ini melengkapinya dengan **konteks
 > organisasi** — kombinasi keduanya yang membuat Anda siap di enterprise.
+
+## 13. Kuis Cepat
+
+1. Apa keuntungan utama autentikasi terpusat via SSSD/IdM dibanding
+   `useradd` lokal di setiap server?
+2. Mengapa log server produksi harus diteruskan ke SIEM, bukan hanya
+   disimpan lokal?
+3. Perkakas apa yang dipakai untuk memindai kepatuhan terhadap profil
+   CIS/PCI-DSS di RHEL, dan perintah dasarnya?
+4. Dua hal apa yang wajib disiapkan sebelum mengeksekusi Change Request di
+   production?
+5. Apa peran Pacemaker/PCS dalam arsitektur high availability?
+
+:::note[Kunci Jawaban Kuis]
+
+1. Identitas, kebijakan password, dan pencabutan akses dikelola dari satu
+   sumber; memenuhi audit & _least privilege_, serta menghindari akun yatim
+   di banyak host.
+2. Agar log tetap tersedia bila host disusupi atau rusak, memungkinkan
+   korelasi lintas sistem, dan memenuhi persyaratan retensi/compliance.
+3. **OpenSCAP** — `oscap xccdf eval --profile <profil> --report laporan.html
+/usr/share/xml/scap/ssg/content/ssg-rhel<versi>-ds.xml`.
+4. **Backup/snapshot** dan **rencana rollback** yang teruji (plus persetujuan
+   CR dan maintenance window).
+5. Mengelola cluster resource: memantau node/layanan dan melakukan _failover_
+   otomatis (termasuk fencing/STONITH) agar layanan tetap tersedia.
+   :::
+
+## 14. Koneksi ke EX200
+
+Modul ini **berada di luar objektif ujian** — EX200 menguji satu server tunggal,
+sedangkan di sini kita bicara ratusan server terkelola. Namun tiap topik adalah
+kelanjutan langsung dari objektif yang sudah Anda kuasai:
+
+| Objektif EX200 yang sudah dikuasai   | Kelanjutannya di enterprise (modul ini)            |
+| ------------------------------------ | -------------------------------------------------- |
+| Manage users and groups (lokal)      | Identitas terpusat: IdM/AD via SSSD (§1)           |
+| Locate and interpret logs & journals | Centralized logging → SIEM, auditd (§2)            |
+| Install/update packages (DNF)        | Patching terkelola: Satellite / Ansible (§3)       |
+| Manage security (SELinux, firewalld) | Hardening & compliance: OpenSCAP, CIS/PCI-DSS (§4) |
+| Start/enable services (systemd)      | High availability & clustering: Pacemaker (§5)     |
+| Create simple shell scripts          | Otomasi deklaratif skala besar: Ansible/AAP (§6)   |
+| Mount & storage (LVM, fstab)         | DR, rollback plan, change management (§8, §9)      |
+
+**Jangan tertukar:** materi di sini **tidak** menambah cakupan ujian. Kalau
+waktu belajar Anda terbatas menjelang EX200, prioritaskan Modul 0–20; kembali
+ke modul ini setelah lulus.
 
 ## Latihan
 

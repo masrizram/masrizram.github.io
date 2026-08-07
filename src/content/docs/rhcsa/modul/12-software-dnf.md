@@ -1,5 +1,5 @@
 ---
-title: Modul 12 — Install and Update Software (DNF)
+title: Modul 12 — Instalasi & Pembaruan Perangkat Lunak (Install and Update Software)
 ---
 
 > 📺 Referensi video: [CDpa7ZpNNEE](https://www.youtube.com/watch?v=CDpa7ZpNNEE&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)

@@ -1,5 +1,5 @@
 ---
-title: Modul 16 — SELinux (Keamanan Wajib EX200)
+title: Modul 16 — Keamanan SELinux (Manage SELinux Security)
 ---
 
 > SELinux adalah penyebab **paling sering** peserta EX200 gagal. Jangan
@@ -106,15 +106,6 @@ sudo firewall-cmd --add-port=8080/tcp --permanent
 
 :::
 
-## Kunci Jawaban (klik untuk lihat)
-
-:::note[Kunci Jawaban Latihan]
-
-1. `getenforce` → Enforcing/Permissive/Disabled.
-2. `setsebool -P` permanen.
-3. `restorecon -R` terapkan label fcontext.
-   :::
-
 ## Kuis Cepat
 
 1. Perintah melihat mode saat ini? (`getenforce`)
@@ -126,3 +117,12 @@ sudo firewall-cmd --add-port=8080/tcp --permanent
 1. `getenforce` → pastikan `Enforcing`. Jika `Permissive`, `setenforce 1`.
 2. Buat `/web/index.html`, set context `httpd_sys_content_t`, `restorecon -Rv /web`.
 3. Izinkan httpd di port 8080 via `semanage port`, verifikasi dengan `semanage port -l | grep 8080`.
+
+## Kunci Jawaban (klik untuk lihat)
+
+:::note[Kunci Jawaban Latihan]
+
+1. `getenforce` → Enforcing/Permissive/Disabled.
+2. `setsebool -P` permanen.
+3. `restorecon -R` terapkan label fcontext.
+   :::

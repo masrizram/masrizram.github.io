@@ -1,5 +1,5 @@
 ---
-title: Modul 05 — Create, View, and Edit Text Files
+title: Modul 05 — Membuat, Melihat, & Menyunting Berkas Teks (Create, View, and Edit Text Files)
 ---
 
 > 📺 Referensi video: [-gARZ98HUL4](https://www.youtube.com/watch?v=-gARZ98HUL4&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)
@@ -78,20 +78,34 @@ sed -i 's/lama/baru/g' file.txt       # ubah di tempat (in-place)
 awk -F: '{print $1}' /etc/passwd      # cetak kolom 1
 ```
 
-## Latihan
+## 6. Jebakan Umum (EX200)
 
-1. Buat berkas dengan here-document berisi 3 baris, lalu `cat` untuk verifikasi.
-2. Di `vim`, ketik 5 baris, simpan dengan `:wq`, lalu buka lagi dan hapus 1 baris (`dd`).
-3. Hitung jumlah user di sistem: `wc -l /etc/passwd`.
+:::danger[Jebakan]
 
-## Kunci Jawaban (klik untuk lihat)
+- Keluar dari `vim` tanpa menyimpan (`:q!`) padahal pekerjaan sudah banyak,
+  atau sebaliknya terjebak di mode insert dan mengetik `:wq` ke dalam berkas.
+- Menggunakan `>` saat maksudnya `>>` → isi berkas konfigurasi terhapus.
+- Mengedit berkas sistem lewat redireksi `sudo echo … > /etc/…` → redireksi
+  dijalankan oleh shell user, bukan root (Permission denied); gunakan
+  `sudo tee` atau `sudo vim`.
+- Menyalin berkas konfigurasi dengan editor yang mengubah konteks SELinux →
+  layanan gagal; jalankan `restorecon -v` bila perlu.
+- `sed` tanpa `-i` hanya menampilkan hasil ke layar, berkas tidak berubah;
+  dengan `-i` tanpa cadangan, kesalahan sulit dibatalkan (`-i.bak`).
+- Lupa mengutip pola `grep` yang mengandung spasi atau karakter khusus.
+  :::
 
-:::note[Kunci Jawaban Latihan]
+## 7. Koneksi ke EX200
 
-1. vim standar; `i` masuk insert.
-2. Normal mode untuk navigasi/perintah.
-3. `grep` filter baris cocok.
-   :::
+:::tip[EX200]
+Modul ini mendukung objektif **"Use grep and regular expressions to analyze
+text"**, **"Create and edit text files"**, dan **"Use input-output
+redirection (>, >>, |, 2>)"**. Di ujian, hampir setiap tugas berakhir pada
+menyunting berkas konfigurasi (`/etc/fstab`, `/etc/ssh/sshd_config`,
+unit systemd) — kecepatan dan ketepatan di `vim` adalah keterampilan
+penopang utama, sementara `grep`/`sed` dipakai untuk memverifikasi hasil
+kerja Anda sendiri sebelum reboot.
+:::
 
 ## Kuis
 
@@ -107,4 +121,19 @@ awk -F: '{print $1}' /etc/passwd      # cetak kolom 1
 1. **a**
 2. **a**
 3. **a**
+   :::
+
+## Latihan
+
+1. Buat berkas dengan here-document berisi 3 baris, lalu `cat` untuk verifikasi.
+2. Di `vim`, ketik 5 baris, simpan dengan `:wq`, lalu buka lagi dan hapus 1 baris (`dd`).
+3. Hitung jumlah user di sistem: `wc -l /etc/passwd`.
+
+## Kunci Jawaban (klik untuk lihat)
+
+:::note[Kunci Jawaban Latihan]
+
+1. vim standar; `i` masuk insert.
+2. Normal mode untuk navigasi/perintah.
+3. `grep` filter baris cocok.
    :::

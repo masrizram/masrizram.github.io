@@ -76,6 +76,15 @@ export default defineConfig({
         plugins: [tailwindcss()],
     },
 
+    // Dev Toolbar disuntikkan Astro ke halaman dan menyumbang <h1> di dalam
+    // shadow DOM-nya (ASTRO-DEV-TOOLBAR-*). Playwright menembus shadow DOM,
+    // sehingga assertion "tepat satu <h1>" melihat 5 elemen dan gagal —
+    // padahal light DOM hanya punya 1. Matikan agar artefak yang diuji sama
+    // dengan yang di-deploy.
+    devToolbar: {
+        enabled: false,
+    },
+
     // Prefix link internal di markdown (.md docs + writing/portfolio/teaching).
     // Pendekatan modern Astro 7: `processor: unified({ remarkPlugins })`.
     markdown: {

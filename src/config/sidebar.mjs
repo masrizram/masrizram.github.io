@@ -34,6 +34,7 @@ export const sidebar = [
                         label: '22 Runbook Troubleshooting',
                         link: '/rhcsa/modul/22-runbook-troubleshooting-production/',
                     },
+                    { label: '23 RHCE/EX294 Ansible Prep', link: '/rhcsa/modul/23-rhce-ex294-ansible/' },
                 ],
             },
             {

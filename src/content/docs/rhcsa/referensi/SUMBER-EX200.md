@@ -38,7 +38,7 @@ sebagai acuan utama menuju sertifikasi.
 - Harga EX200 bervariasi per negara & apakah dibeli terpisah atau dalam paket
   pelatihan. Di wilayah Asia Pasifik umumnya **USD 400 ±** (belum PPN/lokasi).
 - Sering disertakan **retake gratis** bila dibeli dalam _Learning Subscription_.
-- Mahasiswa/dosen: tanya **akademik Red Hat** atau kerjasama kampus — kadang
+- Akademisi/pelajar: tanya **akademik Red Hat** atau kerjasama kampus — kadang
   ada harga khusus.
 
 ## 4. Cara Mendaftar (Langkah Nyata)
@@ -50,7 +50,7 @@ sebagai acuan utama menuju sertifikasi.
    _remote_ (Online Proctored — butuh webcam & lingkungan terjaga).
 5. Pilih **jadwal** (hari & jam).
 6. Bayar. Simpan **confirmation number** & kredensial login ujian.
-7. H-1: jalankan **[Checklist H-1](/rhcsa/referensi/CHECKLIST-H1)**.
+7. H-1: jalankan **[Checklist H-1](/rhcsa/referensi/checklist-h1/)**.
 
 ## 5. Ujian Remote (Online Proctored) — Tips
 
@@ -73,6 +73,6 @@ sebagai acuan utama menuju sertifikasi.
 - `man`, `vimtutor`, dokumentasi lokal `/usr/share/doc`.
 - Komunitas: Rocky Linux Forum, AlmaLinux Chat, server Discord RHEL.
 
-> Butuh latihan langsung? Jalankan **[Simulasi Ujian 3 Jam](/rhcsa/referensi/SIMULASI-UJIAN)**
+> Butuh latihan langsung? Jalankan **[Simulasi Ujian 3 Jam](/rhcsa/referensi/simulasi-ujian/)**
 > dan **[Skenario EX200 Terukur (Modul 19)](/rhcsa/modul/19-skenario-ex200)** —
 > target skor ≥ 80% sebelum mendaftar.

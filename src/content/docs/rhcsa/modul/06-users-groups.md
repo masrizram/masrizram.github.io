@@ -1,5 +1,5 @@
 ---
-title: Modul 06 — Manage Local Users and Groups
+title: Modul 06 — Mengelola User & Group Lokal (Manage Local Users and Groups)
 ---
 
 > 📺 Referensi video: [yg1IdxH38OA](https://www.youtube.com/watch?v=yg1IdxH38OA&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)
@@ -77,20 +77,36 @@ Konfigurasi di `/etc/sudoers` — **selalu** pakai `visudo` (aman dari corrupt):
 visudo
 ```
 
-## Latihan
+## 8. Jebakan Umum (EX200)
 
-1. Buat user `siswa` dengan home & shell bash, lalu set sandi.
-2. Tambahkan `siswa` ke group `wheel` agar bisa `sudo`.
-3. Verifikasi: `id siswa` dan `sudo -l -U siswa`.
+:::danger[Jebakan]
 
-## Kunci Jawaban (klik untuk lihat)
+- Membuat user dengan `useradd` lalu lupa menetapkan sandi (`passwd user`)
+  → akun terkunci dan soal dianggap gagal.
+- Tertukar `-g` (grup primer) dengan `-G` (grup tambahan) pada `usermod`.
+- Menggunakan `usermod -G` tanpa `-a` → seluruh keanggotaan grup tambahan
+  yang lama **terhapus**.
+- Membuat akun sistem tanpa `-r`/`-s /sbin/nologin` padahal soal meminta
+  akun tanpa login interaktif.
+- Salah menafsirkan kebijakan sandi: `chage -M` (maksimum hari), `-m`
+  (minimum), `-W` (peringatan), `-E` (tanggal kedaluwarsa akun).
+- Menambahkan aturan `sudo` langsung di `/etc/sudoers` tanpa `visudo` →
+  sintaks salah dapat mengunci akses administratif; gunakan berkas di
+  `/etc/sudoers.d/`.
+  :::
 
-:::note[Kunci Jawaban Latihan]
+## 9. Koneksi ke EX200
 
-1. `useradd` + `/etc/passwd` baris baru.
-2. `/etc/passwd` sumber user (shadow untuk hash).
-3. `usermod -aG` (a=append) atau `gpasswd -a`.
-   :::
+:::tip[EX200]
+Ini objektif **"Create, delete, and modify local user accounts"**,
+**"Change passwords and adjust password aging"**, **"Create, delete, and
+modify local groups and group memberships"**, serta **"Configure superuser
+access"**. Bentuk soal tipikal: "Buat user `natasha` dengan UID 3000,
+anggota grup sekunder `adminuser`, sandi `redhat`, dan wajib ganti sandi
+tiap 30 hari" atau "Anggota grup `adminuser` boleh menjalankan semua
+perintah sebagai root tanpa sandi". Kuncinya: `useradd -u -G`, `passwd`,
+`chage -M 30`, dan berkas di `/etc/sudoers.d/` dengan `NOPASSWD: ALL`.
+:::
 
 ## Kuis
 
@@ -106,4 +122,19 @@ visudo
 1. **a**
 2. **a**
 3. **d**
+   :::
+
+## Latihan
+
+1. Buat user `siswa` dengan home & shell bash, lalu set sandi.
+2. Tambahkan `siswa` ke group `wheel` agar bisa `sudo`.
+3. Verifikasi: `id siswa` dan `sudo -l -U siswa`.
+
+## Kunci Jawaban (klik untuk lihat)
+
+:::note[Kunci Jawaban Latihan]
+
+1. `useradd` + `/etc/passwd` baris baru.
+2. `/etc/passwd` sumber user (shadow untuk hash).
+3. `usermod -aG` (a=append) atau `gpasswd -a`.
    :::

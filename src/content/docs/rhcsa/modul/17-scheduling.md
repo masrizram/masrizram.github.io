@@ -1,5 +1,5 @@
 ---
-title: Modul 17 — Penjadwalan (cron, at) & Time Zone
+title: Modul 17 — Penjadwalan Tugas & Zona Waktu (Schedule Future Tasks)
 ---
 
 > Muncul di objektif EX200: _"deploy, adjust, and maintain systems"_ —

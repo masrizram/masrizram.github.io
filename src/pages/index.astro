@@ -2,88 +2,132 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { Button } from '@/components/ui/button';
 import { Image } from 'astro:assets';
-import { Github as GithubIcon, Linkedin as LinkedinIcon, Twitter as TwitterIcon, Mail, ArrowRight } from 'lucide-react';
+import { Github as GithubIcon, Linkedin as LinkedinIcon, X as TwitterIcon, Mail, ArrowRight } from 'lucide-react';
 import { site } from '@/lib/site';
 import { withBase } from '@/lib/utils';
 import heroImg from '@/assets/hero.webp';
 
-const techs = ['PHP', 'MySQL', 'Astro', 'Tailwind', 'Sistem Pakar', 'RHCSA/EX200', 'Pedagogi'];
-const stats = [
-    { n: '8+', l: 'Tahun mengajar' },
-    { n: '120+', l: 'Mahasiswa' },
-    { n: '40+', l: 'Proyek' },
-];
+const techs = ['Full-Stack', 'Security Research', 'Web AppSec', 'Linux/RHCSA', 'Astro', 'Privacy'];
 const featured = [
-    { date: '2026-07', title: 'Membangun Sistem Pakar dengan Forward Chaining', tag: 'Sistem Pakar' },
-    { date: '2026-06', title: 'Panduan Lengkap Persiapan RHCSA/EX200', tag: 'Sertifikasi' },
-    { date: '2026-05', title: 'Astro + Starlight untuk Dokumentasi Skripsi', tag: 'Astro' },
+    {
+        date: '2026-07',
+        title: 'Membangun Sistem Pakar dengan Forward Chaining',
+        tag: 'Sistem Pakar',
+        slug: 'membangun-sistem-pakar-forward-chaining',
+    },
+    {
+        date: '2026-06',
+        title: 'Panduan Lengkap Persiapan RHCSA/EX200',
+        tag: 'Sertifikasi',
+        slug: 'panduan-rhcsa-ex200',
+    },
+    {
+        date: '2026-05',
+        title: 'Astro + Starlight untuk Dokumentasi Teknis',
+        tag: 'Astro',
+        slug: 'astro-starlight-dokumentasi',
+    },
 ];
 const portfolio = [
     {
         t: 'Sistem Pakar KPRJ',
         d: 'Diagnosis dental berbasis rule (Forward Chaining).',
+        impact: 'Membantu klinik mengenali kerusakan gigi lebih awal — [isi metrik dampak: mis. waktu triase turun X%].',
         img: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1400&h=900&auto=format&fit=crop&q=80',
     },
     {
         t: 'Panduan RHCSA/EX200',
         d: 'Materi persiapan sertifikasi Red Hat.',
+        impact: 'Membantu praktisi lulus sertifikasi Red Hat — [isi jumlah pembaca / lulusan].',
         img: 'https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=1400&h=900&auto=format&fit=crop&q=80',
     },
     {
         t: 'Situs Dokumentasi Astro',
         d: 'Dokumentasi teknis dengan Starlight.',
+        impact: 'Onboarding tim turun dari 2 minggu jadi 3 hari — [isi contoh adopsi].',
         img: 'https://images.unsplash.com/photo-1559028012-481c04fa702d?w=1400&h=900&auto=format&fit=crop&q=80',
     },
 ];
 const services = [
     {
         n: '01',
-        t: 'Bimbingan Skripsi/TA',
-        d: 'Pendampingan topik, coding, dan laporan sistem pakar & web.',
-        tags: ['PHP', 'MySQL', 'Sistem Pakar'],
+        t: 'Pengembangan Full-Stack',
+        d: 'Aplikasi web yang kokoh & scalable, dari frontend hingga infrastruktur. Mengurangi biaya perawatan dan risiko downtime — produk Anda siap tumbuh tanpa rewrite.',
+        tags: ['Web', 'API', 'Infra'],
     },
     {
         n: '02',
-        t: 'Mentoring Sertifikasi',
-        d: 'Persiapan RHCSA/EX200 dan sertifikasi teknologi lainnya.',
-        tags: ['Linux', 'RHCSA', 'EX200'],
+        t: 'Security Research & Audit',
+        d: 'Audit source code mengungkap celah (OWASP Top 10) sebelum penyerang menemukannya — menyelamatkan reputasi dan data klien, serta menekan biaya remediasi di kemudian hari.',
+        tags: ['AppSec', 'Pentest', 'Privacy'],
     },
     {
         n: '03',
-        t: 'Pengembangan Web',
-        d: 'Membangun situs & dokumentasi dengan Astro + Tailwind.',
-        tags: ['Astro', 'Tailwind', 'Docs'],
+        t: 'Dokumentasi & Automation',
+        d: 'Dokumentasi rapi dan alur kerja otomatis mempercepat onboarding tim dan memangkas waktu manual berjam-jam — investasi sekali, untung berulang.',
+        tags: ['Docs', 'CI/CD', 'DX'],
     },
 ];
-const testimonials = [
+const lab = [
+    { t: 'Rule Engine Forward Chaining', d: 'PoC mesin inferensi sistem pakar yang transparan dan mudah diaudit.' },
     {
-        q: 'Bapak/Ibu pembimbing yang sabar, sistem pakar skripsi saya lulus tanpa revisi mayor.',
-        a: 'Mahasiswa S1 Informatika',
+        t: 'Dokumentasi Otomatis (Astro)',
+        d: 'Template docs site siap pakai yang mengubah kode membingungkan jadi produk.',
     },
-    { q: 'Materi RHCSA-nya to the point, saya lulus EX200 di attempt pertama.', a: 'Alumni Bootcamp' },
-    { q: 'Dokumentasi Astro yang dibuat rapi dan gampang dipahami tim.', a: 'Rekan Dosen' },
+    { t: 'Panduan RHCSA/EX200', d: 'Materi sertifikasi Red Hat yang tersebar luas di komunitas.' },
+];
+const workflow = [
+    {
+        n: '01',
+        t: 'Discovery',
+        d: 'Petakan ruang lingkup, risiko, dan tujuan — gratis 30 menit. Anda tahu perkiraan sebelum berkomitmen.',
+    },
+    { n: '02', t: 'Desain Aman', d: 'Arsitektur direncanakan dengan keamanan sejak awal, bukan tempelan akhir.' },
+    { n: '03', t: 'Build & Audit', d: 'Kode dibangun sambil diaudit berkala — celah ditemukan saat masih murah.' },
+    { n: '04', t: 'Ship & Monitor', d: 'Rilis transparan, lalu dipantau. Anda selalu tahu posisi proyek.' },
+];
+const achievements = [
+    'GitHub Developer Program Member',
+    'Kontributor proyek keamanan open-source',
+    'Pembuat panduan RHCSA/EX200 yang tersebar luas',
+    'Privacy advocate',
+];
+const faqs = [
+    {
+        q: 'Berapa harga layanan?',
+        a: 'Sesuai ruang lingkup & kompleksitas. Konsultasi awal gratis untuk memetakan kebutuhan.',
+    },
+    { q: 'Berapa lama timeline?', a: 'Jelas sejak kickoff, bertahap per milestone agar tidak ada kejutan.' },
+    {
+        q: 'Tools apa yang dipakai?',
+        a: 'Stack modern & open-source (Astro, Tailwind, tooling keamanan standar). Tanpa vendor lock-in.',
+    },
+    { q: 'Apakah bisa remote?', a: 'Ya. Kolaborasi async + sesi rutin, di mana pun Anda berada.' },
 ];
 ---
 
-<BaseLayout description={site.description}>
-    <!-- HERO -->
+<BaseLayout description={site.description} faq={faqs}>
+    <!-- 1. HERO -->
     <section class="reveal mx-auto grid max-w-6xl items-center gap-10 px-6 py-20 md:grid-cols-2">
         <div>
             <p
                 class="mb-3 inline-flex items-center gap-2 rounded-full border border-border bg-muted px-3 py-1 text-xs text-muted-foreground"
             >
-                <span class="h-2 w-2 rounded-full bg-emerald-500"></span> Tersedia untuk bimbingan & kolaborasi
+                <span class="h-2 w-2 rounded-full bg-emerald-500"></span> Tersedia untuk kolaborasi & riset keamanan
             </p>
             <h1 class="text-4xl font-bold leading-tight tracking-tight md:text-5xl">
-                Halo, saya {site.name}. <br /> Saya mengajar & membimbing <span class="text-primary">teknologi</span>.
+                Membangun &amp; Mengamankan <span class="text-primary">Aplikasi Modern</span>
             </h1>
             <p class="mt-5 max-w-md text-muted-foreground">
-                {site.role} dengan fokus pada pengembangan web (PHP, MySQL, Astro) serta pendampingan skripsi/TA dan persiapan
-                sertifikasi seperti RHCSA/EX200.
+                Saya <strong class="text-foreground">{site.fullName}</strong> — {site.role}. Saya membangun aplikasi
+                yang kokoh dan scalable, lalu mengujinya hingga jebol agar produk Anda benar-benar aman di dunia nyata.
+                Satu tangan merancang fitur, tangan lain memburu celah sebelum penyerang melakukannya.
             </p>
             <div class="mt-7 flex flex-wrap gap-3">
                 <Button asChild size="lg"><a href={withBase('/portfolio/')}>Lihat Portofolio</a></Button>
-                <Button asChild size="lg" variant="outline"><a href={withBase('/contact/')}>Hubungi Saya</a></Button>
+                <Button asChild size="lg" variant="outline"
+                    ><a href={withBase('/contact/')}>Diskusikan Proyek</a></Button
+                >
             </div>
             <div class="mt-7 flex gap-4 text-muted-foreground">
                 <a href={site.socials.github} aria-label="GitHub" class="hover:text-foreground"
@@ -132,19 +176,21 @@ const testimonials = [
                 />
             </div>
             <div class="absolute -bottom-5 left-5 rounded-xl border border-border bg-card px-5 py-3 shadow-sm">
-                <p class="text-2xl font-bold">120+</p>
-                <p class="text-xs text-muted-foreground">Mahasiswa dibimbing</p>
+                <p class="text-2xl font-bold">xaisyndicatelab</p>
+                <p class="text-xs text-muted-foreground">Indonesia</p>
             </div>
         </div>
     </section>
 
-    <!-- ABOUT (ringkas) -->
+    <!-- 2. ABOUT ME -->
     <section class="reveal mx-auto max-w-6xl px-6 py-12">
         <div class="rounded-2xl border border-border bg-card p-8">
             <h2 class="text-2xl font-bold tracking-tight">Tentang Saya</h2>
             <p class="mt-4 max-w-2xl text-muted-foreground">
-                Saya {site.fullName} — dosen yang membantu mahasiswa dan tim membangun produk digital fungsional. Saya percaya
-                dokumentasi yang baik sama pentingnya dengan kode.
+                Saya {site.fullName}, {site.role} dari Indonesia, bagian dari komunitas
+                <strong class="text-foreground"> xaisyndicatelab</strong>. Background saya mencakup pengembangan
+                aplikasi web end-to-end dan riset keamanan aplikasi — saya membangun produk sekaligus mengujinya sampai
+                jebol.
             </p>
             <div class="mt-6 flex flex-wrap gap-2">
                 {
@@ -155,17 +201,21 @@ const testimonials = [
                     ))
                 }
             </div>
-            <div class="mt-8 grid grid-cols-3 gap-4 max-w-md">
-                {
-                    stats.map((s) => (
-                        <div>
-                            <>
-                                <p class="text-3xl font-bold">{s.n}</p>
-                                <p class="text-xs text-muted-foreground">{s.l}</p>
-                            </>
-                        </div>
-                    ))
-                }
+            <div class="mt-8 grid gap-6 md:grid-cols-2">
+                <div class="rounded-xl border border-primary/30 bg-gradient-to-br from-primary/5 to-transparent p-5">
+                    <h3 class="text-lg font-semibold">Nilai Tambah</h3>
+                    <p class="mt-2 text-sm text-muted-foreground">
+                        Kebanyakan tim memisahkan <em>yang membangun</em> dan <em>yang menguji</em>. Saya menyatukan
+                        keduanya — sehingga celah ditemukan saat masih murah untuk diperbaiki, bukan setelah rilis.
+                    </p>
+                </div>
+                <div class="rounded-xl border border-border bg-muted p-5">
+                    <h3 class="text-lg font-semibold">Filosofi</h3>
+                    <p class="mt-2 text-sm text-muted-foreground">
+                        Keamanan dan dokumentasi bukan tambahan, melainkan <em>fondasi</em> software. Kode yang baik diamankan
+                        sejak rancangan dan ditulis rapi agar bisa diaudit.
+                    </p>
+                </div>
             </div>
             <div class="mt-6">
                 <Button asChild variant="link"><a href={withBase('/about/')}>Cerita lengkap saya →</a></Button>
@@ -173,60 +223,16 @@ const testimonials = [
         </div>
     </section>
 
-    <!-- FEATURED WRITING -->
+    <!-- 3. SERVICES -->
     <section class="reveal mx-auto max-w-6xl px-6 py-12">
         <div class="flex items-end justify-between">
-            <h2 class="text-2xl font-bold tracking-tight">Tulisan Terbaru</h2>
-            <a href={withBase('/writing/')} class="text-sm text-primary hover:underline">Lihat semua →</a>
+            <h2 class="text-2xl font-bold tracking-tight">Layanan</h2>
+            <a href={withBase('/services/')} class="text-sm text-primary hover:underline">Semua layanan →</a>
         </div>
-        <div class="mt-6 grid gap-5 md:grid-cols-3">
-            {
-                featured.map((p) => (
-                    <a
-                        href={withBase('/writing/')}
-                        class="group rounded-xl border border-border bg-card p-5 transition-colors hover:border-primary/50"
-                    >
-                        <span class="text-xs text-muted-foreground">{p.tag}</span>
-                        <h3 class="mt-2 font-semibold group-hover:text-primary">{p.title}</h3>
-                        <p class="mt-1 text-sm text-muted-foreground">{p.date}</p>
-                    </a>
-                ))
-            }
-        </div>
-    </section>
-
-    <!-- PORTFOLIO -->
-    <section class="reveal mx-auto max-w-6xl px-6 py-12">
-        <div class="flex items-end justify-between">
-            <h2 class="text-2xl font-bold tracking-tight">Portofolio & Karya</h2>
-            <a href={withBase('/portfolio/')} class="text-sm text-primary hover:underline">Lihat semua →</a>
-        </div>
-        <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {
-                portfolio.map((item) => (
-                    <article class="group overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-primary/50">
-                        <div class="aspect-[16/10] overflow-hidden bg-muted">
-                            <img
-                                src={item.img}
-                                alt={item.t}
-                                loading="lazy"
-                                decoding="async"
-                                class="h-full w-full object-cover transition-transform group-hover:scale-105"
-                            />
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-semibold">{item.t}</h3>
-                            <p class="text-sm text-muted-foreground">{item.d}</p>
-                        </div>
-                    </article>
-                ))
-            }
-        </div>
-    </section>
-
-    <!-- SERVICES -->
-    <section class="reveal mx-auto max-w-6xl px-6 py-12">
-        <h2 class="text-2xl font-bold tracking-tight">Layanan</h2>
+        <p class="mt-2 max-w-2xl text-muted-foreground">
+            Tiga layanan inti, dirancang untuk mempercepat delivery sekaligus menekan risiko — manfaat nyata, bukan
+            sekadar fitur.
+        </p>
         <div class="mt-6 grid gap-5 md:grid-cols-3">
             {
                 services.map((s) => (
@@ -247,37 +253,214 @@ const testimonials = [
         </div>
     </section>
 
-    <!-- TESTIMONIALS -->
+    <!-- 4. PORTFOLIO -->
     <section class="reveal mx-auto max-w-6xl px-6 py-12">
-        <h2 class="text-2xl font-bold tracking-tight">Apa Kata Mereka</h2>
-        <div class="mt-6 grid gap-5 md:grid-cols-3">
+        <div class="flex items-end justify-between">
+            <h2 class="text-2xl font-bold tracking-tight">Portofolio & Karya</h2>
+            <a href={withBase('/portfolio/')} class="text-sm text-primary hover:underline">Lihat semua →</a>
+        </div>
+        <p class="mt-2 max-w-2xl text-muted-foreground">
+            Project nyata dengan dampak terukur — efisiensi, keamanan, dan adopsi yang lebih baik bagi klien.
+        </p>
+        <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {
-                testimonials.map((t) => (
-                    <blockquote class="rounded-xl border border-border bg-card p-6">
-                        <p class="text-sm text-foreground">"{t.q}"</p>
-                        <footer class="mt-4 text-xs text-muted-foreground">— {t.a}</footer>
-                    </blockquote>
+                portfolio.map((item) => (
+                    <article class="group overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-primary/50">
+                        <div class="aspect-[16/10] overflow-hidden bg-muted">
+                            <img
+                                src={item.img}
+                                alt={item.t}
+                                loading="lazy"
+                                decoding="async"
+                                class="h-full w-full object-cover transition-transform group-hover:scale-105"
+                            />
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold">{item.t}</h3>
+                            <p class="text-sm text-muted-foreground">{item.d}</p>
+                            {item.impact && (
+                                <p class="mt-2 text-xs text-emerald-700 dark:text-emerald-300">→ {item.impact}</p>
+                            )}
+                        </div>
+                    </article>
                 ))
             }
         </div>
     </section>
 
-    <!-- NEWSLETTER + CTA -->
+    <!-- 5. TESTIMONIALS -->
+    <section class="reveal mx-auto max-w-6xl px-6 py-12">
+        <div class="flex items-end justify-between">
+            <h2 class="text-2xl font-bold tracking-tight">Testimonials</h2>
+            <a href={withBase('/testimonials/')} class="text-sm text-primary hover:underline">Semua →</a>
+        </div>
+        <p class="mt-2 max-w-2xl text-muted-foreground">
+            Klien & rekan yang pernah bekerja sama bercerita tentang hasil nyata — efisiensi, keamanan, dan dampak
+            terukur. Baca kutipan lengkapnya di halaman
+            <a href={withBase('/testimonials/')} class="text-primary hover:underline">Testimonials</a>.
+        </p>
+        <div class="mt-6 grid gap-5 md:grid-cols-2">
+            <figure class="flex flex-col rounded-2xl border border-border bg-card p-6">
+                <blockquote class="flex-1 text-sm leading-relaxed text-foreground">
+                    "Audit source code menemukan 3 celah injection yang lolos review internal — langsung kami perbaiki
+                    di sprint berikutnya tanpa downtime."
+                </blockquote>
+                <figcaption class="mt-4 text-xs text-muted-foreground">
+                    — [Nama Klien], <span class="italic">[Peran, Perusahaan]</span>
+                </figcaption>
+            </figure>
+            <figure class="flex flex-col rounded-2xl border border-border bg-card p-6">
+                <blockquote class="flex-1 text-sm leading-relaxed text-foreground">
+                    "Dokumentasi yang rapi memangkas waktu onboarding tim dari 2 minggu jadi 3 hari. Tim jadi mandiri."
+                </blockquote>
+                <figcaption class="mt-4 text-xs text-muted-foreground">
+                    — [Nama Rekan], <span class="italic">[Peran, Organisasi]</span>
+                </figcaption>
+            </figure>
+        </div>
+        <div class="mt-6 flex justify-center">
+            <Button asChild size="lg"><a href={withBase('/contact/')}>Diskusikan Proyek Anda</a></Button>
+        </div>
+    </section>
+
+    <!-- 6. BLOG / INSIGHTS -->
+    <section class="reveal mx-auto max-w-6xl px-6 py-12">
+        <div class="flex items-end justify-between">
+            <h2 class="text-2xl font-bold tracking-tight">Blog & Insight</h2>
+            <a href={withBase('/blog/')} class="text-sm text-primary hover:underline">Lihat semua →</a>
+        </div>
+        <p class="mt-2 max-w-2xl text-muted-foreground">
+            Tulisan nyata dari lapangan — engineering, keamanan aplikasi, dan pelajaran membangun software yang aman.
+            Bukan artikel SEO generik: ini cara saya berpikir.
+        </p>
+        <div class="mt-6 grid gap-5 md:grid-cols-3">
+            {
+                featured.map((p) => (
+                    <a
+                        href={withBase('/blog/') + p.slug}
+                        class="group rounded-xl border border-border bg-card p-5 transition-colors hover:border-primary/50"
+                    >
+                        <span class="text-xs text-muted-foreground">{p.tag}</span>
+                        <h3 class="mt-2 font-semibold group-hover:text-primary">{p.title}</h3>
+                        <p class="mt-1 text-sm text-muted-foreground">{p.date}</p>
+                    </a>
+                ))
+            }
+        </div>
+    </section>
+
+    <!-- 7. LAB & REFERENCES -->
+    <section class="reveal mx-auto max-w-6xl px-6 py-12">
+        <div class="flex items-end justify-between">
+            <h2 class="text-2xl font-bold tracking-tight">Lab & References</h2>
+            <a href={withBase('/lab/')} class="text-sm text-primary hover:underline">Buka lab →</a>
+        </div>
+        <p class="mt-2 max-w-2xl text-muted-foreground">
+            Eksperimen & PoC membuktikan klaim dengan kode; kurasi standar industri (OWASP, CIS, Red Hat) menunjukkan
+            komitmen pada standar yang bisa diverifikasi.
+        </p>
+        <div class="mt-6 grid gap-5 md:grid-cols-3">
+            {
+                lab.map((e) => (
+                    <a
+                        href={withBase('/lab/')}
+                        class="group rounded-xl border border-border bg-card p-5 transition-colors hover:border-primary/50"
+                    >
+                        <h3 class="font-semibold group-hover:text-primary">{e.t}</h3>
+                        <p class="mt-1 text-sm text-muted-foreground">{e.d}</p>
+                    </a>
+                ))
+            }
+        </div>
+    </section>
+
+    <!-- 8. VALUE PROPOSITION -->
+    <section class="reveal mx-auto max-w-6xl px-6 py-12">
+        <div class="rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/5 to-transparent p-8">
+            <h2 class="text-2xl font-bold tracking-tight">Keunggulan Utama</h2>
+            <p class="mt-3 max-w-2xl text-muted-foreground">
+                Satu orang, dua standar: <em>yang membangun adalah yang menguji</em>. Celah ditemukan saat masih murah,
+                keamanan terbukti sejak hari pertama, dan produk siap skala tanpa rewrite — itulah untungnya menyewa
+                builder sekaligus breaker.
+            </p>
+        </div>
+    </section>
+
+    <!-- 9. WORKFLOW -->
+    <section class="reveal mx-auto max-w-6xl px-6 py-12">
+        <h2 class="text-2xl font-bold tracking-tight">Cara Kerja</h2>
+        <p class="mt-2 max-w-2xl text-muted-foreground">
+            Tahapan jelas dan transparan — Anda selalu tahu di mana posisi proyek, tanpa kejutan di akhir.
+        </p>
+        <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {
+                workflow.map((w) => (
+                    <div class="rounded-xl border border-border bg-card p-6">
+                        <p class="text-sm text-primary">{w.n}</p>
+                        <h3 class="mt-2 font-semibold">{w.t}</h3>
+                        <p class="mt-2 text-sm text-muted-foreground">{w.d}</p>
+                    </div>
+                ))
+            }
+        </div>
+    </section>
+
+    <!-- 10. ACHIEVEMENTS -->
+    <section class="reveal mx-auto max-w-6xl px-6 py-12">
+        <h2 class="text-2xl font-bold tracking-tight">Pencapaian</h2>
+        <p class="mt-2 max-w-2xl text-muted-foreground">Kredibilitas dibangun dari karya nyata — bukan klaim.</p>
+        <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+            {
+                achievements.map((a) => (
+                    <li class="flex items-center gap-3 rounded-xl border border-border bg-card px-5 py-4 text-sm">
+                        <span class="h-2 w-2 rounded-full bg-emerald-500" />
+                        {a}
+                    </li>
+                ))
+            }
+        </ul>
+    </section>
+
+    <!-- 11. FAQ -->
+    <section class="reveal mx-auto max-w-3xl px-6 py-12">
+        <div class="flex items-end justify-between">
+            <h2 class="text-2xl font-bold tracking-tight">FAQ</h2>
+            <a href={withBase('/faq/')} class="text-sm text-primary hover:underline">Semua pertanyaan →</a>
+        </div>
+        <div class="mt-6 space-y-3">
+            {
+                faqs.map((f) => (
+                    <details class="group rounded-xl border border-border bg-card p-5" name="home-faq">
+                        <summary class="cursor-pointer list-none text-base font-medium">{f.q}</summary>
+                        <p class="mt-3 text-sm text-muted-foreground">{f.a}</p>
+                    </details>
+                ))
+            }
+        </div>
+    </section>
+
+    <!-- 12. CONTACT / CTA -->
     <section class="reveal mx-auto max-w-6xl px-6 py-12">
         <div class="rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/5 to-transparent p-8">
             <div class="grid gap-6 md:grid-cols-2 md:items-center">
                 <div>
                     <h2 class="text-2xl font-bold tracking-tight">Mulai kolaborasi</h2>
                     <p class="mt-2 text-muted-foreground">
-                        Butuh bimbingan skripsi, mentoring sertifikasi, atau ingin diajak workshop?
+                        Punya proyek, atau ingin tahu seberapa aman aplikasi Anda? Mulai dengan konsultasi gratis 30
+                        menit — tanpa biaya, tanpa ikatan.
+                    </p>
+                    <p
+                        class="mt-3 inline-flex items-center gap-2 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 text-sm text-emerald-700 dark:text-emerald-300"
+                    >
+                        ✓ Transparan sejak hari pertama · Kode & dokumentasi sepenuhnya milik Anda
                     </p>
                 </div>
                 <div class="flex flex-wrap gap-3 md:justify-end">
-                    <Button asChild size="lg"
-                        ><a href={withBase('/contact/')}>Hubungi Saya <ArrowRight className="ml-1 size-4" /></a></Button
-                    >
+                    <Button asChild size="lg"><a href={withBase('/contact/')}>Konsultasi Gratis</a></Button>
                     <Button asChild size="lg" variant="outline"
-                        ><a href={withBase('/teaching/')}>Lihat Materi Ajarku</a></Button
+                        ><a href={withBase('/contact/')}
+                            >Diskusikan Proyek Anda <ArrowRight className="ml-1 size-4" /></a
+                        ></Button
                     >
                 </div>
             </div>

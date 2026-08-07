@@ -1,11 +1,11 @@
 ---
-title: Modul 18 — EX200 (RHCSA) Exam Preparation
+title: Modul 18 — Persiapan Ujian EX200 (RHCSA Exam Preparation)
 ---
 
 > 📺 Referensi video: [RHCSA & EX200 Prep](https://www.youtube.com/watch?v=eGbNXqPdUa4&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns) · [Pass the EX200](https://www.youtube.com/watch?v=2n2P0Awz3U4&list=PLZkuninm20jDUT_jArQrkfCImbbi2jWns)
 
 Ini adalah **modul persiapan utama (kanonik)** untuk ujian EX200. Halaman
-ringkas taktis ada di [Persiapan EX200 (referensi)](/rhcsa/referensi/EX200-prep),
+ringkas taktis ada di [Persiapan EX200 (referensi)](/rhcsa/referensi/ex200-prep/),
 tapi seluruh materi & simulasi soal berada di modul ini.
 
 ## 1. Format Ujian EX200
@@ -130,7 +130,7 @@ bootc rollback        # kembalikan ke image sebelumnya
 
 (Jawaban & langkah ada di `../lab/LAB.md` dan
 `../referensi/EX200-prep.md`. Untuk perbaikan sistem rusak, baca
-**[Break & Fix / Troubleshooting](/rhcsa/referensi/BREAK-FIX)** — ~40% soal
+**[Break & Fix / Troubleshooting](/rhcsa/referensi/break-fix/)** — ~40% soal
 EX200 adalah troubleshooting.)
 
 ## 7. Sumber Belajar Tambahan
@@ -139,7 +139,67 @@ EX200 adalah troubleshooting.)
 - `lab/LAB.md` di repo ini — kerjakan berulang hingga cepat.
 - Dokumentasi lokal: `file:///usr/share/doc/`.
 - Practice exam environment (mis. lab VirtualBox dengan snapshot).
-- [Simulasi Ujian 3 Jam / 180 Menit](/rhcsa/referensi/SIMULASI-UJIAN) & [Checklist H-1](/rhcsa/referensi/CHECKLIST-H1).
+- [Simulasi Ujian 3 Jam / 180 Menit](/rhcsa/referensi/simulasi-ujian/) & [Checklist H-1](/rhcsa/referensi/checklist-h1/).
+
+## 8. Jebakan Umum (EX200)
+
+:::danger[Jebakan]
+
+- Belajar dari materi RHEL 7/8 lama lalu mengerjakan hal usang (mis. skrip
+  `ifcfg-*` manual) → tidak diakui pada EX200 berbasis RHEL 10.
+- Konfigurasi hanya berlaku di sesi berjalan, tidak persisten → setelah
+  penilai reboot mesin, nilainya **0**. Selalu `systemctl enable --now`,
+  `--permanent` pada firewalld, dan entri `/etc/fstab` yang diuji `mount -a`.
+- Menonaktifkan SELinux (`setenforce 0` / `SELINUX=disabled`) agar layanan
+  jalan → dianggap gagal, bukan solusi.
+- Menghabiskan waktu di satu soal sulit (LVM/SELinux) sampai soal mudah
+  (user, cron, timezone, tuned) tidak sempat dikerjakan.
+- Mengira materi bonus repo ini (Podman/container, Stratis, VDO, disk quota,
+  kickstart, bonding/teaming) adalah objektif resmi EX200 RHEL 10 —
+  semuanya **materi perluasan**, bukan syarat kelulusan.
+- Lupa memverifikasi hasil dengan perintah bukti (`id`, `df -h`,
+  `firewall-cmd --list-all`, `getenforce`, `systemctl is-enabled`).
+  :::
+
+## 9. Kuis Cepat
+
+1. Berapa lama durasi ujian EX200 dan bagaimana ketentuan skor kelulusannya?
+2. Mengapa setiap konfigurasi harus persisten terhadap reboot?
+3. Sebutkan tiga objektif resmi EX200 RHEL 10 yang berkaitan dengan
+   otomatisasi/penjadwalan dan tuning sistem.
+4. Apa langkah pertama yang harus dilakukan bila lupa password root pada
+   mesin ujian?
+5. Manakah dari berikut yang **bukan** objektif resmi EX200 RHEL 10:
+   Flatpak, autofs, Stratis, nmstate?
+
+:::note[Kunci Jawaban Kuis]
+
+1. 3 jam (180 menit). Red Hat tidak mengumumkan ambang pasti; secara
+   historis sekitar **210 dari 300** — strategi aman: kerjakan semua tugas.
+2. Penilaian dilakukan pada sistem yang di-reboot; konfigurasi non-persisten
+   akan hilang dan bernilai nol.
+3. Misalnya: **systemd timer / cron** (penjadwalan tugas), **tuned**
+   (profil performa), dan **shell scripting** (otomatisasi). `chrony` dan
+   `autofs` juga objektif resmi.
+4. Interupsi GRUB2 → tambahkan `rd.break` pada baris kernel → `mount -o
+remount,rw /sysroot` → `chroot /sysroot` → `passwd root` →
+   `touch /.autorelabel` → reboot.
+5. **Stratis** — materi perluasan/bonus, bukan objektif resmi EX200 RHEL 10.
+   Flatpak, autofs, dan nmstate termasuk objektif resmi.
+   :::
+
+## 10. Koneksi ke EX200
+
+Modul ini **adalah** peta objektif EX200 itu sendiri: §2 memuat ke-11 area
+objektif resmi (RHEL 10) beserta modul yang mengajarkannya, §3–§4 menjelaskan
+perubahan RHEL 9 → RHEL 10 (Podman/Stratis/VDO/quota turun jadi materi
+perluasan; Flatpak, IPv6, nmstate, bootc naik jadi objektif), dan §5–§6 melatih
+strategi hari-H.
+
+Gunakan modul ini sebagai **checklist terakhir**: setiap baris tabel §2 harus
+bisa Anda kerjakan tanpa catatan dan **tetap berlaku setelah reboot**. Latihan
+berbobot ada di [Modul 19](/rhcsa/modul/19-skenario-ex200/), simulasi penuh di
+[Simulasi Ujian 180 Menit](/rhcsa/referensi/simulasi-ujian/).
 
 ## Latihan
 
