@@ -6,7 +6,7 @@ on:
     workflow_dispatch:
 
 permissions:
-    contents: write # butuh write untuk push ke branch gh-pages
+    contents: write
 
 concurrency:
     group: pages
@@ -22,11 +22,20 @@ jobs:
                   node-version: 22
                   cache: npm
             - name: Install dependencies
-              run: npm ci
+              run: npm ci 2>&1 | tee /tmp/npm-ci.log
             - name: Build
-              run: npm run build
+              run: npm run build 2>&1 | tee /tmp/build.log
               env:
                   SITE_URL: ${{ secrets.SITE_URL || 'https://masrizram.github.io' }}
+            - name: Upload debug logs
+              if: ${{ !cancelled() }}
+              uses: actions/upload-artifact@v4
+              with:
+                  name: build-debug-logs
+                  path: |
+                      /tmp/npm-ci.log
+                      /tmp/build.log
+                  retention-days: 3
             - name: Deploy to gh-pages branch
               uses: peaceiris/actions-gh-pages@v4
               with:
