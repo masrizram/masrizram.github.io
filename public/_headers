@@ -1,11 +1,31 @@
-# GitHub Pages mendukung file _headers untuk mengatur response header.
-# Berlaku untuk semua aset statis di root (termasuk /notes/ pada project page).
-/
-  Content-Security-Policy: default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self'; frame-ancestors 'none'
-  X-Content-Type-Options: nosniff
-  Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: camera=(), microphone=(), geolocation=()
+# Response header untuk hosting statis yang membaca file _headers
+# (GitHub Pages via Actions, Netlify, Cloudflare Pages).
+#
+# Catatan CSP: 'unsafe-inline' pada script-src TIDAK bisa dihapus di situs statis ini.
+# Astro & Starlight menyuntikkan script inline (anti-FOUC tema, hidrasi island,
+# Pagefind), dan hosting statis tidak bisa membangkitkan nonce per-request.
+# Sebagai kompensasi permukaan serangan dipersempit: object-src 'none',
+# base-uri 'self', form-action dibatasi, dan tidak ada domain pihak ketiga
+# yang diizinkan sama sekali (semua sumber 'self').
 
-# Mencegah indexing halaman error & asset internal
+/*
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self'; form-action 'self' mailto:; frame-ancestors 'none'; upgrade-insecure-requests
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+
+# Aset ber-hash dari Astro: nama file berubah setiap build, jadi aman di-cache selamanya.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Indeks pencarian Pagefind juga ber-versi per build.
+/pagefind/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Halaman error jangan diindeks mesin pencari.
 /404.html
   X-Robots-Tag: noindex

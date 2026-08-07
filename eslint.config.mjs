@@ -7,7 +7,16 @@ import globals from 'globals';
 export default defineConfig(
     {
         // Artefak build & dependensi tidak pernah di-lint.
-        ignores: ['dist/**', 'node_modules/**', '.astro/**', 'src/content/**', 'public/**'],
+        ignores: [
+            'dist/**',
+            'node_modules/**',
+            '.astro/**',
+            'src/content/**',
+            'public/**',
+            'coverage/**',
+            'test-results/**',
+            'playwright-report/**',
+        ],
     },
 
     js.configs.recommended,

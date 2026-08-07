@@ -2,7 +2,9 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { Button } from '@/components/ui/button';
 import { Image } from 'astro:assets';
-import { Github as GithubIcon, Linkedin as LinkedinIcon, X as TwitterIcon, Mail, ArrowRight } from 'lucide-react';
+import { Mail, ArrowRight } from 'lucide-react';
+// Brand icon di-inline: lucide-react v1 menghapus seluruh ikon merek dagang.
+import { GithubIcon, LinkedinIcon, XIcon } from '@/components/icons/BrandIcons';
 import { site } from '@/lib/site';
 import { withBase } from '@/lib/utils';
 import heroImg from '@/assets/hero.webp';
@@ -155,7 +157,7 @@ const faqs = [
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            <TwitterIcon className="size-5" />
+                            <XIcon className="size-5" />
                         </a>
                     )
                 }
