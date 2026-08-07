@@ -2,7 +2,6 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import prefetch from '@astrojs/prefetch';
 import { unified } from '@astrojs/markdown-remark';
 
 import react from '@astrojs/react';
@@ -65,12 +64,13 @@ export default defineConfig({
             // Jangan masukkan halaman 404 / non-HTML ke sitemap.
             filter: (page) => !page.pathname || !page.pathname.startsWith('/404'),
         }),
-        prefetch({
-            // Prefetch halaman saat link terlihat / di-hover → navigasi instan.
-            prefetchAll: true,
-            defaultStrategy: 'viewport',
-        }),
     ],
+
+    // Prefetch bawaan Astro (menggantikan @astrojs/prefetch yang sudah deprecated).
+    prefetch: {
+        prefetchAll: true,
+        defaultStrategy: 'viewport',
+    },
 
     vite: {
         plugins: [tailwindcss()],
